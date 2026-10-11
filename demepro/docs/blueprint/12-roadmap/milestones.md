@@ -9,11 +9,13 @@
 
 ```
 M1 ── Catalog validé           ✅ ATTEINT
-M2 ── MVP ACHETER              ⏭️ EN COURS
-M3 ── MVP TROUVER              ⏭️ PRÉVU
-M4 ── Beta fermée              ⏭️ PRÉVU
-M5 ── GA (production)          ⏭️ PRÉVU
-M6 ── Rentabilité              ⏭️ PRÉVU
+M2 ── Store + Category + KYC   ✅ ATTEINT
+M3 ── Order + Payment          ⏭️ PROCHAIN
+M4 ── Transverse (Review, Notif) ⏭️ PRÉVU
+M5 ── MVP ACHETER (beta)       ⏭️ PRÉVU
+M6 ── Service (TROUVER)        ⏭️ PRÉVU
+M7 ── GA (production)          ⏭️ PRÉVU
+M8 ── Rentabilité              ⏭️ PRÉVU
 ```
 
 ## M1 — Catalog validé ✅
@@ -35,20 +37,119 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 
 **Critères de sortie** : tous atteints ✅
 
-## M2 — MVP ACHETER ⏭️
+## M2 — Store + Category + KYC progressif ✅
 
-**Date cible** : À définir (estimé 2-3 mois)
+**Date d'atteinte** : 2026-10-11
 
 **Livrables** :
-- [ ] StoreService + Controller
-- [ ] CategoryService + Controller
-- [ ] OrderService + cycle de vie
-- [ ] PaymentService + Orange Money + Wave
-- [ ] ReviewService
-- [ ] AddressService
-- [ ] NotificationService (email + SMS)
-- [ ] Frontend web client (catalogue + panier + checkout)
-- [ ] Tests E2E complets
+- [x] StoreService (mono-boutique par professionnel)
+- [x] StoreController + routes (public + pro + admin)
+- [x] CategoryService (hiérarchie 3 niveaux max, admin-only)
+- [x] CategoryController + routes (public read, admin write)
+- [x] VerificationService (progressif : BASIC → TRUSTED → CERTIFIED)
+- [x] VerificationController + routes
+- [x] Modification `Store.activateStore` (Phase 1 : téléphone confirmé)
+- [x] Migration Prisma `progressive_verification`
+- [x] Contrainte `@unique` sur `Store.professionalId`
+- [x] 48 tests supplémentaires (20 Store + 15 Category + 13 Verification)
+
+**Décisions structurantes** :
+- **Mono-boutique stricte** — Un professionnel = une boutique (Option 1)
+- **KYC progressif** — Le KYC strict est inadapté au marché malien
+- **3 niveaux de confiance** :
+  - BASIC : inscription + téléphone confirmé
+  - TRUSTED : selfie + 3 transactions réussies (auto-validé)
+  - CERTIFIED : KYC optionnel + validation admin
+- **Hiérarchie 3 niveaux max** — Couvre 99% des besoins
+- **Admin-only** pour Category — Donnée de référence
+
+**Métriques** :
+- 190 tests au total (142 Catalog + 48 Phase 3)
+- Couverture > 90%
+- Zéro bug critique
+- Durée d'exécution : ~57s
+
+**Critères de sortie** : tous atteints ✅
+
+## M3 — Order + Payment ⏭️
+
+**Date cible** : À définir (estimé 3-4 semaines)
+
+**Objectif** : Premier flux transactionnel complet (ACHETER).
+
+**Livrables** :
+- [ ] OrderService (création atomique + réservation stock)
+- [ ] OrderItem + snapshots prix/nom
+- [ ] OrderStatusHistory (audit trail)
+- [ ] Cycle de vie : PENDING → PAID → SHIPPED → DELIVERED
+- [ ] Annulation (release stock + refund si PAID)
+- [ ] PaymentService
+- [ ] Intégration Orange Money (provider mocké au début)
+- [ ] Intégration Wave (provider mocké au début)
+- [ ] Webhooks signés + idempotents
+- [ ] DeliveryService
+- [ ] OrderController + PaymentController + routes
+- [ ] Tests de concurrence (10 commandes simultanées sur le dernier article)
+- [ ] Tests E2E du parcours complet
+
+**Métriques de succès** :
+- 30-50 tests supplémentaires
+- Parcours : créer commande → payer → expédier → livrer → avis
+- Concurrence maîtrisée (pas de survente)
+- Webhooks idempotents
+
+**Critères de sortie** :
+- [ ] Une commande peut être créée, payée, expédiée, livrée
+- [ ] Zéro survente sous 10 commandes simultanées
+- [ ] Rollback complet si une réservation échoue
+- [ ] Webhook peut être appelé N fois sans effet supplémentaire
+
+**Risques** :
+- Complexité des webhooks signés
+- Gestion des timeouts provider
+- Test de concurrence (fragilité possible)
+
+## M4 — Transverse (Review + Address + Notification) ⏭️
+
+**Date cible** : après M3 (estimé 2-3 semaines)
+
+**Objectif** : Compléter l'infrastructure de confiance et de communication.
+
+**Livrables** :
+- [ ] AddressService (adresses de livraison)
+- [ ] ReviewService (avis vérifiés post-achat)
+- [ ] ReviewReportService (signalements)
+- [ ] NotificationService (email + SMS + in-app)
+- [ ] NotificationTemplateService
+- [ ] Templates email transactionnels
+- [ ] Scheduler (cron jobs : expiration devis, purge idempotency)
+- [ ] Intégration SendGrid (email)
+- [ ] Intégration Twilio ou SMS local (SMS)
+
+**Métriques de succès** :
+- Email de confirmation à chaque étape commande
+- SMS de confirmation paiement
+- Avis authentiques (uniquement post-achat)
+- Signalement fonctionnel
+
+**Critères de sortie** :
+- [ ] Un client peut laisser un avis après livraison
+- [ ] Les notifications partent à chaque étape
+- [ ] Les adresses sont utilisables dans Order
+
+## M5 — MVP ACHETER (beta fermée) ⏭️
+
+**Date cible** : après M4 (estimé 2-3 mois)
+
+**Objectif** : Valider le flux ACHETER avec de vrais utilisateurs.
+
+**Livrables** :
+- [ ] Frontend web client (catalogue, panier, checkout)
+- [ ] Dashboard professionnel
+- [ ] Backoffice admin (vérification, modération)
+- [ ] Monitoring complet
+- [ ] Support client (WhatsApp + email)
+- [ ] Documentation utilisateur
 
 **Métriques de succès** :
 - 5-10 professionnels pilotes
@@ -58,24 +159,27 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 - Taux de rétention client M1 > 40%
 
 **Critères de sortie** :
-- [ ] Parcours complet : créer boutique → produit → commande → paiement → livraison → avis
+- [ ] Parcours complet fonctionnel : boutique → produit → commande → paiement → livraison → avis
 - [ ] Zéro bug critique pendant 2 semaines
 - [ ] Uptime > 99.5%
 
 **Risques** :
-- Complexité Payment
 - Adoption pro lente
 - Logistique de livraison
+- Bugs d'intégration frontend
 
-## M3 — MVP TROUVER ⏭️
+## M6 — Service (TROUVER) ⏭️
 
-**Date cible** : 2-3 mois après M2
+**Date cible** : 2-3 mois après M5
+
+**Objectif** : Ouvrir le flux services (marketplace de compétences).
 
 **Livrables** :
 - [ ] ServiceService + portfolio
+- [ ] ServiceImage + ServiceZone + Availability
 - [ ] QuoteService (demande + réponse)
-- [ ] BookingService (réservation)
-- [ ] Intégration Payment (booking)
+- [ ] BookingService (réservation de créneau)
+- [ ] Intégration Payment (XOR order/booking)
 - [ ] Extension Review (services)
 - [ ] Frontend : recherche services, devis, réservation
 
@@ -90,32 +194,9 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 - [ ] Taux de conversion devis > 30%
 - [ ] Taux de réalisation > 70%
 
-## M4 — Beta fermée ⏭️
+## M7 — GA (General Availability) ⏭️
 
-**Date cible** : après M3
-
-**Livrables** :
-- [ ] Tous les modules MVP
-- [ ] Frontend web complet
-- [ ] Backoffice admin
-- [ ] Monitoring complet
-- [ ] Support client en place
-
-**Métriques de succès** :
-- 20 professionnels actifs
-- 100 clients actifs
-- 200 commandes + 50 services
-- NPS global > 35
-- Taux de rétention pro M3 > 60%
-
-**Critères de sortie** :
-- [ ] Zéro bug bloquant
-- [ ] Documentation complète
-- [ ] Formation des pros pilotes
-
-## M5 — GA (General Availability) ⏭️
-
-**Date cible** : après M4
+**Date cible** : après M6
 
 **Livrables** :
 - [ ] Ouverture publique
@@ -123,6 +204,7 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 - [ ] Support multi-canal (WhatsApp + email + SMS)
 - [ ] Monitoring + alerting production
 - [ ] Infrastructure scalée
+- [ ] Analytics (dashboard pro + admin)
 
 **Métriques de succès** :
 - 100 professionnels actifs
@@ -136,9 +218,9 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 - [ ] Break-even opérationnel
 - [ ] Équipe formée
 
-## M6 — Rentabilité ⏭️
+## M8 — Rentabilité ⏭️
 
-**Date cible** : 12-18 mois après GA
+**Date cible** : 12-18 mois après M7
 
 **Métriques de succès** :
 - 2 000 professionnels actifs
@@ -154,56 +236,71 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 
 ## Jalons intermédiaires
 
-| Jalon | Description | Phase |
+| Jalon | Description | Statut |
 |---|---|---|
 | J1 | Premier produit publié | ✅ |
 | J2 | Premier test E2E vert | ✅ |
 | J3 | 100 tests d'intégration | ✅ |
-| J4 | Store + Category complets | Phase 3 |
-| J5 | Première commande réelle | Phase 4 |
-| J6 | Premier paiement Orange Money | Phase 4 |
-| J7 | Premier avis publié | Phase 6 |
-| J8 | Premier devis envoyé | Phase 5 |
-| J9 | Première réservation | Phase 5 |
-| J10 | 1 000 utilisateurs | Phase 8 |
+| J4 | Store + Category + KYC complets | ✅ |
+| J5 | 190 tests verts | ✅ |
+| J6 | Première commande créée | ⏭️ M3 |
+| J7 | Premier paiement Orange Money | ⏭️ M3 |
+| J8 | Premier webhook traité | ⏭️ M3 |
+| J9 | Premier avis publié | ⏭️ M4 |
+| J10 | Premier devis envoyé | ⏭️ M6 |
+| J11 | Première réservation | ⏭️ M6 |
+| J12 | 1 000 utilisateurs | ⏭️ M7 |
 
 ## Critères de passage entre jalons
 
-### M1 → M2
+### M1 → M2 ✅
 
 - [x] Catalog 100% fonctionnel
 - [x] Tests verts
 - [x] Documentation complète
-- [ ] Décision go/no-go sur la suite
+- [x] Décision go/no-go : GO
 
-### M2 → M3
+### M2 → M3 ✅
+
+- [x] Store + Category + KYC fonctionnels
+- [x] 190 tests verts
+- [x] Décisions structurantes actées (mono-boutique, KYC progressif)
+- [x] Décision go/no-go : GO sur Order
+
+### M3 → M4
+
+- [ ] Order + Payment validés
+- [ ] Parcours de commande complet fonctionnel
+- [ ] Zéro survente sous concurrence
+- [ ] Webhooks idempotents testés
+- [ ] Décision go/no-go sur Transverse
+
+### M4 → M5
+
+- [ ] Transverse (Review + Address + Notification) validés
+- [ ] Notifications transactionnelles opérationnelles
+- [ ] Préparation beta fermée
+
+### M5 → M6
 
 - [ ] MVP ACHETER validé en beta
 - [ ] 50 commandes réelles
 - [ ] NPS client > 30
 - [ ] Décision go/no-go sur les services
 
-### M3 → M4
+### M6 → M7
 
 - [ ] MVP TROUVER validé
 - [ ] 10 réservations complétées
 - [ ] NPS services > 30
-- [ ] Préparation beta fermée
-
-### M4 → M5
-
-- [ ] Beta fermée validée
-- [ ] 200 utilisateurs actifs
-- [ ] Zéro bug bloquant
 - [ ] Préparation GA
 
-### M5 → M6
+### M7 → M8
 
 - [ ] GA stable
 - [ ] 2 000 utilisateurs actifs
 - [ ] Revenus mensuels > 300 K FCFA
 - [ ] Préparation scale
-
 
 ---
 
@@ -211,7 +308,7 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 
 | Champ | Valeur |
 |---|---|
-| Version | 0.2.0 |
+| Version | 0.3.0 |
 | Statut | 🚧 Draft |
 | Auteur | — |
 | Relecteurs | — |
@@ -223,3 +320,4 @@ M6 ── Rentabilité              ⏭️ PRÉVU
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
 | 2026-10-11 | 0.2.0 | Intégration vision place de marché hybride | — |
+| 2026-10-11 | 0.3.0 | M2 atteint (Store + Category + KYC progressif), renumérotation M3-M8 | — |

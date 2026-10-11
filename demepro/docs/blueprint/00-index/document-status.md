@@ -21,7 +21,7 @@
 | 09-infrastructure | 20% | 2026-10-11 |
 | 10-decisions | 60% | 2026-10-11 |
 | 11-ai-engineering | 30% | 2026-10-11 |
-| 12-roadmap | 70% | 2026-10-11 |
+| 12-roadmap | 85% | 2026-10-11 |
 
 ## Détail par section
 
