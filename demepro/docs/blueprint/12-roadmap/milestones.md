@@ -51,7 +51,7 @@ M8 ── Rentabilité              ⏭️ PRÉVU
 - [x] Modification `Store.activateStore` (Phase 1 : téléphone confirmé)
 - [x] Migration Prisma `progressive_verification`
 - [x] Contrainte `@unique` sur `Store.professionalId`
-- [x] 48 tests supplémentaires (20 Store + 15 Category + 13 Verification)
+- [x] 48 tests supplémentaires (41 Store + 43 Category + 13 Verification)
 
 **Décisions structurantes** :
 - **Mono-boutique stricte** — Un professionnel = une boutique (Option 1)
@@ -64,10 +64,10 @@ M8 ── Rentabilité              ⏭️ PRÉVU
 - **Admin-only** pour Category — Donnée de référence
 
 **Métriques** :
-- 190 tests au total (142 Catalog + 48 Phase 3)
+- 229 tests au total (142 Catalog + 87 Phase 3)
 - Couverture > 90%
 - Zéro bug critique
-- Durée d'exécution : ~57s
+- Durée d'exécution : ~81s
 
 **Critères de sortie** : tous atteints ✅
 
