@@ -20,6 +20,7 @@ export function asUser(app: Express, userId: string, options?: {
     get: (url: string) => withHeaders(request(app).get(url)),
     post: (url: string) => withHeaders(request(app).post(url)),
     patch: (url: string) => withHeaders(request(app).patch(url)),
+    put: (url: string) => withHeaders(request(app).put(url)), 
     delete: (url: string) => withHeaders(request(app).delete(url)),
   };
 }

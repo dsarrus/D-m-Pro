@@ -40,7 +40,7 @@ const STATUS_BY_CODE: Record<StoreErrorCode, number> = {
 
 export class StoreError extends Error {
   public readonly code: StoreErrorCode;
-  public readonly statusCode: number;
+  public readonly statusCode: number;  // ⭐ doit exister
 
   constructor(
     code: StoreErrorCode,
@@ -50,15 +50,7 @@ export class StoreError extends Error {
     super(message);
     this.name = "StoreError";
     this.code = code;
-    this.statusCode = statusCode ?? STATUS_BY_CODE[code] ?? 400;
+    this.statusCode = statusCode ?? STATUS_BY_CODE[code] ?? 400;  // ⭐ assignation
     Object.setPrototypeOf(this, StoreError.prototype);
-  }
-
-  toJSON() {
-    return {
-      code: this.code,
-      message: this.message,
-      statusCode: this.statusCode,
-    };
   }
 }

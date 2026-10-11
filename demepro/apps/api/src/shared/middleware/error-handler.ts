@@ -1,7 +1,38 @@
 // apps/api/src/shared/middleware/error-handler.ts
 
 import type { Request, Response, NextFunction } from "express";
-import { CatalogError } from "../../modules/catalog/errors/catalog.error";
+
+/* ================================================================
+ * DÉTECTION GÉNÉRIQUE
+ * ================================================================ */
+
+/**
+ * Détecte toute erreur métier ayant `code` (string) et `statusCode` (number).
+ *
+ * Couvre : CatalogError, StoreError, CategoryError, VerificationError,
+ * et toutes les futures erreurs du même format.
+ */
+function isAppError(error: unknown): error is {
+  code: string;
+  message: string;
+  statusCode: number;
+  details?: unknown;
+} {
+  return (
+    error !== null &&
+    typeof error === "object" &&
+    "code" in error &&
+    typeof (error as any).code === "string" &&
+    "message" in error &&
+    typeof (error as any).message === "string" &&
+    "statusCode" in error &&
+    typeof (error as any).statusCode === "number"
+  );
+}
+
+/* ================================================================
+ * ERROR HANDLER
+ * ================================================================ */
 
 export function errorHandler(
   error: unknown,
@@ -9,22 +40,23 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
-  /* ----- CatalogError avec statusCode ----- */
-  if (error instanceof CatalogError) {
+  /* ----- Erreur métier (Catalog, Store, Category, Verification) ----- */
+  if (isAppError(error)) {
     res.status(error.statusCode).json({
       success: false,
       error: {
         code: error.code,
         message: error.message,
         statusCode: error.statusCode,
+        ...(error.details ? { details: error.details } : {}),
       },
     });
     return;
   }
 
-  /* ----- Zod (si le middleware validate ne l'attrape pas) ----- */
+  /* ----- ZodError ----- */
   if (
-    error &&
+    error !== null &&
     typeof error === "object" &&
     "name" in error &&
     (error as any).name === "ZodError"
@@ -34,6 +66,7 @@ export function errorHandler(
       error: {
         code: "VALIDATION_ERROR",
         message: "Les données fournies sont invalides.",
+        statusCode: 400,
         details: (error as any).issues,
       },
     });
@@ -41,7 +74,7 @@ export function errorHandler(
   }
 
   /* ----- Fallback ----- */
-  console.error("[errorHandler]", error);
+  console.error("[errorHandler] Unhandled error:", error);
   res.status(500).json({
     success: false,
     error: {

@@ -37,7 +37,7 @@ const STATUS_BY_CODE: Record<CategoryErrorCode, number> = {
 
 export class CategoryError extends Error {
   public readonly code: CategoryErrorCode;
-  public readonly statusCode: number;
+  public readonly statusCode: number;  // ⭐ doit exister
 
   constructor(
     code: CategoryErrorCode,
@@ -47,15 +47,7 @@ export class CategoryError extends Error {
     super(message);
     this.name = "CategoryError";
     this.code = code;
-    this.statusCode = statusCode ?? STATUS_BY_CODE[code] ?? 400;
+    this.statusCode = statusCode ?? STATUS_BY_CODE[code] ?? 400;  // ⭐ assignation
     Object.setPrototypeOf(this, CategoryError.prototype);
-  }
-
-  toJSON() {
-    return {
-      code: this.code,
-      message: this.message,
-      statusCode: this.statusCode,
-    };
   }
 }

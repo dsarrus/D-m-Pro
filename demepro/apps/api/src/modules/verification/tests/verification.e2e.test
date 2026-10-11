@@ -1,0 +1,324 @@
+// apps/api/src/modules/verification/tests/verification.e2e.test.ts
+
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
+import type { Express } from "express";
+
+import { PrismaClient } from "../../../generated/prisma/client";
+import { startPostgres, stopPostgres } from "../../../../tests/setup/postgres";
+import {
+  seedProfessionalWithoutStore,
+  seedAdmin,
+  truncateAll,
+} from "../../../../tests/helpers/factories";
+import { createTestApp } from "../../../../tests/setup/test-app";
+import { asUser } from "../../../../tests/helpers/auth";
+
+describe("Verification HTTP (E2E)", () => {
+  let prisma: PrismaClient;
+  let app: Express;
+
+  beforeAll(async () => {
+    const ctx = await startPostgres();
+    prisma = ctx.prisma;
+    app = createTestApp();
+  });
+
+  afterAll(async () => {
+    await stopPostgres();
+  });
+
+  beforeEach(async () => {
+    await truncateAll(prisma);
+  });
+
+  /* ================================================================
+   * HELPERS
+   * ================================================================ */
+
+  async function setSuccessfulTransactions(
+    professionalId: string,
+    count: number,
+  ) {
+    await prisma.professionalProfile.update({
+      where: { id: professionalId },
+      data: { successfulTransactions: count },
+    });
+  }
+
+  /* ================================================================
+   * GET /me/verification
+   * ================================================================ */
+
+  describe("GET /me/verification", () => {
+    it("retourne le statut BASIC par défaut", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+
+      const res = await api.get("/api/v1/me/verification");
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.level).toBe("BASIC");
+      expect(res.body.data.nextLevel).toBe("TRUSTED");
+      expect(res.body.data.requirements).toHaveLength(3);
+    });
+
+    it("retourne 401 sans authentification", async () => {
+      const res = await require("supertest")(app).get(
+        "/api/v1/me/verification",
+      );
+
+      expect(res.status).toBe(401);
+    });
+
+    it("retourne 404 si l'utilisateur n'a pas de profil pro", async () => {
+      const user = await prisma.user.create({
+        data: {
+          email: `no-pro-${Date.now()}@test.dev`,
+          passwordHash: "hash",
+          firstName: "No",
+          lastName: "Pro",
+          status: "ACTIVE",
+        },
+      });
+
+      const api = asUser(app, user.id, { role: "PROFESSIONAL" });
+      const res = await api.get("/api/v1/me/verification");
+
+      expect(res.status).toBe(404);
+      expect(res.body.error.code).toBe("PROFESSIONAL_NOT_FOUND");
+    });
+  });
+
+  /* ================================================================
+   * POST /me/verification/upgrade-trusted
+   * ================================================================ */
+
+  describe("POST /me/verification/upgrade-trusted", () => {
+    it("upgrade vers TRUSTED si toutes les conditions sont remplies", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 3);
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      const res = await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.verificationLevel).toBe("TRUSTED");
+    });
+
+    it("retourne 422 si < 3 transactions", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 2);
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      const res = await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      expect(res.status).toBe(422);
+      expect(res.body.error.code).toBe("INSUFFICIENT_TRANSACTIONS");
+    });
+
+    it("retourne 400 si selfieKey vide", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 5);
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      const res = await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "" });
+
+      expect(res.status).toBe(400);
+    });
+
+    it("retourne 403 si téléphone non confirmé", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 5);
+
+      /* Retirer le téléphone confirmé */
+      await prisma.user.update({
+        where: { id: tenant.userId },
+        data: { phoneVerifiedAt: null },
+      });
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      const res = await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      expect(res.status).toBe(403);
+      expect(res.body.error.code).toBe("PHONE_NOT_VERIFIED");
+    });
+
+    it("retourne 422 si déjà TRUSTED", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 5);
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+
+      /* Premier upgrade */
+      await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      /* Second upgrade → refusé */
+      const res = await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie2.jpg" });
+
+      expect(res.status).toBe(422);
+      expect(res.body.error.code).toBe("INVALID_LEVEL");
+    });
+  });
+
+  /* ================================================================
+   * POST /me/verification/request-certification
+   * ================================================================ */
+
+  describe("POST /me/verification/request-certification", () => {
+    it("crée une demande si le pro est TRUSTED", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 5);
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      await api
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      const res = await api
+        .post("/api/v1/me/verification/request-certification")
+        .send({ kycDocumentKey: "kyc.pdf" });
+
+      expect(res.status).toBe(201);
+      expect(res.body.data.status).toBe("PENDING");
+    });
+
+    it("retourne 422 si pas encore TRUSTED", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+
+      const res = await api
+        .post("/api/v1/me/verification/request-certification")
+        .send({ kycDocumentKey: "kyc.pdf" });
+
+      expect(res.status).toBe(422);
+      expect(res.body.error.code).toBe("INVALID_LEVEL");
+    });
+
+    it("retourne 400 si kycDocumentKey manquant", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      const res = await api
+        .post("/api/v1/me/verification/request-certification")
+        .send({});
+
+      expect(res.status).toBe(400);
+    });
+  });
+
+  /* ================================================================
+   * ADMIN — Approve / Reject
+   * ================================================================ */
+
+  describe("POST /admin/verification/:id/approve", () => {
+    async function setupPendingCertification() {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 5);
+
+      const apiPro = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      await apiPro
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      const cert = await apiPro
+        .post("/api/v1/me/verification/request-certification")
+        .send({ kycDocumentKey: "kyc.pdf" });
+
+      return { tenant, verificationId: cert.body.data.id };
+    }
+
+    it("approuve une certification (admin)", async () => {
+      const { verificationId } = await setupPendingCertification();
+      const admin = await seedAdmin(prisma);
+
+      const api = asUser(app, admin.userId, { role: "ADMIN" });
+      const res = await api.post(
+        `/api/v1/admin/verification/${verificationId}/approve`,
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.verificationLevel).toBe("CERTIFIED");
+    });
+
+    it("retourne 403 si non-admin", async () => {
+      const { tenant, verificationId } = await setupPendingCertification();
+
+      const api = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      const res = await api.post(
+        `/api/v1/admin/verification/${verificationId}/approve`,
+      );
+
+      expect(res.status).toBe(403);
+    });
+
+    it("retourne 422 si la demande a déjà été traitée", async () => {
+      const { verificationId } = await setupPendingCertification();
+      const admin = await seedAdmin(prisma);
+
+      const api = asUser(app, admin.userId, { role: "ADMIN" });
+
+      await api.post(
+        `/api/v1/admin/verification/${verificationId}/approve`,
+      );
+
+      const res = await api.post(
+        `/api/v1/admin/verification/${verificationId}/approve`,
+      );
+
+      expect(res.status).toBe(422);
+      expect(res.body.error.code).toBe("INVALID_VERIFICATION_STATE");
+    });
+  });
+
+  describe("POST /admin/verification/:id/reject", () => {
+    it("rejette une certification avec motif", async () => {
+      const tenant = await seedProfessionalWithoutStore(prisma);
+      await setSuccessfulTransactions(tenant.professionalId, 5);
+
+      const apiPro = asUser(app, tenant.userId, { role: "PROFESSIONAL" });
+      await apiPro
+        .post("/api/v1/me/verification/upgrade-trusted")
+        .send({ selfieKey: "selfie.jpg" });
+
+      const cert = await apiPro
+        .post("/api/v1/me/verification/request-certification")
+        .send({ kycDocumentKey: "flou.pdf" });
+
+      const admin = await seedAdmin(prisma);
+      const api = asUser(app, admin.userId, { role: "ADMIN" });
+
+      const res = await api
+        .post(`/api/v1/admin/verification/${cert.body.data.id}/reject`)
+        .send({ reason: "Document illisible" });
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.status).toBe("REJECTED");
+      expect(res.body.data.notes).toBe("Document illisible");
+    });
+
+    it("retourne 400 si reason manquant", async () => {
+      const admin = await seedAdmin(prisma);
+      const api = asUser(app, admin.userId, { role: "ADMIN" });
+
+      const res = await api
+        .post(
+          "/api/v1/admin/verification/00000000-0000-0000-0000-000000000000/reject",
+        )
+        .send({});
+
+      expect(res.status).toBe(400);
+    });
+  });
+});
