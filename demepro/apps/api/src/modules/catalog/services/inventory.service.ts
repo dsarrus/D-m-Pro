@@ -1,6 +1,6 @@
 // apps/api/src/modules/catalog/services/InventoryService.ts
 
-import { Prisma, PrismaClient } from "../../../generated/prisma";
+import { Prisma, PrismaClient } from "../../../generated/prisma/client";
 
 import { InventoryRepository } from "../repositories/inventory.repository";
 import { CatalogError, CatalogErrorCode } from "../errors/catalog.error";
@@ -311,12 +311,17 @@ export class InventoryService {
   /**
    * Réserve du stock de manière atomique.
    *
-   * UPDATE conditionnel :
-   *   quantity - reserved >= quantity
+   * Si `tx` est fourni, on utilise cette transaction existante.
+   * Sinon, une nouvelle transaction est créée.
    *
-   * Si 0 ligne affectée → distinguer introuvable vs insuffisant.
+   * Cela permet l'intégration dans une transaction parente
+   * (ex : OrderService.createOrder) tout en gardant l'atomicité.
    */
-  async reserve(inventoryId: string, quantity: number) {
+  async reserve(
+    inventoryId: string,
+    quantity: number,
+    tx?: Prisma.TransactionClient,
+  ) {
     if (quantity <= 0) {
       throw new CatalogError(
         CatalogErrorCode.INVALID_INVENTORY_QUANTITY,
@@ -324,17 +329,17 @@ export class InventoryService {
       );
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    const execute = async (db: Prisma.TransactionClient | PrismaClient) => {
       const reserved = await this.inventoryRepository.tryReserve(
         inventoryId,
         quantity,
-        tx,
+        db,
       );
 
       if (reserved) return reserved;
 
       /* ----- Échec : distinguer introuvable vs insuffisant ----- */
-      const inventory = await tx.inventory.findUnique({
+      const inventory = await db.inventory.findUnique({
         where: { id: inventoryId },
       });
 
@@ -351,7 +356,10 @@ export class InventoryService {
         CatalogErrorCode.INVALID_INVENTORY_QUANTITY,
         `Stock disponible insuffisant. Disponible : ${available}, demandé : ${quantity}.`,
       );
-    });
+    };
+
+    if (tx) return execute(tx);
+    return this.prisma.$transaction(execute);
   }
 
   /* ================================================================
@@ -361,10 +369,13 @@ export class InventoryService {
   /**
    * Libère une réservation de manière atomique.
    *
-   * UPDATE conditionnel :
-   *   reserved >= quantity
+   * Si `tx` est fourni, on utilise cette transaction existante.
    */
-  async release(inventoryId: string, quantity: number) {
+  async release(
+    inventoryId: string,
+    quantity: number,
+    tx?: Prisma.TransactionClient,
+  ) {
     if (quantity <= 0) {
       throw new CatalogError(
         CatalogErrorCode.INVALID_INVENTORY_QUANTITY,
@@ -372,16 +383,16 @@ export class InventoryService {
       );
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    const execute = async (db: Prisma.TransactionClient | PrismaClient) => {
       const released = await this.inventoryRepository.tryRelease(
         inventoryId,
         quantity,
-        tx,
+        db,
       );
 
       if (released) return released;
 
-      const inventory = await tx.inventory.findUnique({
+      const inventory = await db.inventory.findUnique({
         where: { id: inventoryId },
       });
 
@@ -396,7 +407,10 @@ export class InventoryService {
         CatalogErrorCode.INVALID_INVENTORY_QUANTITY,
         `La quantité à libérer (${quantity}) dépasse le stock réservé (${inventory.reserved}).`,
       );
-    });
+    };
+
+    if (tx) return execute(tx);
+    return this.prisma.$transaction(execute);
   }
 
   /* ================================================================
@@ -407,9 +421,13 @@ export class InventoryService {
    * Consomme une réservation : le stock physique est décrémenté
    * et la réservation libérée dans la même opération atomique.
    *
-   * À utiliser quand une commande passe de PENDING à PAID.
+   * Si `tx` est fourni, on utilise cette transaction existante.
    */
-  async commitReservation(inventoryId: string, quantity: number) {
+  async commitReservation(
+    inventoryId: string,
+    quantity: number,
+    tx?: Prisma.TransactionClient,
+  ) {
     if (quantity <= 0) {
       throw new CatalogError(
         CatalogErrorCode.INVALID_INVENTORY_QUANTITY,
@@ -417,16 +435,16 @@ export class InventoryService {
       );
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    const execute = async (db: Prisma.TransactionClient | PrismaClient) => {
       const committed = await this.inventoryRepository.tryCommitReservation(
         inventoryId,
         quantity,
-        tx,
+        db,
       );
 
       if (committed) return committed;
 
-      const inventory = await tx.inventory.findUnique({
+      const inventory = await db.inventory.findUnique({
         where: { id: inventoryId },
       });
 
@@ -441,7 +459,10 @@ export class InventoryService {
         CatalogErrorCode.INVALID_INVENTORY_QUANTITY,
         `Impossible de consommer la réservation. Réservé : ${inventory.reserved}, quantité : ${inventory.quantity}, demandé : ${quantity}.`,
       );
-    });
+    };
+
+    if (tx) return execute(tx);
+    return this.prisma.$transaction(execute);
   }
 
   /* ================================================================
