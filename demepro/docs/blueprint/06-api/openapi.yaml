@@ -1,0 +1,60 @@
+# OpenAPI 3.1
+
+openapi: 3.1.0
+info:
+  title: DɛmɛPro API
+  version: 0.1.0
+  description: API e-commerce B2B/B2C
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local
+
+paths:
+  /catalog/products:
+    post:
+      summary: Créer un produit
+      tags: [Catalog]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProductDto"
+      responses:
+        "201":
+          description: Produit créé
+        "409":
+          description: Slug dupliqué
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateProductDto:
+      type: object
+      required: [storeId, categoryId, name, slug, hasVariants]
+      properties:
+        storeId:
+          type: string
+          format: uuid
+        categoryId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        hasVariants:
+          type: boolean
+        price:
+          type: number
+        currency:
+          type: string
+          default: XOF

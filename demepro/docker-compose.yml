@@ -1,0 +1,62 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:17
+    container_name: demepro-postgres 
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: demepro
+      POSTGRES_PASSWORD: demepro
+      POSTGRES_DB: demepro
+    ports:
+      - "5432:5432"
+    volumes:
+      - demepro_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U demepro -d demepro" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  redis: 
+    image: redis:7-alpine 
+    container_name: demepro-redis 
+    restart: unless-stopped 
+    ports: 
+      - "6379:6379" 
+    volumes: 
+      - demepro_redis_data:/data 
+    command: 
+      [ 
+        "redis-server", 
+        "--appendonly", 
+        "yes" 
+      ] 
+    healthcheck: 
+      test: 
+        [ 
+          "CMD", 
+          "redis-cli", 
+          "ping" 
+        ] 
+      interval: 5s 
+      timeout: 3s 
+      retries: 10 
+    
+  seaweedfs:
+    image: chrislusf/seaweedfs:latest
+    container_name: demepro-seaweedfs
+    restart: unless-stopped
+    
+    ports:
+      - "8333:8333" 
+      - "9333:9333" 
+      - "8080:8080"
+    volumes:
+      - demepro_seaweedfs_data:/data
+    command: "server -dir=/data -s3"
+    
+volumes: 
+  demepro_postgres_data: 
+  demepro_redis_data: 
+  demepro_seaweedfs_data: 
+

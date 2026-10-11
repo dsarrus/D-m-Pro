@@ -1,0 +1,43 @@
+{
+  "name": "demepro",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10",
+
+  "scripts": {
+    "dev": "pnpm --parallel --filter @demepro/web --filter @demepro/api --filter @demepro/admin dev",
+    "build": "pnpm -r build",
+    "start": "pnpm -r start",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm --filter @demepro/api test:unit",
+    "test:integration": "pnpm --filter @demepro/api test:integration",
+    "test:e2e": "pnpm --filter @demepro/api test:e2e",
+    "test:all": "pnpm --filter @demepro/api test",
+    "db:generate": "pnpm --filter @demepro/api db:generate",
+    "db:migrate": "pnpm --filter @demepro/api db:migrate",
+    "db:migrate:deploy": "pnpm --filter @demepro/api db:migrate:deploy",
+    "db:seed": "pnpm --filter @demepro/api db:seed",
+    "db:studio": "pnpm --filter @demepro/api db:studio",
+    "db:validate": "pnpm --filter @demepro/api db:validate",
+    "db:format": "pnpm --filter @demepro/api db:format",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    
+    "docs:init": "node scripts/init-docs.mjs",
+    "docs:init:force": "node scripts/init-docs.mjs --force",
+    "docs:init:dry": "node scripts/init-docs.mjs --dry-run --verbose"
+  },
+  "devDependencies": {
+    "dotenv": "^18.0.5",
+    "prettier": "^3.0.0",
+    "supertest": "^7.3.1",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^5.0.3"
+  }
+}

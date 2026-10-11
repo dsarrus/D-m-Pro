@@ -1,0 +1,9 @@
+{
+  "name": "@demepro/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"dev\"",
+    "build": "echo \"build\""
+  }
+}

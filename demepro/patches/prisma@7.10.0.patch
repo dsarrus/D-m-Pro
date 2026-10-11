@@ -1,0 +1,16 @@
+diff --git a/dist/cli/src/config.d.ts b/dist/cli/src/config.d.ts
+deleted file mode 100644
+index 57382633ae6ee95acc3754ace6abffdcd455aee6..0000000000000000000000000000000000000000
+diff --git a/package.json b/package.json
+index 7821083dd11193b37f8d28fd1fbbd8e4be78fc5e..a36e5b1f81d5c4a9943ca625bd5f54303844e776 100644
+--- a/package.json
++++ b/package.json
+@@ -70,7 +70,7 @@
+     ]
+   },
+   "bin": {
+-    "prisma": "build/index.js"
++    "prisma": "build/cli.js"
+   },
+   "types": "./dist/cli/src/types.d.ts",
+   "exports": {
