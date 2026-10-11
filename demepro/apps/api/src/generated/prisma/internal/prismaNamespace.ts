@@ -2142,6 +2142,13 @@ export const ProfessionalProfileScalarFieldEnum = {
   slug: 'slug',
   bio: 'bio',
   verificationStatus: 'verificationStatus',
+  verificationLevel: 'verificationLevel',
+  successfulTransactions: 'successfulTransactions',
+  verifiedAt: 'verifiedAt',
+  certifiedAt: 'certifiedAt',
+  selfieKey: 'selfieKey',
+  kycDocumentKey: 'kycDocumentKey',
+  certifiedByUserId: 'certifiedByUserId',
   avatarKey: 'avatarKey',
   ratingAverage: 'ratingAverage',
   ratingCount: 'ratingCount',
@@ -2539,16 +2546,16 @@ export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
- * Reference to a field of type 'Decimal'
+ * Reference to a field of type 'VerificationLevel'
  */
-export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+export type EnumVerificationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationLevel'>
     
 
 
 /**
- * Reference to a field of type 'Decimal[]'
+ * Reference to a field of type 'VerificationLevel[]'
  */
-export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+export type ListEnumVerificationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationLevel[]'>
     
 
 
@@ -2563,6 +2570,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 

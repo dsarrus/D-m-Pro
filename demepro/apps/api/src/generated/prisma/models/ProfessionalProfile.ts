@@ -27,6 +27,7 @@ export type AggregateProfessionalProfile = {
 }
 
 export type ProfessionalProfileAvgAggregateOutputType = {
+  successfulTransactions: number | null
   ratingAverage: runtime.Decimal | null
   ratingCount: number | null
   latitude: runtime.Decimal | null
@@ -35,6 +36,7 @@ export type ProfessionalProfileAvgAggregateOutputType = {
 }
 
 export type ProfessionalProfileSumAggregateOutputType = {
+  successfulTransactions: number | null
   ratingAverage: runtime.Decimal | null
   ratingCount: number | null
   latitude: runtime.Decimal | null
@@ -49,6 +51,13 @@ export type ProfessionalProfileMinAggregateOutputType = {
   slug: string | null
   bio: string | null
   verificationStatus: $Enums.VerificationStatus | null
+  verificationLevel: $Enums.VerificationLevel | null
+  successfulTransactions: number | null
+  verifiedAt: Date | null
+  certifiedAt: Date | null
+  selfieKey: string | null
+  kycDocumentKey: string | null
+  certifiedByUserId: string | null
   avatarKey: string | null
   ratingAverage: runtime.Decimal | null
   ratingCount: number | null
@@ -66,6 +75,13 @@ export type ProfessionalProfileMaxAggregateOutputType = {
   slug: string | null
   bio: string | null
   verificationStatus: $Enums.VerificationStatus | null
+  verificationLevel: $Enums.VerificationLevel | null
+  successfulTransactions: number | null
+  verifiedAt: Date | null
+  certifiedAt: Date | null
+  selfieKey: string | null
+  kycDocumentKey: string | null
+  certifiedByUserId: string | null
   avatarKey: string | null
   ratingAverage: runtime.Decimal | null
   ratingCount: number | null
@@ -83,6 +99,13 @@ export type ProfessionalProfileCountAggregateOutputType = {
   slug: number
   bio: number
   verificationStatus: number
+  verificationLevel: number
+  successfulTransactions: number
+  verifiedAt: number
+  certifiedAt: number
+  selfieKey: number
+  kycDocumentKey: number
+  certifiedByUserId: number
   avatarKey: number
   ratingAverage: number
   ratingCount: number
@@ -96,6 +119,7 @@ export type ProfessionalProfileCountAggregateOutputType = {
 
 
 export type ProfessionalProfileAvgAggregateInputType = {
+  successfulTransactions?: true
   ratingAverage?: true
   ratingCount?: true
   latitude?: true
@@ -104,6 +128,7 @@ export type ProfessionalProfileAvgAggregateInputType = {
 }
 
 export type ProfessionalProfileSumAggregateInputType = {
+  successfulTransactions?: true
   ratingAverage?: true
   ratingCount?: true
   latitude?: true
@@ -118,6 +143,13 @@ export type ProfessionalProfileMinAggregateInputType = {
   slug?: true
   bio?: true
   verificationStatus?: true
+  verificationLevel?: true
+  successfulTransactions?: true
+  verifiedAt?: true
+  certifiedAt?: true
+  selfieKey?: true
+  kycDocumentKey?: true
+  certifiedByUserId?: true
   avatarKey?: true
   ratingAverage?: true
   ratingCount?: true
@@ -135,6 +167,13 @@ export type ProfessionalProfileMaxAggregateInputType = {
   slug?: true
   bio?: true
   verificationStatus?: true
+  verificationLevel?: true
+  successfulTransactions?: true
+  verifiedAt?: true
+  certifiedAt?: true
+  selfieKey?: true
+  kycDocumentKey?: true
+  certifiedByUserId?: true
   avatarKey?: true
   ratingAverage?: true
   ratingCount?: true
@@ -152,6 +191,13 @@ export type ProfessionalProfileCountAggregateInputType = {
   slug?: true
   bio?: true
   verificationStatus?: true
+  verificationLevel?: true
+  successfulTransactions?: true
+  verifiedAt?: true
+  certifiedAt?: true
+  selfieKey?: true
+  kycDocumentKey?: true
+  certifiedByUserId?: true
   avatarKey?: true
   ratingAverage?: true
   ratingCount?: true
@@ -256,6 +302,13 @@ export type ProfessionalProfileGroupByOutputType = {
   slug: string | null
   bio: string | null
   verificationStatus: $Enums.VerificationStatus
+  verificationLevel: $Enums.VerificationLevel
+  successfulTransactions: number
+  verifiedAt: Date | null
+  certifiedAt: Date | null
+  selfieKey: string | null
+  kycDocumentKey: string | null
+  certifiedByUserId: string | null
   avatarKey: string | null
   ratingAverage: runtime.Decimal
   ratingCount: number
@@ -296,6 +349,13 @@ export type ProfessionalProfileWhereInput = {
   slug?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFilter<"ProfessionalProfile"> | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFilter<"ProfessionalProfile"> | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFilter<"ProfessionalProfile"> | number
+  verifiedAt?: Prisma.DateTimeNullableFilter<"ProfessionalProfile"> | Date | string | null
+  certifiedAt?: Prisma.DateTimeNullableFilter<"ProfessionalProfile"> | Date | string | null
+  selfieKey?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
+  kycDocumentKey?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
+  certifiedByUserId?: Prisma.UuidNullableFilter<"ProfessionalProfile"> | string | null
   avatarKey?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
   ratingAverage?: Prisma.DecimalFilter<"ProfessionalProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFilter<"ProfessionalProfile"> | number
@@ -316,6 +376,13 @@ export type ProfessionalProfileOrderByWithRelationInput = {
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
+  verificationLevel?: Prisma.SortOrder
+  successfulTransactions?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  certifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  selfieKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  kycDocumentKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  certifiedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarKey?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
@@ -339,6 +406,13 @@ export type ProfessionalProfileWhereUniqueInput = Prisma.AtLeast<{
   businessName?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFilter<"ProfessionalProfile"> | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFilter<"ProfessionalProfile"> | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFilter<"ProfessionalProfile"> | number
+  verifiedAt?: Prisma.DateTimeNullableFilter<"ProfessionalProfile"> | Date | string | null
+  certifiedAt?: Prisma.DateTimeNullableFilter<"ProfessionalProfile"> | Date | string | null
+  selfieKey?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
+  kycDocumentKey?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
+  certifiedByUserId?: Prisma.UuidNullableFilter<"ProfessionalProfile"> | string | null
   avatarKey?: Prisma.StringNullableFilter<"ProfessionalProfile"> | string | null
   ratingAverage?: Prisma.DecimalFilter<"ProfessionalProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFilter<"ProfessionalProfile"> | number
@@ -359,6 +433,13 @@ export type ProfessionalProfileOrderByWithAggregationInput = {
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
+  verificationLevel?: Prisma.SortOrder
+  successfulTransactions?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  certifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  selfieKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  kycDocumentKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  certifiedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarKey?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
@@ -384,6 +465,13 @@ export type ProfessionalProfileScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringNullableWithAggregatesFilter<"ProfessionalProfile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"ProfessionalProfile"> | string | null
   verificationStatus?: Prisma.EnumVerificationStatusWithAggregatesFilter<"ProfessionalProfile"> | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelWithAggregatesFilter<"ProfessionalProfile"> | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntWithAggregatesFilter<"ProfessionalProfile"> | number
+  verifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProfessionalProfile"> | Date | string | null
+  certifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProfessionalProfile"> | Date | string | null
+  selfieKey?: Prisma.StringNullableWithAggregatesFilter<"ProfessionalProfile"> | string | null
+  kycDocumentKey?: Prisma.StringNullableWithAggregatesFilter<"ProfessionalProfile"> | string | null
+  certifiedByUserId?: Prisma.UuidNullableWithAggregatesFilter<"ProfessionalProfile"> | string | null
   avatarKey?: Prisma.StringNullableWithAggregatesFilter<"ProfessionalProfile"> | string | null
   ratingAverage?: Prisma.DecimalWithAggregatesFilter<"ProfessionalProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntWithAggregatesFilter<"ProfessionalProfile"> | number
@@ -400,6 +488,13 @@ export type ProfessionalProfileCreateInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -420,6 +515,13 @@ export type ProfessionalProfileUncheckedCreateInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -438,6 +540,13 @@ export type ProfessionalProfileUpdateInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -458,6 +567,13 @@ export type ProfessionalProfileUncheckedUpdateInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -477,6 +593,13 @@ export type ProfessionalProfileCreateManyInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -493,6 +616,13 @@ export type ProfessionalProfileUpdateManyMutationInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -510,6 +640,13 @@ export type ProfessionalProfileUncheckedUpdateManyInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -532,6 +669,13 @@ export type ProfessionalProfileCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
+  verificationLevel?: Prisma.SortOrder
+  successfulTransactions?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrder
+  certifiedAt?: Prisma.SortOrder
+  selfieKey?: Prisma.SortOrder
+  kycDocumentKey?: Prisma.SortOrder
+  certifiedByUserId?: Prisma.SortOrder
   avatarKey?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
@@ -543,6 +687,7 @@ export type ProfessionalProfileCountOrderByAggregateInput = {
 }
 
 export type ProfessionalProfileAvgOrderByAggregateInput = {
+  successfulTransactions?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -557,6 +702,13 @@ export type ProfessionalProfileMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
+  verificationLevel?: Prisma.SortOrder
+  successfulTransactions?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrder
+  certifiedAt?: Prisma.SortOrder
+  selfieKey?: Prisma.SortOrder
+  kycDocumentKey?: Prisma.SortOrder
+  certifiedByUserId?: Prisma.SortOrder
   avatarKey?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
@@ -574,6 +726,13 @@ export type ProfessionalProfileMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   verificationStatus?: Prisma.SortOrder
+  verificationLevel?: Prisma.SortOrder
+  successfulTransactions?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrder
+  certifiedAt?: Prisma.SortOrder
+  selfieKey?: Prisma.SortOrder
+  kycDocumentKey?: Prisma.SortOrder
+  certifiedByUserId?: Prisma.SortOrder
   avatarKey?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
@@ -585,6 +744,7 @@ export type ProfessionalProfileMinOrderByAggregateInput = {
 }
 
 export type ProfessionalProfileSumOrderByAggregateInput = {
+  successfulTransactions?: Prisma.SortOrder
   ratingAverage?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
@@ -633,12 +793,8 @@ export type EnumVerificationStatusFieldUpdateOperationsInput = {
   set?: $Enums.VerificationStatus
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type EnumVerificationLevelFieldUpdateOperationsInput = {
+  set?: $Enums.VerificationLevel
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -647,6 +803,14 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type NullableDecimalFieldUpdateOperationsInput = {
@@ -699,6 +863,13 @@ export type ProfessionalProfileCreateWithoutUserInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -717,6 +888,13 @@ export type ProfessionalProfileUncheckedCreateWithoutUserInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -751,6 +929,13 @@ export type ProfessionalProfileUpdateWithoutUserInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -769,6 +954,13 @@ export type ProfessionalProfileUncheckedUpdateWithoutUserInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -787,6 +979,13 @@ export type ProfessionalProfileCreateWithoutStoresInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -806,6 +1005,13 @@ export type ProfessionalProfileUncheckedCreateWithoutStoresInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -839,6 +1045,13 @@ export type ProfessionalProfileUpdateWithoutStoresInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -858,6 +1071,13 @@ export type ProfessionalProfileUncheckedUpdateWithoutStoresInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -875,6 +1095,13 @@ export type ProfessionalProfileCreateWithoutServicesInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -894,6 +1121,13 @@ export type ProfessionalProfileUncheckedCreateWithoutServicesInput = {
   slug?: string | null
   bio?: string | null
   verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
   avatarKey?: string | null
   ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: number
@@ -927,6 +1161,13 @@ export type ProfessionalProfileUpdateWithoutServicesInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -946,6 +1187,13 @@ export type ProfessionalProfileUncheckedUpdateWithoutServicesInput = {
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1004,6 +1252,13 @@ export type ProfessionalProfileSelect<ExtArgs extends runtime.Types.Extensions.I
   slug?: boolean
   bio?: boolean
   verificationStatus?: boolean
+  verificationLevel?: boolean
+  successfulTransactions?: boolean
+  verifiedAt?: boolean
+  certifiedAt?: boolean
+  selfieKey?: boolean
+  kycDocumentKey?: boolean
+  certifiedByUserId?: boolean
   avatarKey?: boolean
   ratingAverage?: boolean
   ratingCount?: boolean
@@ -1025,6 +1280,13 @@ export type ProfessionalProfileSelectCreateManyAndReturn<ExtArgs extends runtime
   slug?: boolean
   bio?: boolean
   verificationStatus?: boolean
+  verificationLevel?: boolean
+  successfulTransactions?: boolean
+  verifiedAt?: boolean
+  certifiedAt?: boolean
+  selfieKey?: boolean
+  kycDocumentKey?: boolean
+  certifiedByUserId?: boolean
   avatarKey?: boolean
   ratingAverage?: boolean
   ratingCount?: boolean
@@ -1043,6 +1305,13 @@ export type ProfessionalProfileSelectUpdateManyAndReturn<ExtArgs extends runtime
   slug?: boolean
   bio?: boolean
   verificationStatus?: boolean
+  verificationLevel?: boolean
+  successfulTransactions?: boolean
+  verifiedAt?: boolean
+  certifiedAt?: boolean
+  selfieKey?: boolean
+  kycDocumentKey?: boolean
+  certifiedByUserId?: boolean
   avatarKey?: boolean
   ratingAverage?: boolean
   ratingCount?: boolean
@@ -1061,6 +1330,13 @@ export type ProfessionalProfileSelectScalar = {
   slug?: boolean
   bio?: boolean
   verificationStatus?: boolean
+  verificationLevel?: boolean
+  successfulTransactions?: boolean
+  verifiedAt?: boolean
+  certifiedAt?: boolean
+  selfieKey?: boolean
+  kycDocumentKey?: boolean
+  certifiedByUserId?: boolean
   avatarKey?: boolean
   ratingAverage?: boolean
   ratingCount?: boolean
@@ -1071,7 +1347,7 @@ export type ProfessionalProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProfessionalProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "businessName" | "slug" | "bio" | "verificationStatus" | "avatarKey" | "ratingAverage" | "ratingCount" | "latitude" | "longitude" | "serviceRadiusKm" | "createdAt" | "updatedAt", ExtArgs["result"]["professionalProfile"]>
+export type ProfessionalProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "businessName" | "slug" | "bio" | "verificationStatus" | "verificationLevel" | "successfulTransactions" | "verifiedAt" | "certifiedAt" | "selfieKey" | "kycDocumentKey" | "certifiedByUserId" | "avatarKey" | "ratingAverage" | "ratingCount" | "latitude" | "longitude" | "serviceRadiusKm" | "createdAt" | "updatedAt", ExtArgs["result"]["professionalProfile"]>
 export type ProfessionalProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   stores?: boolean | Prisma.ProfessionalProfile$storesArgs<ExtArgs>
@@ -1098,7 +1374,32 @@ export type $ProfessionalProfilePayload<ExtArgs extends runtime.Types.Extensions
     businessName: string | null
     slug: string | null
     bio: string | null
+    /**
+     * Ancien statut (rétrocompatibilité)
+     */
     verificationStatus: $Enums.VerificationStatus
+    /**
+     * ⭐ NOUVEAU : niveau progressif
+     */
+    verificationLevel: $Enums.VerificationLevel
+    /**
+     * Compteur de transactions réussies (incrémenté à chaque livraison)
+     */
+    successfulTransactions: number
+    /**
+     * Timestamps
+     */
+    verifiedAt: Date | null
+    certifiedAt: Date | null
+    /**
+     * Selfie (niveau 2)
+     */
+    selfieKey: string | null
+    /**
+     * Document KYC (niveau 3, optionnel)
+     */
+    kycDocumentKey: string | null
+    certifiedByUserId: string | null
     avatarKey: string | null
     ratingAverage: runtime.Decimal
     ratingCount: number
@@ -1539,6 +1840,13 @@ export interface ProfessionalProfileFieldRefs {
   readonly slug: Prisma.FieldRef<"ProfessionalProfile", 'String'>
   readonly bio: Prisma.FieldRef<"ProfessionalProfile", 'String'>
   readonly verificationStatus: Prisma.FieldRef<"ProfessionalProfile", 'VerificationStatus'>
+  readonly verificationLevel: Prisma.FieldRef<"ProfessionalProfile", 'VerificationLevel'>
+  readonly successfulTransactions: Prisma.FieldRef<"ProfessionalProfile", 'Int'>
+  readonly verifiedAt: Prisma.FieldRef<"ProfessionalProfile", 'DateTime'>
+  readonly certifiedAt: Prisma.FieldRef<"ProfessionalProfile", 'DateTime'>
+  readonly selfieKey: Prisma.FieldRef<"ProfessionalProfile", 'String'>
+  readonly kycDocumentKey: Prisma.FieldRef<"ProfessionalProfile", 'String'>
+  readonly certifiedByUserId: Prisma.FieldRef<"ProfessionalProfile", 'String'>
   readonly avatarKey: Prisma.FieldRef<"ProfessionalProfile", 'String'>
   readonly ratingAverage: Prisma.FieldRef<"ProfessionalProfile", 'Decimal'>
   readonly ratingCount: Prisma.FieldRef<"ProfessionalProfile", 'Int'>

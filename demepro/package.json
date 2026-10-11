@@ -30,7 +30,11 @@
     
     "docs:init": "node scripts/init-docs.mjs",
     "docs:init:force": "node scripts/init-docs.mjs --force",
-    "docs:init:dry": "node scripts/init-docs.mjs --dry-run --verbose"
+    "docs:init:dry": "node scripts/init-docs.mjs --dry-run --verbose",
+    "docs:update": "node scripts/update-blueprint-v1.mjs",
+    "docs:update:force": "node scripts/update-blueprint-v1.mjs --force",
+    "docs:update:dry": "node scripts/update-blueprint-v1.mjs --dry-run",
+    "docs:update:v2": "node scripts/update-blueprint-v2.mjs --force"
   },
   "devDependencies": {
     "dotenv": "^18.0.5",

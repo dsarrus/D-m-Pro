@@ -91,11 +91,13 @@ export async function seedTenant(
   /* 3. User */
   const user = await prisma.user.create({
     data: {
-      email,
-      passwordHash: "hashed",
-      firstName: "Test",
-      lastName: "User",
-      status: "ACTIVE",
+     email,
+    phone: `+22370${Math.floor(Math.random() * 10000000)}`,
+    phoneVerifiedAt: new Date(),  // ⭐ AJOUTER
+    passwordHash: "hashed",
+    firstName: "Test",
+    lastName: "User",
+    status: "ACTIVE",
     },
   });
 
@@ -175,4 +177,132 @@ export async function ensureRoleAssigned(
       roleId: role.id,
     },
   });
+}
+
+/* ================================================================
+ * SEED PROFESSIONAL SANS STORE
+ * ================================================================ */
+
+export type SeededProfessional = {
+  userId: string;
+  professionalId: string;
+  categoryId: string;
+  verticalId: string;
+};
+
+/**
+ * Crée un professional SANS boutique.
+ * Utile pour tester le module Store (création de store).
+ *
+ * Contrairement à `seedTenant`, ne crée pas de Store.
+ */
+export async function seedProfessionalWithoutStore(
+  prisma: PrismaClient,
+): Promise<SeededProfessional> {
+  const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+  /* 1. Vertical — upsert */
+  const vertical = await prisma.vertical.upsert({
+    where: { code: "ARTISANS" },
+    update: {},
+    create: {
+      code: "ARTISANS",
+      name: "Artisans",
+      slug: `artisans-${suffix}`,
+      status: "ACTIVE",
+      sortOrder: 0,
+    },
+  });
+
+  /* 2. Category */
+  const category = await prisma.category.create({
+    data: {
+      verticalId: vertical.id,
+      name: "Catégorie Test",
+      slug: `categorie-${suffix}`,
+      type: "PRODUCT",
+      status: "ACTIVE",
+      sortOrder: 0,
+    },
+  });
+
+  /* 3. User */
+  const user = await prisma.user.create({
+    data: {
+      email: `user-${suffix}@test.dev`,
+    phone: `+22370${Math.floor(Math.random() * 10000000)}`,
+    phoneVerifiedAt: new Date(),  // ⭐ AJOUTER
+    passwordHash: "hashed",
+    firstName: "Test",
+    lastName: "User",
+    status: "ACTIVE",
+    },
+  });
+
+  /* 4. ProfessionalProfile — VERIFIED par défaut */
+  const professional = await prisma.professionalProfile.create({
+    data: {
+      userId: user.id,
+      businessName: "Test SARL",
+      slug: `test-sarl-${suffix}`,
+      verificationStatus: "VERIFIED",
+    },
+  });
+
+  /* 5. Rôle PROFESSIONAL */
+  await ensureRoleAssigned(prisma, user.id, "PROFESSIONAL");
+
+  return {
+    userId: user.id,
+    professionalId: professional.id,
+    categoryId: category.id,
+    verticalId: vertical.id,
+  };
+}
+
+/**
+ * Crée un professional avec un statut KYC personnalisé.
+ * Utile pour tester le refus d'activation.
+ */
+export async function seedProfessionalWithVerification(
+  prisma: PrismaClient,
+  verificationStatus:
+    | "UNVERIFIED"
+    | "PENDING"
+    | "VERIFIED"
+    | "REJECTED"
+    | "EXPIRED",
+): Promise<SeededProfessional> {
+  const result = await seedProfessionalWithoutStore(prisma);
+
+  await prisma.professionalProfile.update({
+    where: { id: result.professionalId },
+    data: { verificationStatus },
+  });
+
+  return result;
+}
+
+/**
+ * Crée un utilisateur avec le rôle ADMIN.
+ * Utile pour tester les endpoints admin.
+ */
+export async function seedAdmin(prisma: PrismaClient): Promise<{
+  userId: string;
+}> {
+  const suffix = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+  const user = await prisma.user.create({
+    data: {
+      email: `admin-${suffix}@test.dev`,
+      passwordHash: "hashed",
+      firstName: "Admin",
+      lastName: "User",
+      status: "ACTIVE",
+    },
+  });
+
+  await ensureRoleAssigned(prisma, user.id, "ADMIN");
+
+  return { userId: user.id };
 }

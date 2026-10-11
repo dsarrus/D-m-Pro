@@ -30,6 +30,15 @@ export const VerificationStatus = {
 export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
 
 
+export const VerificationLevel = {
+  BASIC: 'BASIC',
+  TRUSTED: 'TRUSTED',
+  CERTIFIED: 'CERTIFIED'
+} as const
+
+export type VerificationLevel = (typeof VerificationLevel)[keyof typeof VerificationLevel]
+
+
 export const VerificationType = {
   IDENTITY: 'IDENTITY',
   BUSINESS: 'BUSINESS',

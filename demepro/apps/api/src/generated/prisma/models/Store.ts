@@ -299,11 +299,11 @@ export type StoreOrderByWithRelationInput = {
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  professionalId?: string
   slug?: string
   AND?: Prisma.StoreWhereInput | Prisma.StoreWhereInput[]
   OR?: Prisma.StoreWhereInput[]
   NOT?: Prisma.StoreWhereInput | Prisma.StoreWhereInput[]
-  professionalId?: Prisma.UuidFilter<"Store"> | string
   name?: Prisma.StringFilter<"Store"> | string
   description?: Prisma.StringNullableFilter<"Store"> | string | null
   logoKey?: Prisma.StringNullableFilter<"Store"> | string | null
@@ -315,7 +315,7 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
   products?: Prisma.ProductListRelationFilter
-}, "id" | "slug">
+}, "id" | "professionalId" | "slug">
 
 export type StoreOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

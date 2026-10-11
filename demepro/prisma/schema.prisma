@@ -24,6 +24,12 @@ enum VerificationStatus {
   EXPIRED
 }
 
+enum VerificationLevel {
+  BASIC       // Niveau 1 — inscription
+  TRUSTED     // Niveau 2 — après activité
+  CERTIFIED   // Niveau 3 — KYC complet
+}
+
 enum VerificationType {
   IDENTITY
   BUSINESS
@@ -142,7 +148,26 @@ model ProfessionalProfile {
   businessName       String?            @map("business_name") @db.VarChar(180)
   slug               String?            @unique @db.VarChar(200)
   bio                String?            @db.Text
+  /* Ancien statut (rétrocompatibilité) */
   verificationStatus VerificationStatus @default(UNVERIFIED) @map("verification_status")
+
+  /* ⭐ NOUVEAU : niveau progressif */
+  verificationLevel  VerificationLevel  @default(BASIC) @map("verification_level")
+
+  /* Compteur de transactions réussies (incrémenté à chaque livraison) */
+  successfulTransactions Int @default(0) @map("successful_transactions")
+
+  /* Timestamps */
+  verifiedAt         DateTime?          @map("verified_at") @db.Timestamptz(3)
+  certifiedAt        DateTime?          @map("certified_at") @db.Timestamptz(3)
+
+  /* Selfie (niveau 2) */
+  selfieKey          String?            @map("selfie_key") @db.VarChar(500)
+
+  /* Document KYC (niveau 3, optionnel) */
+  kycDocumentKey     String?            @map("kyc_document_key") @db.VarChar(500)
+  certifiedByUserId  String?            @map("certified_by_user_id") @db.Uuid
+
   avatarKey          String?            @map("avatar_key") @db.VarChar(500)
   ratingAverage      Decimal            @default(0) @map("rating_average") @db.Decimal(3, 2)
   ratingCount        Int                @default(0) @map("rating_count")
@@ -157,6 +182,7 @@ model ProfessionalProfile {
   services Service[]
 
   @@index([verificationStatus])
+  @@index([verificationLevel])
   @@index([latitude, longitude])
   @@map("professional_profiles")
 }
@@ -373,7 +399,7 @@ model Category {
 
 model Store {
   id             String @id @default(uuid()) @db.Uuid
-  professionalId String @map("professional_id") @db.Uuid
+  professionalId String @unique @map("professional_id") @db.Uuid
 
   name        String  @db.VarChar(180)
   slug        String  @unique @db.VarChar(200)
