@@ -2,13 +2,16 @@
 
 import type { Request, Response, NextFunction } from "express";
 
-import { CatalogError, CatalogErrorCode } from "../../modules/catalog/errors/catalog.error";
+import {
+  CatalogError,
+  CatalogErrorCode,
+} from "../../modules/catalog/errors/catalog.error";
 
 /* ================================================================
  * TYPES
  * ================================================================ */
 
-export type Permission = string; // ex: "catalog.product.create"
+export type Permission = string;
 
 /**
  * Mapping rôle → permissions.
@@ -17,17 +20,63 @@ export type Permission = string; // ex: "catalog.product.create"
 const ROLE_PERMISSIONS: Record<string, Permission[]> = {
   CLIENT: [
     "catalog.product.read",
-    "catalog.product.create", // TODO: retirer si non voulu
+    "catalog.product.create",
     "order.create",
+    "order.read.own",      // ← AJOUTER si absent
+    "order.cancel.own", 
+    "review.create",
+    "review.read",
+    "address.*",
+    "notification.read.own",
   ],
+
   PROFESSIONAL: [
+    /* Catalog */
     "catalog.product.*",
     "catalog.variant.*",
     "catalog.image.*",
     "catalog.inventory.*",
-    "store.*",
+
+    /* Store */
+    "store.create",
+    "store.read.own",
+    "store.update.own",
+    "store.activate",
+    "store.close",
+
+    /* Order (Phase 4) */
+    "order.read.store",
+    "order.update.store",
+    "order.ship.store",
+    "order.deliver.store",
+    "order.cancel.store",
+
+    /* Transverse */
+    "address.*",
+    "review.read",
+    "review.report",
+    "notification.read.own",
   ],
-  ADMIN: ["*"],
+
+  ADMIN: [
+    /* Store */
+    "store.suspend",
+
+    /* Category */
+    "category.create",
+    "category.update",
+    "category.delete",
+
+    /* Verification */
+    "admin.verification.approve",
+    "admin.verification.reject",
+    "admin.verification.read",
+
+    /*Order */
+    "order.read.store",       
+    "order.cancel.store",  
+  ],
+
   SUPER_ADMIN: ["*"],
 };
 
@@ -35,10 +84,6 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
  * HELPERS
  * ================================================================ */
 
-/**
- * Vérifie si un rôle possède une permission.
- * Supporte le wildcard `*` en fin : "catalog.product.*"
- */
 function roleHasPermission(
   role: string | undefined,
   permission: Permission,
@@ -49,17 +94,14 @@ function roleHasPermission(
   if (!permissions) return false;
 
   for (const p of permissions) {
-    /* Wildcard global */
     if (p === "*") return true;
 
-    /* Wildcard de préfixe : "catalog.product.*" */
     if (p.endsWith(".*")) {
-      const prefix = p.slice(0, -2); // "catalog.product"
+      const prefix = p.slice(0, -2);
       if (permission === prefix) return true;
       if (permission.startsWith(prefix + ".")) return true;
     }
 
-    /* Match exact */
     if (p === permission) return true;
   }
 
@@ -70,13 +112,6 @@ function roleHasPermission(
  * MIDDLEWARE
  * ================================================================ */
 
-/**
- * Vérifie que `req.user` possède la permission requise.
- *
- * Doit être monté APRÈS `authenticate`.
- *
- * @param permission ex: "catalog.product.create"
- */
 export function requirePermission(permission: Permission) {
   return function (
     req: Request,
@@ -86,18 +121,15 @@ export function requirePermission(permission: Permission) {
     try {
       /* ----- Mode test : bypass ----- */
       if (process.env.NODE_ENV === "test") {
-        // Si aucun header de test n'est fourni, on bypasse
-        // (le middleware authenticate gère déjà le mode test)
         const hasTestHeader = req.header("X-Test-User-Id");
         if (hasTestHeader) {
-          // Vérification optionnelle si X-Test-Permissions est fourni
           const testPerms = req.header("X-Test-Permissions");
           if (!testPerms) {
-            return next(); // bypass total
+            return next();
           }
-          const perms = testPerms.split(",").map((p:any) => p.trim());
+          const perms = testPerms.split(",").map((p: string) => p.trim());
           const has = perms.some(
-            (p:any) =>
+            (p: string) =>
               p === "*" ||
               p === permission ||
               (p.endsWith(".*") &&

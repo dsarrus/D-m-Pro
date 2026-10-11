@@ -6,6 +6,7 @@ import catalogRoutes from "../../src/modules/catalog/routes/catalog.routes";
 import storeRoutes from "../../src/modules/stores/routes/store.routes";
 import categoryRoutes from "../../src/modules/category/routes/category.routes";
 import verificationRoutes from "../../src/modules/verification/routes/verification.routes";
+import orderRoutes from "../../src/modules/orders/routes/order.routes"; 
 
 import { errorHandler } from "../../src/shared/middleware/error-handler";
 
@@ -22,6 +23,7 @@ export function createTestApp(): Express {
   app.use("/api/v1/stores", storeRoutes);
   app.use("/api/v1/categories", categoryRoutes);
   app.use("/api/v1", verificationRoutes);
+  app.use("/api/v1/orders", orderRoutes); 
 
   app.use(errorHandler);
 
