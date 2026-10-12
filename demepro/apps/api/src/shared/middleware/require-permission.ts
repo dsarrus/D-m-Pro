@@ -29,7 +29,6 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "review.create",
     "review.read",
     "address.*",
-    "notification.read.own",
     
     /* address */
     "address.create",
@@ -40,9 +39,12 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     /*review*/
     "review.create",
     "review.read",
-  "review.update.own",
-  "review.delete.own",
-  "review.report",
+    "review.update.own",
+    "review.delete.own",
+    "review.report",
+    
+    /*notification*/
+    "notification.read.own",
   ],
 
   PROFESSIONAL: [
@@ -70,7 +72,6 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "address.*",
     "review.read",
     "review.report",
-    "notification.read.own",
 
     /* Address */
     "address.create",
@@ -81,6 +82,9 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     /*review*/
     "review.read",
     "review.report",
+
+    /*notification*/
+    "notification.read.own",
   ],
 
   ADMIN: [
@@ -104,7 +108,7 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
 
     /*review*/
     "review.read",
-  "review.moderate",
+    "review.moderate",
     "review.report",
   ],
 

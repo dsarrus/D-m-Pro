@@ -6,6 +6,10 @@ import { ReviewController } from "../controllers/review.controller";
 import { ReviewService } from "../services/review.service";
 import { ReviewRepository } from "../repositories/review.repository";
 
+import { NotificationService } from "../../notifications/services/notification.service";
+import { NotificationRepository } from "../../notifications/repositories/notification.repository";
+import { NotificationTemplateService } from "../../notifications/services/notification-template.service";
+
 import { prisma } from "../../../infrastructure/database/prisma";
 
 import {
@@ -26,9 +30,16 @@ import { requirePermission } from "../../../shared/middleware/require-permission
 /* ================================================================
  * WIRING
  * ================================================================ */
+const notificationRepo = new NotificationRepository(prisma);
+const notificationTemplates = new NotificationTemplateService();
+const notificationService = new NotificationService(
+  prisma,
+  notificationRepo,
+  notificationTemplates,
+);
 
 const repository = new ReviewRepository(prisma);
-const service = new ReviewService(prisma, repository);
+const service = new ReviewService(prisma, repository, notificationService);
 const controller = new ReviewController(service);
 
 /* ================================================================

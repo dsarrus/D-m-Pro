@@ -11,6 +11,10 @@ import { prisma } from "../../../infrastructure/database/prisma";
 import { InventoryService } from "../../catalog/services/inventory.service";
 import { InventoryRepository } from "../../catalog/repositories/inventory.repository";
 
+import { NotificationService } from "../../notifications/services/notification.service";
+import { NotificationRepository } from "../../notifications/repositories/notification.repository";
+import { NotificationTemplateService } from "../../notifications/services/notification-template.service";
+
 import {
   createOrderSchema,
   shipOrderSchema,
@@ -30,8 +34,16 @@ import { requirePermission } from "../../../shared/middleware/require-permission
 const inventoryRepo = new InventoryRepository(prisma);
 const inventoryService = new InventoryService(prisma, inventoryRepo);
 
+const notificationRepo = new NotificationRepository(prisma);
+const notificationTemplates = new NotificationTemplateService();
+const notificationService = new NotificationService(
+  prisma,
+  notificationRepo,
+  notificationTemplates,
+);
+
 const repository = new OrderRepository(prisma);
-const service = new OrderService(prisma, repository, inventoryService);
+const service = new OrderService(prisma, repository, inventoryService, notificationService);
 const controller = new OrderController(service);
 
 /* ================================================================

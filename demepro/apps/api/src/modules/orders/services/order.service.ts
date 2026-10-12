@@ -17,6 +17,7 @@ import type {
   CancelOrderDto,
   DeliverOrderDto,
 } from "../dtos/order.dto";
+import { NotificationService } from "../../notifications/services/notification.service";
 
 /* ================================================================
  * TYPES
@@ -40,6 +41,7 @@ export class OrderService {
     private readonly prisma: PrismaClient,
     private readonly repository: OrderRepository,
     private readonly inventoryService: InventoryService,
+    private readonly notificationService?: NotificationService,
   ) {}
 
   /* ================================================================
@@ -252,7 +254,7 @@ export class OrderService {
     }
 
     try {
-      return await this.withSerializableRetry(() =>
+      const order =  await this.withSerializableRetry(() =>
         this.prisma.$transaction(
           async (tx) => {
             /* ----- 1. Vérifier le store ----- */
@@ -500,6 +502,15 @@ export class OrderService {
           },
         ),
       );
+
+      /* ⭐ Fire-and-forget : notifications hors transaction */
+  if (this.notificationService) {
+    void this.notificationService
+      .notifyOrderCreated(order.id)
+      .catch((err) => console.warn("[OrderService] Notification failed:", err));
+  }
+  
+  return order;
     } catch (error) {
       if (error instanceof OrderError) throw error;
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -576,7 +587,7 @@ export class OrderService {
 
   async shipOrder(orderId: string, dto: ShipOrderDto, ctx: AuthContext) {
     try {
-      return await this.withSerializableRetry(() =>
+      const updated =  await this.withSerializableRetry(() =>
         this.prisma.$transaction(
           async (tx) => {
             const order = await this.loadAuthorizedOrder(tx, orderId, ctx);
@@ -627,6 +638,14 @@ export class OrderService {
           },
         ),
       );
+
+      if (this.notificationService) {
+        void this.notificationService
+          .notifyOrderShipped(updated.id)
+          .catch((err) => console.warn("[OrderService] Ship notification failed:", err));
+      }
+      
+      return updated;
     } catch (error) {
       if (error instanceof OrderError) throw error;
       throw error;
@@ -643,7 +662,7 @@ export class OrderService {
     ctx: AuthContext,
   ) {
     try {
-      return await this.withSerializableRetry(() =>
+      const updated =  await this.withSerializableRetry(() =>
         this.prisma.$transaction(
           async (tx) => {
             const order = await this.loadAuthorizedOrder(tx, orderId, ctx);
@@ -692,6 +711,14 @@ export class OrderService {
           },
         ),
       );
+
+      if (this.notificationService) {
+        void this.notificationService
+          .notifyOrderDelivered(updated.id)
+          .catch((err) => console.warn("[OrderService] Deliver notification failed:", err));
+      }
+      
+      return updated;
     } catch (error) {
       if (error instanceof OrderError) throw error;
       throw error;
@@ -864,6 +891,12 @@ export class OrderService {
       db,
     );
 
+    /* Notification seulement si hors transaction (appel direct) */
+    if (!tx && this.notificationService) {
+      void this.notificationService
+        .notifyOrderPaid(updated.id)
+        .catch((err) => console.warn("[OrderService] Paid notification failed:", err));
+    }
     return updated;
   }
 }

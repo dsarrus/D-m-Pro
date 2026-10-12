@@ -13,6 +13,7 @@ import type {
   ResolveReportDto,
   ListReviewsQuery,
 } from "../dtos/review.dto";
+import { NotificationService } from "../../notifications/services/notification.service";
 
 /* ================================================================
  * TYPES
@@ -36,6 +37,7 @@ export class ReviewService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly repository: ReviewRepository,
+  private readonly notificationService?: NotificationService,
   ) {}
 
   /* ================================================================
@@ -156,7 +158,7 @@ export class ReviewService {
    *  - Un seul avis par commande
    */
   async createReview(dto: CreateReviewDto, ctx: AuthContext) {
-    return this.withSerializableRetry(() =>
+    const create = await  this.withSerializableRetry(() =>
       this.prisma.$transaction(
         async (tx) => {
           /* ----- 1. Charger la commande ----- */
@@ -294,6 +296,13 @@ export class ReviewService {
         },
       ),
     );
+     if (this.notificationService) {
+        void this.notificationService
+          .notifyReviewReceived(create.id)
+          .catch((err) => console.warn("[ReviewService] Notification failed:", err));
+      }
+      
+      return create;
   }
 
   /* ================================================================
@@ -305,7 +314,7 @@ export class ReviewService {
     dto: UpdateReviewDto,
     ctx: AuthContext,
   ) {
-    return this.withSerializableRetry(() =>
+    const update = await this.withSerializableRetry(() =>
       this.prisma.$transaction(
         async (tx) => {
           const review = await tx.review.findUnique({
@@ -359,6 +368,13 @@ export class ReviewService {
         },
       ),
     );
+     if (this.notificationService) {
+        void this.notificationService
+          .notifyReviewReceived(update.id)
+          .catch((err) => console.warn("[ReviewService] Notification failed:", err));
+      }
+      
+      return update;
   }
 
   /* ================================================================

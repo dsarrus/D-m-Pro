@@ -8,6 +8,7 @@ import categoryRoutes from "../modules/category/routes/category.routes";
 import verificationRoutes from "../modules/verification/routes/verification.routes";
 import orderRoutes from "../modules/orders/routes/order.routes"; 
 import addressRoutes from "../modules/address/routes/address.routes";
+import notificationRoutes from "../modules/notifications/routes/notification.routes";
 import {
   paymentOrderRouter,
   paymentWebhookRouter,
@@ -29,6 +30,7 @@ export function createApp(): Express {
   app.use("/api/v1", verificationRoutes);
   app.use("/api/v1/orders", orderRoutes); 
   app.use("/api/v1/addresses", addressRoutes);
+  app.use("/api/v1/notifications", notificationRoutes);
 
   /* Payment imbriqué sous orders */
   app.use("/api/v1/orders/:id/payment", paymentOrderRouter);
