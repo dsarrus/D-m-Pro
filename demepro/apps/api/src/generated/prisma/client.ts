@@ -97,6 +97,11 @@ export type Verification = Prisma.VerificationModel
  */
 export type Review = Prisma.ReviewModel
 /**
+ * Model ReviewReport
+ * 
+ */
+export type ReviewReport = Prisma.ReviewReportModel
+/**
  * Model Notification
  * 
  */
@@ -151,3 +156,23 @@ export type ProductImage = Prisma.ProductImageModel
  * 
  */
 export type IdempotencyKey = Prisma.IdempotencyKeyModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderItem
+ * 
+ */
+export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model OrderStatusHistory
+ * 
+ */
+export type OrderStatusHistory = Prisma.OrderStatusHistoryModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel

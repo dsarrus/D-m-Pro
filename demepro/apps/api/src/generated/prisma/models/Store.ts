@@ -27,11 +27,15 @@ export type AggregateStore = {
 }
 
 export type StoreAvgAggregateOutputType = {
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
   latitude: runtime.Decimal | null
   longitude: runtime.Decimal | null
 }
 
 export type StoreSumAggregateOutputType = {
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
   latitude: runtime.Decimal | null
   longitude: runtime.Decimal | null
 }
@@ -45,6 +49,8 @@ export type StoreMinAggregateOutputType = {
   logoKey: string | null
   bannerKey: string | null
   status: $Enums.StoreStatus | null
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
   latitude: runtime.Decimal | null
   longitude: runtime.Decimal | null
   createdAt: Date | null
@@ -60,6 +66,8 @@ export type StoreMaxAggregateOutputType = {
   logoKey: string | null
   bannerKey: string | null
   status: $Enums.StoreStatus | null
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
   latitude: runtime.Decimal | null
   longitude: runtime.Decimal | null
   createdAt: Date | null
@@ -75,6 +83,8 @@ export type StoreCountAggregateOutputType = {
   logoKey: number
   bannerKey: number
   status: number
+  ratingAverage: number
+  ratingCount: number
   latitude: number
   longitude: number
   createdAt: number
@@ -84,11 +94,15 @@ export type StoreCountAggregateOutputType = {
 
 
 export type StoreAvgAggregateInputType = {
+  ratingAverage?: true
+  ratingCount?: true
   latitude?: true
   longitude?: true
 }
 
 export type StoreSumAggregateInputType = {
+  ratingAverage?: true
+  ratingCount?: true
   latitude?: true
   longitude?: true
 }
@@ -102,6 +116,8 @@ export type StoreMinAggregateInputType = {
   logoKey?: true
   bannerKey?: true
   status?: true
+  ratingAverage?: true
+  ratingCount?: true
   latitude?: true
   longitude?: true
   createdAt?: true
@@ -117,6 +133,8 @@ export type StoreMaxAggregateInputType = {
   logoKey?: true
   bannerKey?: true
   status?: true
+  ratingAverage?: true
+  ratingCount?: true
   latitude?: true
   longitude?: true
   createdAt?: true
@@ -132,6 +150,8 @@ export type StoreCountAggregateInputType = {
   logoKey?: true
   bannerKey?: true
   status?: true
+  ratingAverage?: true
+  ratingCount?: true
   latitude?: true
   longitude?: true
   createdAt?: true
@@ -234,6 +254,8 @@ export type StoreGroupByOutputType = {
   logoKey: string | null
   bannerKey: string | null
   status: $Enums.StoreStatus
+  ratingAverage: runtime.Decimal
+  ratingCount: number
   latitude: runtime.Decimal | null
   longitude: runtime.Decimal | null
   createdAt: Date
@@ -272,12 +294,16 @@ export type StoreWhereInput = {
   logoKey?: Prisma.StringNullableFilter<"Store"> | string | null
   bannerKey?: Prisma.StringNullableFilter<"Store"> | string | null
   status?: Prisma.EnumStoreStatusFilter<"Store"> | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFilter<"Store"> | number
   latitude?: Prisma.DecimalNullableFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.DecimalNullableFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
   products?: Prisma.ProductListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type StoreOrderByWithRelationInput = {
@@ -289,12 +315,16 @@ export type StoreOrderByWithRelationInput = {
   logoKey?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerKey?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   professional?: Prisma.ProfessionalProfileOrderByWithRelationInput
   products?: Prisma.ProductOrderByRelationAggregateInput
+  orders?: Prisma.OrderOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -309,12 +339,16 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   logoKey?: Prisma.StringNullableFilter<"Store"> | string | null
   bannerKey?: Prisma.StringNullableFilter<"Store"> | string | null
   status?: Prisma.EnumStoreStatusFilter<"Store"> | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFilter<"Store"> | number
   latitude?: Prisma.DecimalNullableFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.DecimalNullableFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
   products?: Prisma.ProductListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }, "id" | "professionalId" | "slug">
 
 export type StoreOrderByWithAggregationInput = {
@@ -326,6 +360,8 @@ export type StoreOrderByWithAggregationInput = {
   logoKey?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerKey?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -349,6 +385,8 @@ export type StoreScalarWhereWithAggregatesInput = {
   logoKey?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   bannerKey?: Prisma.StringNullableWithAggregatesFilter<"Store"> | string | null
   status?: Prisma.EnumStoreStatusWithAggregatesFilter<"Store"> | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalWithAggregatesFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntWithAggregatesFilter<"Store"> | number
   latitude?: Prisma.DecimalNullableWithAggregatesFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.DecimalNullableWithAggregatesFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Store"> | Date | string
@@ -363,12 +401,16 @@ export type StoreCreateInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   professional: Prisma.ProfessionalProfileCreateNestedOneWithoutStoresInput
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateInput = {
@@ -380,11 +422,15 @@ export type StoreUncheckedCreateInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUpdateInput = {
@@ -395,12 +441,16 @@ export type StoreUpdateInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutStoresNestedInput
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateInput = {
@@ -412,11 +462,15 @@ export type StoreUncheckedUpdateInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyInput = {
@@ -428,6 +482,8 @@ export type StoreCreateManyInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
@@ -442,6 +498,8 @@ export type StoreUpdateManyMutationInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -457,6 +515,8 @@ export type StoreUncheckedUpdateManyInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -473,6 +533,11 @@ export type StoreOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StoreNullableScalarRelationFilter = {
+  is?: Prisma.StoreWhereInput | null
+  isNot?: Prisma.StoreWhereInput | null
+}
+
 export type StoreCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   professionalId?: Prisma.SortOrder
@@ -482,6 +547,8 @@ export type StoreCountOrderByAggregateInput = {
   logoKey?: Prisma.SortOrder
   bannerKey?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -489,6 +556,8 @@ export type StoreCountOrderByAggregateInput = {
 }
 
 export type StoreAvgOrderByAggregateInput = {
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
 }
@@ -502,6 +571,8 @@ export type StoreMaxOrderByAggregateInput = {
   logoKey?: Prisma.SortOrder
   bannerKey?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -517,6 +588,8 @@ export type StoreMinOrderByAggregateInput = {
   logoKey?: Prisma.SortOrder
   bannerKey?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -524,6 +597,8 @@ export type StoreMinOrderByAggregateInput = {
 }
 
 export type StoreSumOrderByAggregateInput = {
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
 }
@@ -575,6 +650,22 @@ export type StoreUncheckedUpdateManyWithoutProfessionalNestedInput = {
   deleteMany?: Prisma.StoreScalarWhereInput | Prisma.StoreScalarWhereInput[]
 }
 
+export type StoreCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutReviewsInput, Prisma.StoreUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutReviewsInput, Prisma.StoreUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.StoreUpsertWithoutReviewsInput
+  disconnect?: Prisma.StoreWhereInput | boolean
+  delete?: Prisma.StoreWhereInput | boolean
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutReviewsInput, Prisma.StoreUpdateWithoutReviewsInput>, Prisma.StoreUncheckedUpdateWithoutReviewsInput>
+}
+
 export type EnumStoreStatusFieldUpdateOperationsInput = {
   set?: $Enums.StoreStatus
 }
@@ -593,6 +684,20 @@ export type StoreUpdateOneRequiredWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutProductsInput, Prisma.StoreUpdateWithoutProductsInput>, Prisma.StoreUncheckedUpdateWithoutProductsInput>
 }
 
+export type StoreCreateNestedOneWithoutOrdersInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutOrdersInput, Prisma.StoreUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutOrdersInput
+  connect?: Prisma.StoreWhereUniqueInput
+}
+
+export type StoreUpdateOneRequiredWithoutOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.StoreCreateWithoutOrdersInput, Prisma.StoreUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutOrdersInput
+  upsert?: Prisma.StoreUpsertWithoutOrdersInput
+  connect?: Prisma.StoreWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutOrdersInput, Prisma.StoreUpdateWithoutOrdersInput>, Prisma.StoreUncheckedUpdateWithoutOrdersInput>
+}
+
 export type StoreCreateWithoutProfessionalInput = {
   id?: string
   name: string
@@ -601,11 +706,15 @@ export type StoreCreateWithoutProfessionalInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCreateNestedManyWithoutStoreInput
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutProfessionalInput = {
@@ -616,11 +725,15 @@ export type StoreUncheckedCreateWithoutProfessionalInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutProfessionalInput = {
@@ -661,10 +774,104 @@ export type StoreScalarWhereInput = {
   logoKey?: Prisma.StringNullableFilter<"Store"> | string | null
   bannerKey?: Prisma.StringNullableFilter<"Store"> | string | null
   status?: Prisma.EnumStoreStatusFilter<"Store"> | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFilter<"Store"> | number
   latitude?: Prisma.DecimalNullableFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.DecimalNullableFilter<"Store"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"Store"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Store"> | Date | string
+}
+
+export type StoreCreateWithoutReviewsInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  logoKey?: string | null
+  bannerKey?: string | null
+  status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutStoresInput
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  professionalId: string
+  name: string
+  slug: string
+  description?: string | null
+  logoKey?: string | null
+  bannerKey?: string | null
+  status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutReviewsInput, Prisma.StoreUncheckedCreateWithoutReviewsInput>
+}
+
+export type StoreUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutReviewsInput, Prisma.StoreUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutReviewsInput, Prisma.StoreUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutReviewsInput, Prisma.StoreUncheckedUpdateWithoutReviewsInput>
+}
+
+export type StoreUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutStoresNestedInput
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutProductsInput = {
@@ -675,11 +882,15 @@ export type StoreCreateWithoutProductsInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   professional: Prisma.ProfessionalProfileCreateNestedOneWithoutStoresInput
+  orders?: Prisma.OrderCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutProductsInput = {
@@ -691,10 +902,14 @@ export type StoreUncheckedCreateWithoutProductsInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutProductsInput = {
@@ -721,11 +936,15 @@ export type StoreUpdateWithoutProductsInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutStoresNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutProductsInput = {
@@ -737,10 +956,106 @@ export type StoreUncheckedUpdateWithoutProductsInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreCreateWithoutOrdersInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  logoKey?: string | null
+  bannerKey?: string | null
+  status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutStoresInput
+  products?: Prisma.ProductCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutStoreInput
+}
+
+export type StoreUncheckedCreateWithoutOrdersInput = {
+  id?: string
+  professionalId: string
+  name: string
+  slug: string
+  description?: string | null
+  logoKey?: string | null
+  bannerKey?: string | null
+  status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutStoreInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutStoreInput
+}
+
+export type StoreCreateOrConnectWithoutOrdersInput = {
+  where: Prisma.StoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.StoreCreateWithoutOrdersInput, Prisma.StoreUncheckedCreateWithoutOrdersInput>
+}
+
+export type StoreUpsertWithoutOrdersInput = {
+  update: Prisma.XOR<Prisma.StoreUpdateWithoutOrdersInput, Prisma.StoreUncheckedUpdateWithoutOrdersInput>
+  create: Prisma.XOR<Prisma.StoreCreateWithoutOrdersInput, Prisma.StoreUncheckedCreateWithoutOrdersInput>
+  where?: Prisma.StoreWhereInput
+}
+
+export type StoreUpdateToOneWithWhereWithoutOrdersInput = {
+  where?: Prisma.StoreWhereInput
+  data: Prisma.XOR<Prisma.StoreUpdateWithoutOrdersInput, Prisma.StoreUncheckedUpdateWithoutOrdersInput>
+}
+
+export type StoreUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutStoresNestedInput
+  products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
+}
+
+export type StoreUncheckedUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyProfessionalInput = {
@@ -751,6 +1066,8 @@ export type StoreCreateManyProfessionalInput = {
   logoKey?: string | null
   bannerKey?: string | null
   status?: $Enums.StoreStatus
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
@@ -765,11 +1082,15 @@ export type StoreUpdateWithoutProfessionalInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUpdateManyWithoutStoreNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutProfessionalInput = {
@@ -780,11 +1101,15 @@ export type StoreUncheckedUpdateWithoutProfessionalInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutStoreNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutStoreNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateManyWithoutProfessionalInput = {
@@ -795,6 +1120,8 @@ export type StoreUncheckedUpdateManyWithoutProfessionalInput = {
   logoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStoreStatusFieldUpdateOperationsInput | $Enums.StoreStatus
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -808,10 +1135,14 @@ export type StoreUncheckedUpdateManyWithoutProfessionalInput = {
 
 export type StoreCountOutputType = {
   products: number
+  orders: number
+  reviews: number
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | StoreCountOutputTypeCountProductsArgs
+  orders?: boolean | StoreCountOutputTypeCountOrdersArgs
+  reviews?: boolean | StoreCountOutputTypeCountReviewsArgs
 }
 
 /**
@@ -831,6 +1162,20 @@ export type StoreCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.ProductWhereInput
 }
 
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
+
+/**
+ * StoreCountOutputType without action
+ */
+export type StoreCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
 
 export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -841,12 +1186,16 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   logoKey?: boolean
   bannerKey?: boolean
   status?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   latitude?: boolean
   longitude?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Store$productsArgs<ExtArgs>
+  orders?: boolean | Prisma.Store$ordersArgs<ExtArgs>
+  reviews?: boolean | Prisma.Store$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["store"]>
 
@@ -859,6 +1208,8 @@ export type StoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   logoKey?: boolean
   bannerKey?: boolean
   status?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   latitude?: boolean
   longitude?: boolean
   createdAt?: boolean
@@ -875,6 +1226,8 @@ export type StoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   logoKey?: boolean
   bannerKey?: boolean
   status?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   latitude?: boolean
   longitude?: boolean
   createdAt?: boolean
@@ -891,16 +1244,20 @@ export type StoreSelectScalar = {
   logoKey?: boolean
   bannerKey?: boolean
   status?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   latitude?: boolean
   longitude?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "professionalId" | "name" | "slug" | "description" | "logoKey" | "bannerKey" | "status" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+export type StoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "professionalId" | "name" | "slug" | "description" | "logoKey" | "bannerKey" | "status" | "ratingAverage" | "ratingCount" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
 export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Store$productsArgs<ExtArgs>
+  orders?: boolean | Prisma.Store$ordersArgs<ExtArgs>
+  reviews?: boolean | Prisma.Store$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -915,6 +1272,8 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   objects: {
     professional: Prisma.$ProfessionalProfilePayload<ExtArgs>
     products: Prisma.$ProductPayload<ExtArgs>[]
+    orders: Prisma.$OrderPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -925,6 +1284,8 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     logoKey: string | null
     bannerKey: string | null
     status: $Enums.StoreStatus
+    ratingAverage: runtime.Decimal
+    ratingCount: number
     latitude: runtime.Decimal | null
     longitude: runtime.Decimal | null
     createdAt: Date
@@ -1325,6 +1686,8 @@ export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Ty
   readonly [Symbol.toStringTag]: "PrismaPromise"
   professional<T extends Prisma.ProfessionalProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfessionalProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfessionalProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   products<T extends Prisma.Store$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orders<T extends Prisma.Store$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Store$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1362,6 +1725,8 @@ export interface StoreFieldRefs {
   readonly logoKey: Prisma.FieldRef<"Store", 'String'>
   readonly bannerKey: Prisma.FieldRef<"Store", 'String'>
   readonly status: Prisma.FieldRef<"Store", 'StoreStatus'>
+  readonly ratingAverage: Prisma.FieldRef<"Store", 'Decimal'>
+  readonly ratingCount: Prisma.FieldRef<"Store", 'Int'>
   readonly latitude: Prisma.FieldRef<"Store", 'Decimal'>
   readonly longitude: Prisma.FieldRef<"Store", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"Store", 'DateTime'>
@@ -1788,6 +2153,54 @@ export type Store$productsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.ProductScalarFieldEnum | Prisma.ProductScalarFieldEnum[]
+}
+
+/**
+ * Store.orders
+ */
+export type Store$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
+}
+
+/**
+ * Store.reviews
+ */
+export type Store$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

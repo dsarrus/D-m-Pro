@@ -62,6 +62,7 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   Verification: 'Verification',
   Review: 'Review',
+  ReviewReport: 'ReviewReport',
   Notification: 'Notification',
   AuditLog: 'AuditLog',
   Vertical: 'Vertical',
@@ -72,7 +73,11 @@ export const ModelName = {
   ProductVariant: 'ProductVariant',
   Inventory: 'Inventory',
   ProductImage: 'ProductImage',
-  IdempotencyKey: 'IdempotencyKey'
+  IdempotencyKey: 'IdempotencyKey',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
+  OrderStatusHistory: 'OrderStatusHistory',
+  Payment: 'Payment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -243,12 +248,35 @@ export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[k
 export const ReviewScalarFieldEnum = {
   id: 'id',
   authorId: 'authorId',
+  productId: 'productId',
+  variantId: 'variantId',
+  storeId: 'storeId',
+  professionalId: 'professionalId',
+  orderId: 'orderId',
   rating: 'rating',
   comment: 'comment',
-  createdAt: 'createdAt'
+  isVerifiedPurchase: 'isVerifiedPurchase',
+  status: 'status',
+  isVisible: 'isVisible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const ReviewReportScalarFieldEnum = {
+  id: 'id',
+  reviewId: 'reviewId',
+  reporterId: 'reporterId',
+  reason: 'reason',
+  status: 'status',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy',
+  createdAt: 'createdAt'
+} as const
+
+export type ReviewReportScalarFieldEnum = (typeof ReviewReportScalarFieldEnum)[keyof typeof ReviewReportScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -322,6 +350,8 @@ export const StoreScalarFieldEnum = {
   logoKey: 'logoKey',
   bannerKey: 'bannerKey',
   status: 'status',
+  ratingAverage: 'ratingAverage',
+  ratingCount: 'ratingCount',
   latitude: 'latitude',
   longitude: 'longitude',
   createdAt: 'createdAt',
@@ -426,6 +456,74 @@ export const IdempotencyKeyScalarFieldEnum = {
 } as const
 
 export type IdempotencyKeyScalarFieldEnum = (typeof IdempotencyKeyScalarFieldEnum)[keyof typeof IdempotencyKeyScalarFieldEnum]
+
+
+export const OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  storeId: 'storeId',
+  status: 'status',
+  totalAmount: 'totalAmount',
+  currency: 'currency',
+  deliveryAddress: 'deliveryAddress',
+  deliveryFee: 'deliveryFee',
+  notes: 'notes',
+  canceledAt: 'canceledAt',
+  refundedAt: 'refundedAt',
+  shippedAt: 'shippedAt',
+  deliveredAt: 'deliveredAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const OrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  variantId: 'variantId',
+  productName: 'productName',
+  variantName: 'variantName',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  subtotal: 'subtotal',
+  createdAt: 'createdAt'
+} as const
+
+export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
+
+
+export const OrderStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  changedBy: 'changedBy',
+  reason: 'reason',
+  changedAt: 'changedAt'
+} as const
+
+export type OrderStatusHistoryScalarFieldEnum = (typeof OrderStatusHistoryScalarFieldEnum)[keyof typeof OrderStatusHistoryScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  provider: 'provider',
+  providerRef: 'providerRef',
+  paidAt: 'paidAt',
+  refundedAt: 'refundedAt',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
 export const SortOrder = {
