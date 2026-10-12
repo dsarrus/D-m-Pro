@@ -10,6 +10,7 @@ import orderRoutes from "../../src/modules/orders/routes/order.routes";
 import addressRoutes from "../../src/modules/address/routes/address.routes";
 import reviewRoutes from "../../src/modules/reviews/routes/review.routes";
 import notificationRoutes from "../../src/modules/notifications/routes/notification.routes";
+import serviceRoutes from "../../src/modules/services/routes/service.routes";
 import {
   paymentOrderRouter,
   paymentWebhookRouter,
@@ -36,6 +37,7 @@ export function createTestApp(): Express {
 app.use("/api/v1/addresses", addressRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
+app.use("/api/v1/services", serviceRoutes);
   /* Payment imbriqué sous orders */
   app.use("/api/v1/orders/:id/payment", paymentOrderRouter);
   app.use(errorHandler);

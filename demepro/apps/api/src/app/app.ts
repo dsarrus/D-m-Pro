@@ -9,6 +9,7 @@ import verificationRoutes from "../modules/verification/routes/verification.rout
 import orderRoutes from "../modules/orders/routes/order.routes"; 
 import addressRoutes from "../modules/address/routes/address.routes";
 import notificationRoutes from "../modules/notifications/routes/notification.routes";
+import serviceRoutes from "../modules/services/routes/service.routes";
 import {
   paymentOrderRouter,
   paymentWebhookRouter,
@@ -31,6 +32,7 @@ export function createApp(): Express {
   app.use("/api/v1/orders", orderRoutes); 
   app.use("/api/v1/addresses", addressRoutes);
   app.use("/api/v1/notifications", notificationRoutes);
+  app.use("/api/v1/services", serviceRoutes);
 
   /* Payment imbriqué sous orders */
   app.use("/api/v1/orders/:id/payment", paymentOrderRouter);

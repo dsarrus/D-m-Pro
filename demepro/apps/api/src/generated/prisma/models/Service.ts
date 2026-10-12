@@ -27,13 +27,17 @@ export type AggregateService = {
 }
 
 export type ServiceAvgAggregateOutputType = {
-  price: runtime.Decimal | null
+  basePrice: runtime.Decimal | null
   durationMin: number | null
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
 }
 
 export type ServiceSumAggregateOutputType = {
-  price: runtime.Decimal | null
+  basePrice: runtime.Decimal | null
   durationMin: number | null
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
 }
 
 export type ServiceMinAggregateOutputType = {
@@ -43,12 +47,13 @@ export type ServiceMinAggregateOutputType = {
   name: string | null
   slug: string | null
   description: string | null
-  pricingType: $Enums.PricingType | null
-  price: runtime.Decimal | null
+  pricingModel: $Enums.PricingModel | null
+  basePrice: runtime.Decimal | null
   currency: string | null
   status: $Enums.ServiceStatus | null
   durationMin: number | null
-  imageKey: string | null
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,12 +65,13 @@ export type ServiceMaxAggregateOutputType = {
   name: string | null
   slug: string | null
   description: string | null
-  pricingType: $Enums.PricingType | null
-  price: runtime.Decimal | null
+  pricingModel: $Enums.PricingModel | null
+  basePrice: runtime.Decimal | null
   currency: string | null
   status: $Enums.ServiceStatus | null
   durationMin: number | null
-  imageKey: string | null
+  ratingAverage: runtime.Decimal | null
+  ratingCount: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -77,12 +83,13 @@ export type ServiceCountAggregateOutputType = {
   name: number
   slug: number
   description: number
-  pricingType: number
-  price: number
+  pricingModel: number
+  basePrice: number
   currency: number
   status: number
   durationMin: number
-  imageKey: number
+  ratingAverage: number
+  ratingCount: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -90,13 +97,17 @@ export type ServiceCountAggregateOutputType = {
 
 
 export type ServiceAvgAggregateInputType = {
-  price?: true
+  basePrice?: true
   durationMin?: true
+  ratingAverage?: true
+  ratingCount?: true
 }
 
 export type ServiceSumAggregateInputType = {
-  price?: true
+  basePrice?: true
   durationMin?: true
+  ratingAverage?: true
+  ratingCount?: true
 }
 
 export type ServiceMinAggregateInputType = {
@@ -106,12 +117,13 @@ export type ServiceMinAggregateInputType = {
   name?: true
   slug?: true
   description?: true
-  pricingType?: true
-  price?: true
+  pricingModel?: true
+  basePrice?: true
   currency?: true
   status?: true
   durationMin?: true
-  imageKey?: true
+  ratingAverage?: true
+  ratingCount?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -123,12 +135,13 @@ export type ServiceMaxAggregateInputType = {
   name?: true
   slug?: true
   description?: true
-  pricingType?: true
-  price?: true
+  pricingModel?: true
+  basePrice?: true
   currency?: true
   status?: true
   durationMin?: true
-  imageKey?: true
+  ratingAverage?: true
+  ratingCount?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -140,12 +153,13 @@ export type ServiceCountAggregateInputType = {
   name?: true
   slug?: true
   description?: true
-  pricingType?: true
-  price?: true
+  pricingModel?: true
+  basePrice?: true
   currency?: true
   status?: true
   durationMin?: true
-  imageKey?: true
+  ratingAverage?: true
+  ratingCount?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -244,12 +258,13 @@ export type ServiceGroupByOutputType = {
   name: string
   slug: string
   description: string | null
-  pricingType: $Enums.PricingType
-  price: runtime.Decimal | null
+  pricingModel: $Enums.PricingModel
+  basePrice: runtime.Decimal | null
   currency: string
   status: $Enums.ServiceStatus
   durationMin: number | null
-  imageKey: string | null
+  ratingAverage: runtime.Decimal
+  ratingCount: number
   createdAt: Date
   updatedAt: Date
   _count: ServiceCountAggregateOutputType | null
@@ -284,16 +299,23 @@ export type ServiceWhereInput = {
   name?: Prisma.StringFilter<"Service"> | string
   slug?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringNullableFilter<"Service"> | string | null
-  pricingType?: Prisma.EnumPricingTypeFilter<"Service"> | $Enums.PricingType
-  price?: Prisma.DecimalNullableFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFilter<"Service"> | $Enums.PricingModel
+  basePrice?: Prisma.DecimalNullableFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFilter<"Service"> | string
   status?: Prisma.EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
   durationMin?: Prisma.IntNullableFilter<"Service"> | number | null
-  imageKey?: Prisma.StringNullableFilter<"Service"> | string | null
+  ratingAverage?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFilter<"Service"> | number
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
+  images?: Prisma.ServiceImageListRelationFilter
+  zones?: Prisma.ServiceZoneListRelationFilter
+  availabilities?: Prisma.AvailabilityListRelationFilter
+  quotes?: Prisma.QuoteListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }
 
 export type ServiceOrderByWithRelationInput = {
@@ -303,16 +325,23 @@ export type ServiceOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  pricingType?: Prisma.SortOrder
-  price?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrderInput | Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   durationMin?: Prisma.SortOrderInput | Prisma.SortOrder
-  imageKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   professional?: Prisma.ProfessionalProfileOrderByWithRelationInput
   category?: Prisma.CategoryOrderByWithRelationInput
+  images?: Prisma.ServiceImageOrderByRelationAggregateInput
+  zones?: Prisma.ServiceZoneOrderByRelationAggregateInput
+  availabilities?: Prisma.AvailabilityOrderByRelationAggregateInput
+  quotes?: Prisma.QuoteOrderByRelationAggregateInput
+  bookings?: Prisma.BookingOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
 }
 
 export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -326,16 +355,23 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Service"> | string
   slug?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringNullableFilter<"Service"> | string | null
-  pricingType?: Prisma.EnumPricingTypeFilter<"Service"> | $Enums.PricingType
-  price?: Prisma.DecimalNullableFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFilter<"Service"> | $Enums.PricingModel
+  basePrice?: Prisma.DecimalNullableFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFilter<"Service"> | string
   status?: Prisma.EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
   durationMin?: Prisma.IntNullableFilter<"Service"> | number | null
-  imageKey?: Prisma.StringNullableFilter<"Service"> | string | null
+  ratingAverage?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFilter<"Service"> | number
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
+  images?: Prisma.ServiceImageListRelationFilter
+  zones?: Prisma.ServiceZoneListRelationFilter
+  availabilities?: Prisma.AvailabilityListRelationFilter
+  quotes?: Prisma.QuoteListRelationFilter
+  bookings?: Prisma.BookingListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
 }, "id" | "professionalId_slug">
 
 export type ServiceOrderByWithAggregationInput = {
@@ -345,12 +381,13 @@ export type ServiceOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  pricingType?: Prisma.SortOrder
-  price?: Prisma.SortOrderInput | Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrderInput | Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   durationMin?: Prisma.SortOrderInput | Prisma.SortOrder
-  imageKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ServiceCountOrderByAggregateInput
@@ -370,12 +407,13 @@ export type ServiceScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Service"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Service"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
-  pricingType?: Prisma.EnumPricingTypeWithAggregatesFilter<"Service"> | $Enums.PricingType
-  price?: Prisma.DecimalNullableWithAggregatesFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelWithAggregatesFilter<"Service"> | $Enums.PricingModel
+  basePrice?: Prisma.DecimalNullableWithAggregatesFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringWithAggregatesFilter<"Service"> | string
   status?: Prisma.EnumServiceStatusWithAggregatesFilter<"Service"> | $Enums.ServiceStatus
   durationMin?: Prisma.IntNullableWithAggregatesFilter<"Service"> | number | null
-  imageKey?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
+  ratingAverage?: Prisma.DecimalWithAggregatesFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntWithAggregatesFilter<"Service"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
 }
@@ -385,16 +423,23 @@ export type ServiceCreateInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
   category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceUncheckedCreateInput = {
@@ -404,14 +449,21 @@ export type ServiceUncheckedCreateInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceUpdateInput = {
@@ -419,16 +471,23 @@ export type ServiceUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
   category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceUncheckedUpdateInput = {
@@ -438,14 +497,21 @@ export type ServiceUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceCreateManyInput = {
@@ -455,12 +521,13 @@ export type ServiceCreateManyInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -470,12 +537,13 @@ export type ServiceUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -487,12 +555,13 @@ export type ServiceUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -507,6 +576,11 @@ export type ServiceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ServiceNullableScalarRelationFilter = {
+  is?: Prisma.ServiceWhereInput | null
+  isNot?: Prisma.ServiceWhereInput | null
+}
+
 export type ServiceProfessionalIdSlugCompoundUniqueInput = {
   professionalId: string
   slug: string
@@ -519,19 +593,22 @@ export type ServiceCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  pricingType?: Prisma.SortOrder
-  price?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   durationMin?: Prisma.SortOrder
-  imageKey?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ServiceAvgOrderByAggregateInput = {
-  price?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrder
   durationMin?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
 }
 
 export type ServiceMaxOrderByAggregateInput = {
@@ -541,12 +618,13 @@ export type ServiceMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  pricingType?: Prisma.SortOrder
-  price?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   durationMin?: Prisma.SortOrder
-  imageKey?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -558,19 +636,27 @@ export type ServiceMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  pricingType?: Prisma.SortOrder
-  price?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
   durationMin?: Prisma.SortOrder
-  imageKey?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ServiceSumOrderByAggregateInput = {
-  price?: Prisma.SortOrder
+  basePrice?: Prisma.SortOrder
   durationMin?: Prisma.SortOrder
+  ratingAverage?: Prisma.SortOrder
+  ratingCount?: Prisma.SortOrder
+}
+
+export type ServiceScalarRelationFilter = {
+  is?: Prisma.ServiceWhereInput
+  isNot?: Prisma.ServiceWhereInput
 }
 
 export type ServiceCreateNestedManyWithoutProfessionalInput = {
@@ -615,6 +701,22 @@ export type ServiceUncheckedUpdateManyWithoutProfessionalNestedInput = {
   deleteMany?: Prisma.ServiceScalarWhereInput | Prisma.ServiceScalarWhereInput[]
 }
 
+export type ServiceCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutReviewsInput, Prisma.ServiceUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutReviewsInput, Prisma.ServiceUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.ServiceUpsertWithoutReviewsInput
+  disconnect?: Prisma.ServiceWhereInput | boolean
+  delete?: Prisma.ServiceWhereInput | boolean
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutReviewsInput, Prisma.ServiceUpdateWithoutReviewsInput>, Prisma.ServiceUncheckedUpdateWithoutReviewsInput>
+}
+
 export type ServiceCreateNestedManyWithoutCategoryInput = {
   create?: Prisma.XOR<Prisma.ServiceCreateWithoutCategoryInput, Prisma.ServiceUncheckedCreateWithoutCategoryInput> | Prisma.ServiceCreateWithoutCategoryInput[] | Prisma.ServiceUncheckedCreateWithoutCategoryInput[]
   connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutCategoryInput | Prisma.ServiceCreateOrConnectWithoutCategoryInput[]
@@ -657,12 +759,82 @@ export type ServiceUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.ServiceScalarWhereInput | Prisma.ServiceScalarWhereInput[]
 }
 
-export type EnumPricingTypeFieldUpdateOperationsInput = {
-  set?: $Enums.PricingType
+export type EnumPricingModelFieldUpdateOperationsInput = {
+  set?: $Enums.PricingModel
 }
 
 export type EnumServiceStatusFieldUpdateOperationsInput = {
   set?: $Enums.ServiceStatus
+}
+
+export type ServiceCreateNestedOneWithoutImagesInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutImagesInput, Prisma.ServiceUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutImagesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneRequiredWithoutImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutImagesInput, Prisma.ServiceUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutImagesInput
+  upsert?: Prisma.ServiceUpsertWithoutImagesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutImagesInput, Prisma.ServiceUpdateWithoutImagesInput>, Prisma.ServiceUncheckedUpdateWithoutImagesInput>
+}
+
+export type ServiceCreateNestedOneWithoutZonesInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutZonesInput, Prisma.ServiceUncheckedCreateWithoutZonesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutZonesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneRequiredWithoutZonesNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutZonesInput, Prisma.ServiceUncheckedCreateWithoutZonesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutZonesInput
+  upsert?: Prisma.ServiceUpsertWithoutZonesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutZonesInput, Prisma.ServiceUpdateWithoutZonesInput>, Prisma.ServiceUncheckedUpdateWithoutZonesInput>
+}
+
+export type ServiceCreateNestedOneWithoutAvailabilitiesInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutAvailabilitiesInput, Prisma.ServiceUncheckedCreateWithoutAvailabilitiesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutAvailabilitiesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneRequiredWithoutAvailabilitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutAvailabilitiesInput, Prisma.ServiceUncheckedCreateWithoutAvailabilitiesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutAvailabilitiesInput
+  upsert?: Prisma.ServiceUpsertWithoutAvailabilitiesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutAvailabilitiesInput, Prisma.ServiceUpdateWithoutAvailabilitiesInput>, Prisma.ServiceUncheckedUpdateWithoutAvailabilitiesInput>
+}
+
+export type ServiceCreateNestedOneWithoutQuotesInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutQuotesInput, Prisma.ServiceUncheckedCreateWithoutQuotesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutQuotesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneRequiredWithoutQuotesNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutQuotesInput, Prisma.ServiceUncheckedCreateWithoutQuotesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutQuotesInput
+  upsert?: Prisma.ServiceUpsertWithoutQuotesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutQuotesInput, Prisma.ServiceUpdateWithoutQuotesInput>, Prisma.ServiceUncheckedUpdateWithoutQuotesInput>
+}
+
+export type ServiceCreateNestedOneWithoutBookingsInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutBookingsInput, Prisma.ServiceUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutBookingsInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneRequiredWithoutBookingsNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutBookingsInput, Prisma.ServiceUncheckedCreateWithoutBookingsInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutBookingsInput
+  upsert?: Prisma.ServiceUpsertWithoutBookingsInput
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutBookingsInput, Prisma.ServiceUpdateWithoutBookingsInput>, Prisma.ServiceUncheckedUpdateWithoutBookingsInput>
 }
 
 export type ServiceCreateWithoutProfessionalInput = {
@@ -670,15 +842,22 @@ export type ServiceCreateWithoutProfessionalInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceUncheckedCreateWithoutProfessionalInput = {
@@ -687,14 +866,21 @@ export type ServiceUncheckedCreateWithoutProfessionalInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceCreateOrConnectWithoutProfessionalInput = {
@@ -733,14 +919,123 @@ export type ServiceScalarWhereInput = {
   name?: Prisma.StringFilter<"Service"> | string
   slug?: Prisma.StringFilter<"Service"> | string
   description?: Prisma.StringNullableFilter<"Service"> | string | null
-  pricingType?: Prisma.EnumPricingTypeFilter<"Service"> | $Enums.PricingType
-  price?: Prisma.DecimalNullableFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFilter<"Service"> | $Enums.PricingModel
+  basePrice?: Prisma.DecimalNullableFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFilter<"Service"> | string
   status?: Prisma.EnumServiceStatusFilter<"Service"> | $Enums.ServiceStatus
   durationMin?: Prisma.IntNullableFilter<"Service"> | number | null
-  imageKey?: Prisma.StringNullableFilter<"Service"> | string | null
+  ratingAverage?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFilter<"Service"> | number
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
+}
+
+export type ServiceCreateWithoutReviewsInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  professionalId: string
+  categoryId: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutReviewsInput, Prisma.ServiceUncheckedCreateWithoutReviewsInput>
+}
+
+export type ServiceUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutReviewsInput, Prisma.ServiceUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutReviewsInput, Prisma.ServiceUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutReviewsInput, Prisma.ServiceUncheckedUpdateWithoutReviewsInput>
+}
+
+export type ServiceUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceCreateWithoutCategoryInput = {
@@ -748,15 +1043,22 @@ export type ServiceCreateWithoutCategoryInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceUncheckedCreateWithoutCategoryInput = {
@@ -765,14 +1067,21 @@ export type ServiceUncheckedCreateWithoutCategoryInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceCreateOrConnectWithoutCategoryInput = {
@@ -801,18 +1110,559 @@ export type ServiceUpdateManyWithWhereWithoutCategoryInput = {
   data: Prisma.XOR<Prisma.ServiceUpdateManyMutationInput, Prisma.ServiceUncheckedUpdateManyWithoutCategoryInput>
 }
 
+export type ServiceCreateWithoutImagesInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceUncheckedCreateWithoutImagesInput = {
+  id?: string
+  professionalId: string
+  categoryId: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceCreateOrConnectWithoutImagesInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutImagesInput, Prisma.ServiceUncheckedCreateWithoutImagesInput>
+}
+
+export type ServiceUpsertWithoutImagesInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutImagesInput, Prisma.ServiceUncheckedUpdateWithoutImagesInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutImagesInput, Prisma.ServiceUncheckedCreateWithoutImagesInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutImagesInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutImagesInput, Prisma.ServiceUncheckedUpdateWithoutImagesInput>
+}
+
+export type ServiceUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceUncheckedUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceCreateWithoutZonesInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceUncheckedCreateWithoutZonesInput = {
+  id?: string
+  professionalId: string
+  categoryId: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceCreateOrConnectWithoutZonesInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutZonesInput, Prisma.ServiceUncheckedCreateWithoutZonesInput>
+}
+
+export type ServiceUpsertWithoutZonesInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutZonesInput, Prisma.ServiceUncheckedUpdateWithoutZonesInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutZonesInput, Prisma.ServiceUncheckedCreateWithoutZonesInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutZonesInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutZonesInput, Prisma.ServiceUncheckedUpdateWithoutZonesInput>
+}
+
+export type ServiceUpdateWithoutZonesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceUncheckedUpdateWithoutZonesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceCreateWithoutAvailabilitiesInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceUncheckedCreateWithoutAvailabilitiesInput = {
+  id?: string
+  professionalId: string
+  categoryId: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceCreateOrConnectWithoutAvailabilitiesInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutAvailabilitiesInput, Prisma.ServiceUncheckedCreateWithoutAvailabilitiesInput>
+}
+
+export type ServiceUpsertWithoutAvailabilitiesInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutAvailabilitiesInput, Prisma.ServiceUncheckedUpdateWithoutAvailabilitiesInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutAvailabilitiesInput, Prisma.ServiceUncheckedCreateWithoutAvailabilitiesInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutAvailabilitiesInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutAvailabilitiesInput, Prisma.ServiceUncheckedUpdateWithoutAvailabilitiesInput>
+}
+
+export type ServiceUpdateWithoutAvailabilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceUncheckedUpdateWithoutAvailabilitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceCreateWithoutQuotesInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceUncheckedCreateWithoutQuotesInput = {
+  id?: string
+  professionalId: string
+  categoryId: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceCreateOrConnectWithoutQuotesInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutQuotesInput, Prisma.ServiceUncheckedCreateWithoutQuotesInput>
+}
+
+export type ServiceUpsertWithoutQuotesInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutQuotesInput, Prisma.ServiceUncheckedUpdateWithoutQuotesInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutQuotesInput, Prisma.ServiceUncheckedCreateWithoutQuotesInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutQuotesInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutQuotesInput, Prisma.ServiceUncheckedUpdateWithoutQuotesInput>
+}
+
+export type ServiceUpdateWithoutQuotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceUncheckedUpdateWithoutQuotesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceCreateWithoutBookingsInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutServicesInput
+  category: Prisma.CategoryCreateNestedOneWithoutServicesInput
+  images?: Prisma.ServiceImageCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceUncheckedCreateWithoutBookingsInput = {
+  id?: string
+  professionalId: string
+  categoryId: string
+  name: string
+  slug: string
+  description?: string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: string
+  status?: $Enums.ServiceStatus
+  durationMin?: number | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  images?: Prisma.ServiceImageUncheckedCreateNestedManyWithoutServiceInput
+  zones?: Prisma.ServiceZoneUncheckedCreateNestedManyWithoutServiceInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutServiceInput
+  quotes?: Prisma.QuoteUncheckedCreateNestedManyWithoutServiceInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutServiceInput
+}
+
+export type ServiceCreateOrConnectWithoutBookingsInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutBookingsInput, Prisma.ServiceUncheckedCreateWithoutBookingsInput>
+}
+
+export type ServiceUpsertWithoutBookingsInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutBookingsInput, Prisma.ServiceUncheckedUpdateWithoutBookingsInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutBookingsInput, Prisma.ServiceUncheckedCreateWithoutBookingsInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutBookingsInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutBookingsInput, Prisma.ServiceUncheckedUpdateWithoutBookingsInput>
+}
+
+export type ServiceUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
+}
+
+export type ServiceUncheckedUpdateWithoutBookingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
+  durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
+}
+
 export type ServiceCreateManyProfessionalInput = {
   id?: string
   categoryId: string
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -822,15 +1672,22 @@ export type ServiceUpdateWithoutProfessionalInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceUncheckedUpdateWithoutProfessionalInput = {
@@ -839,14 +1696,21 @@ export type ServiceUncheckedUpdateWithoutProfessionalInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceUncheckedUpdateManyWithoutProfessionalInput = {
@@ -855,12 +1719,13 @@ export type ServiceUncheckedUpdateManyWithoutProfessionalInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -871,12 +1736,13 @@ export type ServiceCreateManyCategoryInput = {
   name: string
   slug: string
   description?: string | null
-  pricingType?: $Enums.PricingType
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: $Enums.PricingModel
+  basePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
   status?: $Enums.ServiceStatus
   durationMin?: number | null
-  imageKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -886,15 +1752,22 @@ export type ServiceUpdateWithoutCategoryInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput
+  images?: Prisma.ServiceImageUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceUncheckedUpdateWithoutCategoryInput = {
@@ -903,14 +1776,21 @@ export type ServiceUncheckedUpdateWithoutCategoryInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.ServiceImageUncheckedUpdateManyWithoutServiceNestedInput
+  zones?: Prisma.ServiceZoneUncheckedUpdateManyWithoutServiceNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutServiceNestedInput
+  quotes?: Prisma.QuoteUncheckedUpdateManyWithoutServiceNestedInput
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutServiceNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceUncheckedUpdateManyWithoutCategoryInput = {
@@ -919,16 +1799,91 @@ export type ServiceUncheckedUpdateManyWithoutCategoryInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  pricingType?: Prisma.EnumPricingTypeFieldUpdateOperationsInput | $Enums.PricingType
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pricingModel?: Prisma.EnumPricingModelFieldUpdateOperationsInput | $Enums.PricingModel
+  basePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumServiceStatusFieldUpdateOperationsInput | $Enums.ServiceStatus
   durationMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  imageKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ServiceCountOutputType
+ */
+
+export type ServiceCountOutputType = {
+  images: number
+  zones: number
+  availabilities: number
+  quotes: number
+  bookings: number
+  reviews: number
+}
+
+export type ServiceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  images?: boolean | ServiceCountOutputTypeCountImagesArgs
+  zones?: boolean | ServiceCountOutputTypeCountZonesArgs
+  availabilities?: boolean | ServiceCountOutputTypeCountAvailabilitiesArgs
+  quotes?: boolean | ServiceCountOutputTypeCountQuotesArgs
+  bookings?: boolean | ServiceCountOutputTypeCountBookingsArgs
+  reviews?: boolean | ServiceCountOutputTypeCountReviewsArgs
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceCountOutputType
+   */
+  select?: Prisma.ServiceCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceImageWhereInput
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountZonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceZoneWhereInput
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountAvailabilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AvailabilityWhereInput
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountQuotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuoteWhereInput
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingWhereInput
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
 
 
 export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -938,16 +1893,24 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name?: boolean
   slug?: boolean
   description?: boolean
-  pricingType?: boolean
-  price?: boolean
+  pricingModel?: boolean
+  basePrice?: boolean
   currency?: boolean
   status?: boolean
   durationMin?: boolean
-  imageKey?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  images?: boolean | Prisma.Service$imagesArgs<ExtArgs>
+  zones?: boolean | Prisma.Service$zonesArgs<ExtArgs>
+  availabilities?: boolean | Prisma.Service$availabilitiesArgs<ExtArgs>
+  quotes?: boolean | Prisma.Service$quotesArgs<ExtArgs>
+  bookings?: boolean | Prisma.Service$bookingsArgs<ExtArgs>
+  reviews?: boolean | Prisma.Service$reviewsArgs<ExtArgs>
+  _count?: boolean | Prisma.ServiceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -957,12 +1920,13 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   name?: boolean
   slug?: boolean
   description?: boolean
-  pricingType?: boolean
-  price?: boolean
+  pricingModel?: boolean
+  basePrice?: boolean
   currency?: boolean
   status?: boolean
   durationMin?: boolean
-  imageKey?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
@@ -976,12 +1940,13 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   name?: boolean
   slug?: boolean
   description?: boolean
-  pricingType?: boolean
-  price?: boolean
+  pricingModel?: boolean
+  basePrice?: boolean
   currency?: boolean
   status?: boolean
   durationMin?: boolean
-  imageKey?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
@@ -995,20 +1960,28 @@ export type ServiceSelectScalar = {
   name?: boolean
   slug?: boolean
   description?: boolean
-  pricingType?: boolean
-  price?: boolean
+  pricingModel?: boolean
+  basePrice?: boolean
   currency?: boolean
   status?: boolean
   durationMin?: boolean
-  imageKey?: boolean
+  ratingAverage?: boolean
+  ratingCount?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "professionalId" | "categoryId" | "name" | "slug" | "description" | "pricingType" | "price" | "currency" | "status" | "durationMin" | "imageKey" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "professionalId" | "categoryId" | "name" | "slug" | "description" | "pricingModel" | "basePrice" | "currency" | "status" | "durationMin" | "ratingAverage" | "ratingCount" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  images?: boolean | Prisma.Service$imagesArgs<ExtArgs>
+  zones?: boolean | Prisma.Service$zonesArgs<ExtArgs>
+  availabilities?: boolean | Prisma.Service$availabilitiesArgs<ExtArgs>
+  quotes?: boolean | Prisma.Service$quotesArgs<ExtArgs>
+  bookings?: boolean | Prisma.Service$bookingsArgs<ExtArgs>
+  reviews?: boolean | Prisma.Service$reviewsArgs<ExtArgs>
+  _count?: boolean | Prisma.ServiceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ServiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
@@ -1024,6 +1997,12 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     professional: Prisma.$ProfessionalProfilePayload<ExtArgs>
     category: Prisma.$CategoryPayload<ExtArgs>
+    images: Prisma.$ServiceImagePayload<ExtArgs>[]
+    zones: Prisma.$ServiceZonePayload<ExtArgs>[]
+    availabilities: Prisma.$AvailabilityPayload<ExtArgs>[]
+    quotes: Prisma.$QuotePayload<ExtArgs>[]
+    bookings: Prisma.$BookingPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1032,12 +2011,13 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     name: string
     slug: string
     description: string | null
-    pricingType: $Enums.PricingType
-    price: runtime.Decimal | null
+    pricingModel: $Enums.PricingModel
+    basePrice: runtime.Decimal | null
     currency: string
     status: $Enums.ServiceStatus
     durationMin: number | null
-    imageKey: string | null
+    ratingAverage: runtime.Decimal
+    ratingCount: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["service"]>
@@ -1436,6 +2416,12 @@ export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   professional<T extends Prisma.ProfessionalProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfessionalProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfessionalProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  images<T extends Prisma.Service$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  zones<T extends Prisma.Service$zonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$zonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceZonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  availabilities<T extends Prisma.Service$availabilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$availabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  quotes<T extends Prisma.Service$quotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookings<T extends Prisma.Service$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Service$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1471,12 +2457,13 @@ export interface ServiceFieldRefs {
   readonly name: Prisma.FieldRef<"Service", 'String'>
   readonly slug: Prisma.FieldRef<"Service", 'String'>
   readonly description: Prisma.FieldRef<"Service", 'String'>
-  readonly pricingType: Prisma.FieldRef<"Service", 'PricingType'>
-  readonly price: Prisma.FieldRef<"Service", 'Decimal'>
+  readonly pricingModel: Prisma.FieldRef<"Service", 'PricingModel'>
+  readonly basePrice: Prisma.FieldRef<"Service", 'Decimal'>
   readonly currency: Prisma.FieldRef<"Service", 'String'>
   readonly status: Prisma.FieldRef<"Service", 'ServiceStatus'>
   readonly durationMin: Prisma.FieldRef<"Service", 'Int'>
-  readonly imageKey: Prisma.FieldRef<"Service", 'String'>
+  readonly ratingAverage: Prisma.FieldRef<"Service", 'Decimal'>
+  readonly ratingCount: Prisma.FieldRef<"Service", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Service", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Service", 'DateTime'>
 }
@@ -1877,6 +2864,150 @@ export type ServiceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Services to delete.
    */
   limit?: number
+}
+
+/**
+ * Service.images
+ */
+export type Service$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceImage
+   */
+  select?: Prisma.ServiceImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceImage
+   */
+  omit?: Prisma.ServiceImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceImageInclude<ExtArgs> | null
+  where?: Prisma.ServiceImageWhereInput
+  orderBy?: Prisma.ServiceImageOrderByWithRelationInput | Prisma.ServiceImageOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceImageScalarFieldEnum | Prisma.ServiceImageScalarFieldEnum[]
+}
+
+/**
+ * Service.zones
+ */
+export type Service$zonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceZone
+   */
+  select?: Prisma.ServiceZoneSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceZone
+   */
+  omit?: Prisma.ServiceZoneOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceZoneInclude<ExtArgs> | null
+  where?: Prisma.ServiceZoneWhereInput
+  orderBy?: Prisma.ServiceZoneOrderByWithRelationInput | Prisma.ServiceZoneOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceZoneWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceZoneScalarFieldEnum | Prisma.ServiceZoneScalarFieldEnum[]
+}
+
+/**
+ * Service.availabilities
+ */
+export type Service$availabilitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Availability
+   */
+  select?: Prisma.AvailabilitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Availability
+   */
+  omit?: Prisma.AvailabilityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AvailabilityInclude<ExtArgs> | null
+  where?: Prisma.AvailabilityWhereInput
+  orderBy?: Prisma.AvailabilityOrderByWithRelationInput | Prisma.AvailabilityOrderByWithRelationInput[]
+  cursor?: Prisma.AvailabilityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AvailabilityScalarFieldEnum | Prisma.AvailabilityScalarFieldEnum[]
+}
+
+/**
+ * Service.quotes
+ */
+export type Service$quotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Quote
+   */
+  select?: Prisma.QuoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Quote
+   */
+  omit?: Prisma.QuoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuoteInclude<ExtArgs> | null
+  where?: Prisma.QuoteWhereInput
+  orderBy?: Prisma.QuoteOrderByWithRelationInput | Prisma.QuoteOrderByWithRelationInput[]
+  cursor?: Prisma.QuoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuoteScalarFieldEnum | Prisma.QuoteScalarFieldEnum[]
+}
+
+/**
+ * Service.bookings
+ */
+export type Service$bookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Booking
+   */
+  select?: Prisma.BookingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Booking
+   */
+  omit?: Prisma.BookingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingInclude<ExtArgs> | null
+  where?: Prisma.BookingWhereInput
+  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
+  cursor?: Prisma.BookingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * Service.reviews
+ */
+export type Service$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
 }
 
 /**

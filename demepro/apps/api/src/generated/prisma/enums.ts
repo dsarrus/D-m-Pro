@@ -88,15 +88,6 @@ export const EntityStatus = {
 export type EntityStatus = (typeof EntityStatus)[keyof typeof EntityStatus]
 
 
-export const PricingType = {
-  FIXED: 'FIXED',
-  FROM: 'FROM',
-  QUOTE: 'QUOTE'
-} as const
-
-export type PricingType = (typeof PricingType)[keyof typeof PricingType]
-
-
 export const StoreStatus = {
   DRAFT: 'DRAFT',
   ACTIVE: 'ACTIVE',
@@ -187,3 +178,12 @@ export const ReviewReportStatus = {
 } as const
 
 export type ReviewReportStatus = (typeof ReviewReportStatus)[keyof typeof ReviewReportStatus]
+
+
+export const PricingModel = {
+  QUOTE: 'QUOTE',
+  FIXED: 'FIXED',
+  HOURLY: 'HOURLY'
+} as const
+
+export type PricingModel = (typeof PricingModel)[keyof typeof PricingModel]

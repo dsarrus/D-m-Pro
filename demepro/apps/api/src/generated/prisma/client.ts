@@ -132,6 +132,36 @@ export type Store = Prisma.StoreModel
  */
 export type Service = Prisma.ServiceModel
 /**
+ * Model ServiceImage
+ * 
+ */
+export type ServiceImage = Prisma.ServiceImageModel
+/**
+ * Model ServiceZone
+ * 
+ */
+export type ServiceZone = Prisma.ServiceZoneModel
+/**
+ * Model Availability
+ * 
+ */
+export type Availability = Prisma.AvailabilityModel
+/**
+ * Model Quote
+ * 
+ */
+export type Quote = Prisma.QuoteModel
+/**
+ * Model QuoteResponse
+ * 
+ */
+export type QuoteResponse = Prisma.QuoteResponseModel
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = Prisma.BookingModel
+/**
  * Model Product
  * 
  */

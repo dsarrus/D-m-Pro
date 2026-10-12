@@ -85,6 +85,18 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
 
     /*notification*/
     "notification.read.own",
+
+    /*service*/
+    "service.create",
+    "service.read.own",
+    "service.update.own",
+    "service.delete.own",
+    "service.activate",
+    "service.archive.own",
+    "service.availability.create",
+    "service.availability.read.own",
+    "service.availability.update.own",
+    "service.availability.delete.own",
   ],
 
   ADMIN: [

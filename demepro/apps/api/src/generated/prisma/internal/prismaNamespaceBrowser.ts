@@ -69,6 +69,12 @@ export const ModelName = {
   Category: 'Category',
   Store: 'Store',
   Service: 'Service',
+  ServiceImage: 'ServiceImage',
+  ServiceZone: 'ServiceZone',
+  Availability: 'Availability',
+  Quote: 'Quote',
+  QuoteResponse: 'QuoteResponse',
+  Booking: 'Booking',
   Product: 'Product',
   ProductVariant: 'ProductVariant',
   Inventory: 'Inventory',
@@ -259,7 +265,9 @@ export const ReviewScalarFieldEnum = {
   status: 'status',
   isVisible: 'isVisible',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  serviceId: 'serviceId',
+  bookingId: 'bookingId'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -368,17 +376,108 @@ export const ServiceScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   description: 'description',
-  pricingType: 'pricingType',
-  price: 'price',
+  pricingModel: 'pricingModel',
+  basePrice: 'basePrice',
   currency: 'currency',
   status: 'status',
   durationMin: 'durationMin',
-  imageKey: 'imageKey',
+  ratingAverage: 'ratingAverage',
+  ratingCount: 'ratingCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const ServiceImageScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  objectKey: 'objectKey',
+  altText: 'altText',
+  sortOrder: 'sortOrder',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt'
+} as const
+
+export type ServiceImageScalarFieldEnum = (typeof ServiceImageScalarFieldEnum)[keyof typeof ServiceImageScalarFieldEnum]
+
+
+export const ServiceZoneScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  city: 'city',
+  region: 'region',
+  radiusKm: 'radiusKm',
+  createdAt: 'createdAt'
+} as const
+
+export type ServiceZoneScalarFieldEnum = (typeof ServiceZoneScalarFieldEnum)[keyof typeof ServiceZoneScalarFieldEnum]
+
+
+export const AvailabilityScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  specificDate: 'specificDate',
+  isRecurring: 'isRecurring',
+  createdAt: 'createdAt'
+} as const
+
+export type AvailabilityScalarFieldEnum = (typeof AvailabilityScalarFieldEnum)[keyof typeof AvailabilityScalarFieldEnum]
+
+
+export const QuoteScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  userId: 'userId',
+  status: 'status',
+  description: 'description',
+  budget: 'budget',
+  currency: 'currency',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+export const QuoteResponseScalarFieldEnum = {
+  id: 'id',
+  quoteId: 'quoteId',
+  proposedPrice: 'proposedPrice',
+  currency: 'currency',
+  message: 'message',
+  proposedDate: 'proposedDate',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type QuoteResponseScalarFieldEnum = (typeof QuoteResponseScalarFieldEnum)[keyof typeof QuoteResponseScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  userId: 'userId',
+  quoteId: 'quoteId',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  durationMin: 'durationMin',
+  address: 'address',
+  totalAmount: 'totalAmount',
+  currency: 'currency',
+  notes: 'notes',
+  completedAt: 'completedAt',
+  canceledAt: 'canceledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
 
 
 export const ProductScalarFieldEnum = {

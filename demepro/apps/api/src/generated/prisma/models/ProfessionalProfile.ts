@@ -1542,28 +1542,34 @@ export type $ProfessionalProfilePayload<ExtArgs extends runtime.Types.Extensions
     slug: string | null
     bio: string | null
     /**
-     * Ancien statut (rétrocompatibilité)
+     * *
+     *    * Ancien statut (rétrocompatibilité)
      */
     verificationStatus: $Enums.VerificationStatus
     /**
-     * ⭐ NOUVEAU : niveau progressif
+     * *
+     *    * ⭐ NOUVEAU : niveau progressif
      */
     verificationLevel: $Enums.VerificationLevel
     /**
-     * Compteur de transactions réussies (incrémenté à chaque livraison)
+     * *
+     *    * Compteur de transactions réussies (incrémenté à chaque livraison)
      */
     successfulTransactions: number
     /**
-     * Timestamps
+     * *
+     *    * Timestamps
      */
     verifiedAt: Date | null
     certifiedAt: Date | null
     /**
-     * Selfie (niveau 2)
+     * *
+     *    * Selfie (niveau 2)
      */
     selfieKey: string | null
     /**
-     * Document KYC (niveau 3, optionnel)
+     * *
+     *    * Document KYC (niveau 3, optionnel)
      */
     kycDocumentKey: string | null
     certifiedByUserId: string | null
