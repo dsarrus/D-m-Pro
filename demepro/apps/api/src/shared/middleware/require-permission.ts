@@ -36,6 +36,13 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "address.read.own",
     "address.update.own",
     "address.delete.own",
+
+    /*review*/
+    "review.create",
+    "review.read",
+  "review.update.own",
+  "review.delete.own",
+  "review.report",
   ],
 
   PROFESSIONAL: [
@@ -70,6 +77,10 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "address.read.own",
     "address.update.own",
     "address.delete.own",
+    
+    /*review*/
+    "review.read",
+    "review.report",
   ],
 
   ADMIN: [
@@ -90,6 +101,11 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "order.read.store",       
     "order.cancel.store",  
     "order.payment.refund",  
+
+    /*review*/
+    "review.read",
+  "review.moderate",
+    "review.report",
   ],
 
   SUPER_ADMIN: ["*"],
