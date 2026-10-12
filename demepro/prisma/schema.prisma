@@ -124,6 +124,18 @@ enum PaymentProvider {
   MOCK
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ReviewReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
+
 model User {
   id              String     @id @default(uuid()) @db.Uuid
   email           String?    @unique @db.VarChar(255)
@@ -208,6 +220,7 @@ model ProfessionalProfile {
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   stores   Store[]
   services Service[]
+  reviewsReceived  Review[]
 
   @@index([verificationStatus])
   @@index([verificationLevel])
@@ -328,55 +341,63 @@ model Verification {
 }
 
 model Review {
-  id                   String    @id @default(uuid()) @db.Uuid
-  authorId             String    @map("author_id") @db.Uuid
+  id                   String       @id @default(uuid()) @db.Uuid
+  authorId             String       @map("author_id") @db.Uuid
 
-  /* Cible de l'avis (au moins une) */
-  productId            String?   @map("product_id") @db.Uuid
-  variantId            String?   @map("variant_id") @db.Uuid
-  storeId              String?   @map("store_id") @db.Uuid
-  professionalId       String?   @map("professional_id") @db.Uuid
+  /* Cible (au moins une non null) */
+  productId            String?      @map("product_id") @db.Uuid
+  variantId            String?      @map("variant_id") @db.Uuid
+  storeId              String?      @map("store_id") @db.Uuid
+  professionalId       String?      @map("professional_id") @db.Uuid
 
   /* Lien à la commande (source de vérité) */
-  orderId              String    @unique @map("order_id") @db.Uuid
+  orderId              String       @unique @map("order_id") @db.Uuid
 
   /* Contenu */
   rating               Int
-  comment              String?   @db.Text
+  comment              String?      @db.Text
 
   /* Vérification */
-  isVerifiedPurchase   Boolean   @default(true) @map("is_verified_purchase")
+  isVerifiedPurchase   Boolean      @default(true) @map("is_verified_purchase")
 
-  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  /* Modération */
+  status               ReviewStatus @default(APPROVED)
+  isVisible            Boolean      @default(true) @map("is_visible")
 
-  author               User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
-  order                Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product              Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt            DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  author               User         @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  order                Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product              Product?     @relation(fields: [productId], references: [id], onDelete: SetNull)
   variant              ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
-  store                Store?    @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  store                Store?       @relation(fields: [storeId], references: [id], onDelete: SetNull)
+  professional         ProfessionalProfile? @relation(fields: [professionalId], references: [id], onDelete: SetNull)
 
   reports              ReviewReport[]
 
   @@index([authorId, createdAt])
   @@index([productId, rating])
   @@index([storeId, rating])
+  @@index([professionalId, rating])
+  @@index([status, createdAt])
   @@map("reviews")
 }
 
 model ReviewReport {
-  id          String   @id @default(uuid()) @db.Uuid
-  reviewId    String   @map("review_id") @db.Uuid
-  reporterId  String   @map("reporter_id") @db.Uuid
-  reason      String   @db.VarChar(500)
-  status      String   @default("PENDING") @db.VarChar(20)
-  resolvedAt  DateTime? @map("resolved_at") @db.Timestamptz(3)
-  resolvedBy  String?  @map("resolved_by") @db.Uuid
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  id          String             @id @default(uuid()) @db.Uuid
+  reviewId    String             @map("review_id") @db.Uuid
+  reporterId  String             @map("reporter_id") @db.Uuid
+  reason      String             @db.VarChar(500)
+  status      ReviewReportStatus @default(PENDING)
+  resolvedAt  DateTime?          @map("resolved_at") @db.Timestamptz(3)
+  resolvedBy  String?            @map("resolved_by") @db.Uuid
+  createdAt   DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
 
-  review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  review      Review             @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 
   @@index([status, createdAt])
+  @@index([reviewId])
   @@map("review_reports")
 }
 
@@ -478,6 +499,9 @@ model Store {
 
   status StoreStatus @default(DRAFT)
 
+   ratingAverage Decimal @default(0) @map("rating_average") @db.Decimal(3, 2)
+  ratingCount   Int     @default(0) @map("rating_count")
+
   latitude  Decimal? @db.Decimal(10, 7)
   longitude Decimal? @db.Decimal(10, 7)
 
@@ -489,6 +513,8 @@ model Store {
   products Product[]
 
   orders  Order[] 
+
+  reviews  Review[]  
 
   @@index([professionalId])
   @@index([status])
@@ -558,6 +584,8 @@ model Product {
   inventory Inventory?
   orderItems  OrderItem[] 
 
+  reviews  Review[]  
+
   @@unique([storeId, slug])
   @@index([storeId, status])
   @@index([categoryId, status])
@@ -587,6 +615,8 @@ model ProductVariant {
   inventory Inventory?
 
   orderItems  OrderItem[] 
+
+  reviews  Review[]  
 
   @@index([productId, isActive])
   @@map("product_variants")
@@ -683,6 +713,8 @@ model Order {
   items           OrderItem[]
   statusHistory   OrderStatusHistory[]
   payment         Payment?
+
+  review  Review?
 
   @@index([userId, status, createdAt])
   @@index([storeId, status, createdAt])
