@@ -1,4 +1,4 @@
-// apps/api/src/modules/payment/controllers/payment-webhook.controller.ts
+// apps/api/src/modules/payments/controllers/payment-webhook.controller.ts
 
 import type { Request, Response, NextFunction } from "express";
 
@@ -7,12 +7,6 @@ import { PaymentService } from "../services/payment.service";
 export class PaymentWebhookController {
   constructor(private readonly service: PaymentService) {}
 
-  /**
-   * Reçoit un webhook de paiement.
-   *
-   * Le body est reçu en brut (raw) pour vérifier la signature HMAC.
-   * Utilise `express.raw({ type: 'application/json' })` sur cette route.
-   */
   handle = async (
     req: Request<{ provider: string }>,
     res: Response,
@@ -20,10 +14,21 @@ export class PaymentWebhookController {
   ) => {
     try {
       const providerName = req.params.provider;
-      const rawBody =
-        typeof req.body === "string"
-          ? req.body
-          : JSON.stringify(req.body);
+
+      /* ⭐ Gestion correcte du body :
+       *  - Buffer (express.raw) → utiliser toString()
+       *  - string (body-parser) → utiliser directement
+       *  - object (fallback) → JSON.stringify
+       */
+      let rawBody: string;
+
+      if (Buffer.isBuffer(req.body)) {
+        rawBody = req.body.toString("utf8");
+      } else if (typeof req.body === "string") {
+        rawBody = req.body;
+      } else {
+        rawBody = JSON.stringify(req.body);
+      }
 
       const signature =
         req.header("X-Webhook-Signature") ??
