@@ -7,6 +7,10 @@ import storeRoutes from "../../src/modules/stores/routes/store.routes";
 import categoryRoutes from "../../src/modules/category/routes/category.routes";
 import verificationRoutes from "../../src/modules/verification/routes/verification.routes";
 import orderRoutes from "../../src/modules/orders/routes/order.routes"; 
+import {
+  paymentOrderRouter,
+  paymentWebhookRouter,
+} from "../../src/modules/payments/routes/payment.routes";
 
 import { errorHandler } from "../../src/shared/middleware/error-handler";
 
@@ -25,6 +29,9 @@ export function createTestApp(): Express {
   app.use("/api/v1", verificationRoutes);
   app.use("/api/v1/orders", orderRoutes); 
 
+  /* Payment imbriqué sous orders */
+  app.use("/api/v1/orders/:id/payment", paymentOrderRouter);
+  app.use("/api/v1/webhooks/payment", paymentWebhookRouter);
   app.use(errorHandler);
 
   return app;

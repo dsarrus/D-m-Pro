@@ -24,6 +24,8 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "order.create",
     "order.read.own",      // ← AJOUTER si absent
     "order.cancel.own", 
+    "order.payment.initiate",   // ← AJOUTER
+    "order.payment.refund", 
     "review.create",
     "review.read",
     "address.*",
@@ -75,6 +77,7 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     /*Order */
     "order.read.store",       
     "order.cancel.store",  
+    "order.payment.refund",  
   ],
 
   SUPER_ADMIN: ["*"],
