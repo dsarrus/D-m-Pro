@@ -7,6 +7,7 @@ import storeRoutes from "../modules/stores/routes/store.routes";
 import categoryRoutes from "../modules/category/routes/category.routes";
 import verificationRoutes from "../modules/verification/routes/verification.routes";
 import orderRoutes from "../modules/orders/routes/order.routes"; 
+import addressRoutes from "../modules/address/routes/address.routes";
 import {
   paymentOrderRouter,
   paymentWebhookRouter,
@@ -17,6 +18,9 @@ import { errorHandler } from "../shared/middleware/error-handler";
 export function createApp(): Express {
   const app = express();
 
+  /* Webhooks AVANT express.json() */
+  app.use("/api/v1/webhooks/payment", paymentWebhookRouter);
+
   app.use(express.json({ limit: "1mb" }));
 
   app.use("/api/v1/catalog", catalogRoutes);
@@ -24,10 +28,10 @@ export function createApp(): Express {
   app.use("/api/v1/categories", categoryRoutes);
   app.use("/api/v1", verificationRoutes);
   app.use("/api/v1/orders", orderRoutes); 
+  app.use("/api/v1/addresses", addressRoutes);
 
   /* Payment imbriqué sous orders */
   app.use("/api/v1/orders/:id/payment", paymentOrderRouter);
-  app.use("/api/v1/webhooks/payment", paymentWebhookRouter);
   app.use(errorHandler);
 
   return app;

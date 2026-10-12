@@ -30,6 +30,12 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "review.read",
     "address.*",
     "notification.read.own",
+    
+    /* address */
+    "address.create",
+    "address.read.own",
+    "address.update.own",
+    "address.delete.own",
   ],
 
   PROFESSIONAL: [
@@ -58,6 +64,12 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "review.read",
     "review.report",
     "notification.read.own",
+
+    /* Address */
+    "address.create",
+    "address.read.own",
+    "address.update.own",
+    "address.delete.own",
   ],
 
   ADMIN: [
