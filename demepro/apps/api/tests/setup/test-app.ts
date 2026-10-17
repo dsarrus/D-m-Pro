@@ -11,6 +11,7 @@ import addressRoutes from "../../src/modules/address/routes/address.routes";
 import reviewRoutes from "../../src/modules/reviews/routes/review.routes";
 import notificationRoutes from "../../src/modules/notifications/routes/notification.routes";
 import serviceRoutes from "../../src/modules/services/routes/service.routes";
+import quoteRoutes  from "../../src/modules/quotes/routes/quote.routes";
 import {
   paymentOrderRouter,
   paymentWebhookRouter,
@@ -38,6 +39,7 @@ app.use("/api/v1/addresses", addressRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/services", serviceRoutes);
+  app.use("/api/v1/quotes", quoteRoutes);
   /* Payment imbriqué sous orders */
   app.use("/api/v1/orders/:id/payment", paymentOrderRouter);
   app.use(errorHandler);

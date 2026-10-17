@@ -37,6 +37,7 @@ export type QuoteResponseSumAggregateOutputType = {
 export type QuoteResponseMinAggregateOutputType = {
   id: string | null
   quoteId: string | null
+  professionalId: string | null
   proposedPrice: runtime.Decimal | null
   currency: string | null
   message: string | null
@@ -48,6 +49,7 @@ export type QuoteResponseMinAggregateOutputType = {
 export type QuoteResponseMaxAggregateOutputType = {
   id: string | null
   quoteId: string | null
+  professionalId: string | null
   proposedPrice: runtime.Decimal | null
   currency: string | null
   message: string | null
@@ -59,6 +61,7 @@ export type QuoteResponseMaxAggregateOutputType = {
 export type QuoteResponseCountAggregateOutputType = {
   id: number
   quoteId: number
+  professionalId: number
   proposedPrice: number
   currency: number
   message: number
@@ -80,6 +83,7 @@ export type QuoteResponseSumAggregateInputType = {
 export type QuoteResponseMinAggregateInputType = {
   id?: true
   quoteId?: true
+  professionalId?: true
   proposedPrice?: true
   currency?: true
   message?: true
@@ -91,6 +95,7 @@ export type QuoteResponseMinAggregateInputType = {
 export type QuoteResponseMaxAggregateInputType = {
   id?: true
   quoteId?: true
+  professionalId?: true
   proposedPrice?: true
   currency?: true
   message?: true
@@ -102,6 +107,7 @@ export type QuoteResponseMaxAggregateInputType = {
 export type QuoteResponseCountAggregateInputType = {
   id?: true
   quoteId?: true
+  professionalId?: true
   proposedPrice?: true
   currency?: true
   message?: true
@@ -200,6 +206,7 @@ export type QuoteResponseGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type QuoteResponseGroupByOutputType = {
   id: string
   quoteId: string
+  professionalId: string
   proposedPrice: runtime.Decimal
   currency: string
   message: string | null
@@ -234,6 +241,7 @@ export type QuoteResponseWhereInput = {
   NOT?: Prisma.QuoteResponseWhereInput | Prisma.QuoteResponseWhereInput[]
   id?: Prisma.UuidFilter<"QuoteResponse"> | string
   quoteId?: Prisma.UuidFilter<"QuoteResponse"> | string
+  professionalId?: Prisma.UuidFilter<"QuoteResponse"> | string
   proposedPrice?: Prisma.DecimalFilter<"QuoteResponse"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"QuoteResponse"> | string
   message?: Prisma.StringNullableFilter<"QuoteResponse"> | string | null
@@ -241,11 +249,13 @@ export type QuoteResponseWhereInput = {
   expiresAt?: Prisma.DateTimeFilter<"QuoteResponse"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"QuoteResponse"> | Date | string
   quote?: Prisma.XOR<Prisma.QuoteScalarRelationFilter, Prisma.QuoteWhereInput>
+  professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
 }
 
 export type QuoteResponseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  professionalId?: Prisma.SortOrder
   proposedPrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -253,6 +263,7 @@ export type QuoteResponseOrderByWithRelationInput = {
   expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   quote?: Prisma.QuoteOrderByWithRelationInput
+  professional?: Prisma.ProfessionalProfileOrderByWithRelationInput
 }
 
 export type QuoteResponseWhereUniqueInput = Prisma.AtLeast<{
@@ -261,6 +272,7 @@ export type QuoteResponseWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.QuoteResponseWhereInput | Prisma.QuoteResponseWhereInput[]
   OR?: Prisma.QuoteResponseWhereInput[]
   NOT?: Prisma.QuoteResponseWhereInput | Prisma.QuoteResponseWhereInput[]
+  professionalId?: Prisma.UuidFilter<"QuoteResponse"> | string
   proposedPrice?: Prisma.DecimalFilter<"QuoteResponse"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFilter<"QuoteResponse"> | string
   message?: Prisma.StringNullableFilter<"QuoteResponse"> | string | null
@@ -268,11 +280,13 @@ export type QuoteResponseWhereUniqueInput = Prisma.AtLeast<{
   expiresAt?: Prisma.DateTimeFilter<"QuoteResponse"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"QuoteResponse"> | Date | string
   quote?: Prisma.XOR<Prisma.QuoteScalarRelationFilter, Prisma.QuoteWhereInput>
+  professional?: Prisma.XOR<Prisma.ProfessionalProfileScalarRelationFilter, Prisma.ProfessionalProfileWhereInput>
 }, "id" | "quoteId">
 
 export type QuoteResponseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  professionalId?: Prisma.SortOrder
   proposedPrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -292,6 +306,7 @@ export type QuoteResponseScalarWhereWithAggregatesInput = {
   NOT?: Prisma.QuoteResponseScalarWhereWithAggregatesInput | Prisma.QuoteResponseScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"QuoteResponse"> | string
   quoteId?: Prisma.UuidWithAggregatesFilter<"QuoteResponse"> | string
+  professionalId?: Prisma.UuidWithAggregatesFilter<"QuoteResponse"> | string
   proposedPrice?: Prisma.DecimalWithAggregatesFilter<"QuoteResponse"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringWithAggregatesFilter<"QuoteResponse"> | string
   message?: Prisma.StringNullableWithAggregatesFilter<"QuoteResponse"> | string | null
@@ -309,11 +324,13 @@ export type QuoteResponseCreateInput = {
   expiresAt: Date | string
   createdAt?: Date | string
   quote: Prisma.QuoteCreateNestedOneWithoutResponseInput
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutQuoteResponsesInput
 }
 
 export type QuoteResponseUncheckedCreateInput = {
   id?: string
   quoteId: string
+  professionalId: string
   proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   message?: string | null
@@ -331,11 +348,13 @@ export type QuoteResponseUpdateInput = {
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quote?: Prisma.QuoteUpdateOneRequiredWithoutResponseNestedInput
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutQuoteResponsesNestedInput
 }
 
 export type QuoteResponseUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quoteId?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
   proposedPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -347,6 +366,7 @@ export type QuoteResponseUncheckedUpdateInput = {
 export type QuoteResponseCreateManyInput = {
   id?: string
   quoteId: string
+  professionalId: string
   proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   message?: string | null
@@ -368,12 +388,23 @@ export type QuoteResponseUpdateManyMutationInput = {
 export type QuoteResponseUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quoteId?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
   proposedPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuoteResponseListRelationFilter = {
+  every?: Prisma.QuoteResponseWhereInput
+  some?: Prisma.QuoteResponseWhereInput
+  none?: Prisma.QuoteResponseWhereInput
+}
+
+export type QuoteResponseOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type QuoteResponseNullableScalarRelationFilter = {
@@ -384,6 +415,7 @@ export type QuoteResponseNullableScalarRelationFilter = {
 export type QuoteResponseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  professionalId?: Prisma.SortOrder
   proposedPrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -399,6 +431,7 @@ export type QuoteResponseAvgOrderByAggregateInput = {
 export type QuoteResponseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  professionalId?: Prisma.SortOrder
   proposedPrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -410,6 +443,7 @@ export type QuoteResponseMaxOrderByAggregateInput = {
 export type QuoteResponseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   quoteId?: Prisma.SortOrder
+  professionalId?: Prisma.SortOrder
   proposedPrice?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -420,6 +454,48 @@ export type QuoteResponseMinOrderByAggregateInput = {
 
 export type QuoteResponseSumOrderByAggregateInput = {
   proposedPrice?: Prisma.SortOrder
+}
+
+export type QuoteResponseCreateNestedManyWithoutProfessionalInput = {
+  create?: Prisma.XOR<Prisma.QuoteResponseCreateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput> | Prisma.QuoteResponseCreateWithoutProfessionalInput[] | Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput[]
+  connectOrCreate?: Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput | Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput[]
+  createMany?: Prisma.QuoteResponseCreateManyProfessionalInputEnvelope
+  connect?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+}
+
+export type QuoteResponseUncheckedCreateNestedManyWithoutProfessionalInput = {
+  create?: Prisma.XOR<Prisma.QuoteResponseCreateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput> | Prisma.QuoteResponseCreateWithoutProfessionalInput[] | Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput[]
+  connectOrCreate?: Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput | Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput[]
+  createMany?: Prisma.QuoteResponseCreateManyProfessionalInputEnvelope
+  connect?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+}
+
+export type QuoteResponseUpdateManyWithoutProfessionalNestedInput = {
+  create?: Prisma.XOR<Prisma.QuoteResponseCreateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput> | Prisma.QuoteResponseCreateWithoutProfessionalInput[] | Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput[]
+  connectOrCreate?: Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput | Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput[]
+  upsert?: Prisma.QuoteResponseUpsertWithWhereUniqueWithoutProfessionalInput | Prisma.QuoteResponseUpsertWithWhereUniqueWithoutProfessionalInput[]
+  createMany?: Prisma.QuoteResponseCreateManyProfessionalInputEnvelope
+  set?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  disconnect?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  delete?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  connect?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  update?: Prisma.QuoteResponseUpdateWithWhereUniqueWithoutProfessionalInput | Prisma.QuoteResponseUpdateWithWhereUniqueWithoutProfessionalInput[]
+  updateMany?: Prisma.QuoteResponseUpdateManyWithWhereWithoutProfessionalInput | Prisma.QuoteResponseUpdateManyWithWhereWithoutProfessionalInput[]
+  deleteMany?: Prisma.QuoteResponseScalarWhereInput | Prisma.QuoteResponseScalarWhereInput[]
+}
+
+export type QuoteResponseUncheckedUpdateManyWithoutProfessionalNestedInput = {
+  create?: Prisma.XOR<Prisma.QuoteResponseCreateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput> | Prisma.QuoteResponseCreateWithoutProfessionalInput[] | Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput[]
+  connectOrCreate?: Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput | Prisma.QuoteResponseCreateOrConnectWithoutProfessionalInput[]
+  upsert?: Prisma.QuoteResponseUpsertWithWhereUniqueWithoutProfessionalInput | Prisma.QuoteResponseUpsertWithWhereUniqueWithoutProfessionalInput[]
+  createMany?: Prisma.QuoteResponseCreateManyProfessionalInputEnvelope
+  set?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  disconnect?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  delete?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  connect?: Prisma.QuoteResponseWhereUniqueInput | Prisma.QuoteResponseWhereUniqueInput[]
+  update?: Prisma.QuoteResponseUpdateWithWhereUniqueWithoutProfessionalInput | Prisma.QuoteResponseUpdateWithWhereUniqueWithoutProfessionalInput[]
+  updateMany?: Prisma.QuoteResponseUpdateManyWithWhereWithoutProfessionalInput | Prisma.QuoteResponseUpdateManyWithWhereWithoutProfessionalInput[]
+  deleteMany?: Prisma.QuoteResponseScalarWhereInput | Prisma.QuoteResponseScalarWhereInput[]
 }
 
 export type QuoteResponseCreateNestedOneWithoutQuoteInput = {
@@ -454,8 +530,20 @@ export type QuoteResponseUncheckedUpdateOneWithoutQuoteNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuoteResponseUpdateToOneWithWhereWithoutQuoteInput, Prisma.QuoteResponseUpdateWithoutQuoteInput>, Prisma.QuoteResponseUncheckedUpdateWithoutQuoteInput>
 }
 
-export type QuoteResponseCreateWithoutQuoteInput = {
+export type QuoteResponseCreateWithoutProfessionalInput = {
   id?: string
+  proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  message?: string | null
+  proposedDate?: Date | string | null
+  expiresAt: Date | string
+  createdAt?: Date | string
+  quote: Prisma.QuoteCreateNestedOneWithoutResponseInput
+}
+
+export type QuoteResponseUncheckedCreateWithoutProfessionalInput = {
+  id?: string
+  quoteId: string
   proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   message?: string | null
@@ -464,8 +552,61 @@ export type QuoteResponseCreateWithoutQuoteInput = {
   createdAt?: Date | string
 }
 
+export type QuoteResponseCreateOrConnectWithoutProfessionalInput = {
+  where: Prisma.QuoteResponseWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuoteResponseCreateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput>
+}
+
+export type QuoteResponseCreateManyProfessionalInputEnvelope = {
+  data: Prisma.QuoteResponseCreateManyProfessionalInput | Prisma.QuoteResponseCreateManyProfessionalInput[]
+  skipDuplicates?: boolean
+}
+
+export type QuoteResponseUpsertWithWhereUniqueWithoutProfessionalInput = {
+  where: Prisma.QuoteResponseWhereUniqueInput
+  update: Prisma.XOR<Prisma.QuoteResponseUpdateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedUpdateWithoutProfessionalInput>
+  create: Prisma.XOR<Prisma.QuoteResponseCreateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedCreateWithoutProfessionalInput>
+}
+
+export type QuoteResponseUpdateWithWhereUniqueWithoutProfessionalInput = {
+  where: Prisma.QuoteResponseWhereUniqueInput
+  data: Prisma.XOR<Prisma.QuoteResponseUpdateWithoutProfessionalInput, Prisma.QuoteResponseUncheckedUpdateWithoutProfessionalInput>
+}
+
+export type QuoteResponseUpdateManyWithWhereWithoutProfessionalInput = {
+  where: Prisma.QuoteResponseScalarWhereInput
+  data: Prisma.XOR<Prisma.QuoteResponseUpdateManyMutationInput, Prisma.QuoteResponseUncheckedUpdateManyWithoutProfessionalInput>
+}
+
+export type QuoteResponseScalarWhereInput = {
+  AND?: Prisma.QuoteResponseScalarWhereInput | Prisma.QuoteResponseScalarWhereInput[]
+  OR?: Prisma.QuoteResponseScalarWhereInput[]
+  NOT?: Prisma.QuoteResponseScalarWhereInput | Prisma.QuoteResponseScalarWhereInput[]
+  id?: Prisma.UuidFilter<"QuoteResponse"> | string
+  quoteId?: Prisma.UuidFilter<"QuoteResponse"> | string
+  professionalId?: Prisma.UuidFilter<"QuoteResponse"> | string
+  proposedPrice?: Prisma.DecimalFilter<"QuoteResponse"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFilter<"QuoteResponse"> | string
+  message?: Prisma.StringNullableFilter<"QuoteResponse"> | string | null
+  proposedDate?: Prisma.DateTimeNullableFilter<"QuoteResponse"> | Date | string | null
+  expiresAt?: Prisma.DateTimeFilter<"QuoteResponse"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"QuoteResponse"> | Date | string
+}
+
+export type QuoteResponseCreateWithoutQuoteInput = {
+  id?: string
+  proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  message?: string | null
+  proposedDate?: Date | string | null
+  expiresAt: Date | string
+  createdAt?: Date | string
+  professional: Prisma.ProfessionalProfileCreateNestedOneWithoutQuoteResponsesInput
+}
+
 export type QuoteResponseUncheckedCreateWithoutQuoteInput = {
   id?: string
+  professionalId: string
   proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: string
   message?: string | null
@@ -498,10 +639,56 @@ export type QuoteResponseUpdateWithoutQuoteInput = {
   proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  professional?: Prisma.ProfessionalProfileUpdateOneRequiredWithoutQuoteResponsesNestedInput
 }
 
 export type QuoteResponseUncheckedUpdateWithoutQuoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  professionalId?: Prisma.StringFieldUpdateOperationsInput | string
+  proposedPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuoteResponseCreateManyProfessionalInput = {
+  id?: string
+  quoteId: string
+  proposedPrice: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: string
+  message?: string | null
+  proposedDate?: Date | string | null
+  expiresAt: Date | string
+  createdAt?: Date | string
+}
+
+export type QuoteResponseUpdateWithoutProfessionalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  proposedPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quote?: Prisma.QuoteUpdateOneRequiredWithoutResponseNestedInput
+}
+
+export type QuoteResponseUncheckedUpdateWithoutProfessionalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quoteId?: Prisma.StringFieldUpdateOperationsInput | string
+  proposedPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  proposedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuoteResponseUncheckedUpdateManyWithoutProfessionalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quoteId?: Prisma.StringFieldUpdateOperationsInput | string
   proposedPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -515,6 +702,7 @@ export type QuoteResponseUncheckedUpdateWithoutQuoteInput = {
 export type QuoteResponseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   quoteId?: boolean
+  professionalId?: boolean
   proposedPrice?: boolean
   currency?: boolean
   message?: boolean
@@ -522,11 +710,13 @@ export type QuoteResponseSelect<ExtArgs extends runtime.Types.Extensions.Interna
   expiresAt?: boolean
   createdAt?: boolean
   quote?: boolean | Prisma.QuoteDefaultArgs<ExtArgs>
+  professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quoteResponse"]>
 
 export type QuoteResponseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   quoteId?: boolean
+  professionalId?: boolean
   proposedPrice?: boolean
   currency?: boolean
   message?: boolean
@@ -534,11 +724,13 @@ export type QuoteResponseSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   expiresAt?: boolean
   createdAt?: boolean
   quote?: boolean | Prisma.QuoteDefaultArgs<ExtArgs>
+  professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quoteResponse"]>
 
 export type QuoteResponseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   quoteId?: boolean
+  professionalId?: boolean
   proposedPrice?: boolean
   currency?: boolean
   message?: boolean
@@ -546,11 +738,13 @@ export type QuoteResponseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   expiresAt?: boolean
   createdAt?: boolean
   quote?: boolean | Prisma.QuoteDefaultArgs<ExtArgs>
+  professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quoteResponse"]>
 
 export type QuoteResponseSelectScalar = {
   id?: boolean
   quoteId?: boolean
+  professionalId?: boolean
   proposedPrice?: boolean
   currency?: boolean
   message?: boolean
@@ -559,25 +753,30 @@ export type QuoteResponseSelectScalar = {
   createdAt?: boolean
 }
 
-export type QuoteResponseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quoteId" | "proposedPrice" | "currency" | "message" | "proposedDate" | "expiresAt" | "createdAt", ExtArgs["result"]["quoteResponse"]>
+export type QuoteResponseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quoteId" | "professionalId" | "proposedPrice" | "currency" | "message" | "proposedDate" | "expiresAt" | "createdAt", ExtArgs["result"]["quoteResponse"]>
 export type QuoteResponseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   quote?: boolean | Prisma.QuoteDefaultArgs<ExtArgs>
+  professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
 }
 export type QuoteResponseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   quote?: boolean | Prisma.QuoteDefaultArgs<ExtArgs>
+  professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
 }
 export type QuoteResponseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   quote?: boolean | Prisma.QuoteDefaultArgs<ExtArgs>
+  professional?: boolean | Prisma.ProfessionalProfileDefaultArgs<ExtArgs>
 }
 
 export type $QuoteResponsePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "QuoteResponse"
   objects: {
     quote: Prisma.$QuotePayload<ExtArgs>
+    professional: Prisma.$ProfessionalProfilePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     quoteId: string
+    professionalId: string
     proposedPrice: runtime.Decimal
     currency: string
     message: string | null
@@ -979,6 +1178,7 @@ readonly fields: QuoteResponseFieldRefs;
 export interface Prisma__QuoteResponseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   quote<T extends Prisma.QuoteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuoteDefaultArgs<ExtArgs>>): Prisma.Prisma__QuoteClient<runtime.Types.Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  professional<T extends Prisma.ProfessionalProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__ProfessionalProfileClient<runtime.Types.Result.GetResult<Prisma.$ProfessionalProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1010,6 +1210,7 @@ export interface Prisma__QuoteResponseClient<T, Null = never, ExtArgs extends ru
 export interface QuoteResponseFieldRefs {
   readonly id: Prisma.FieldRef<"QuoteResponse", 'String'>
   readonly quoteId: Prisma.FieldRef<"QuoteResponse", 'String'>
+  readonly professionalId: Prisma.FieldRef<"QuoteResponse", 'String'>
   readonly proposedPrice: Prisma.FieldRef<"QuoteResponse", 'Decimal'>
   readonly currency: Prisma.FieldRef<"QuoteResponse", 'String'>
   readonly message: Prisma.FieldRef<"QuoteResponse", 'String'>

@@ -368,6 +368,7 @@ export type ProfessionalProfileWhereInput = {
   stores?: Prisma.StoreListRelationFilter
   services?: Prisma.ServiceListRelationFilter
   reviewsReceived?: Prisma.ReviewListRelationFilter
+  quoteResponses?: Prisma.QuoteResponseListRelationFilter
 }
 
 export type ProfessionalProfileOrderByWithRelationInput = {
@@ -396,6 +397,7 @@ export type ProfessionalProfileOrderByWithRelationInput = {
   stores?: Prisma.StoreOrderByRelationAggregateInput
   services?: Prisma.ServiceOrderByRelationAggregateInput
   reviewsReceived?: Prisma.ReviewOrderByRelationAggregateInput
+  quoteResponses?: Prisma.QuoteResponseOrderByRelationAggregateInput
 }
 
 export type ProfessionalProfileWhereUniqueInput = Prisma.AtLeast<{
@@ -427,6 +429,7 @@ export type ProfessionalProfileWhereUniqueInput = Prisma.AtLeast<{
   stores?: Prisma.StoreListRelationFilter
   services?: Prisma.ServiceListRelationFilter
   reviewsReceived?: Prisma.ReviewListRelationFilter
+  quoteResponses?: Prisma.QuoteResponseListRelationFilter
 }, "id" | "userId" | "slug">
 
 export type ProfessionalProfileOrderByWithAggregationInput = {
@@ -510,6 +513,7 @@ export type ProfessionalProfileCreateInput = {
   stores?: Prisma.StoreCreateNestedManyWithoutProfessionalInput
   services?: Prisma.ServiceCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileUncheckedCreateInput = {
@@ -537,6 +541,7 @@ export type ProfessionalProfileUncheckedCreateInput = {
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutProfessionalInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileUpdateInput = {
@@ -564,6 +569,7 @@ export type ProfessionalProfileUpdateInput = {
   stores?: Prisma.StoreUpdateManyWithoutProfessionalNestedInput
   services?: Prisma.ServiceUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileUncheckedUpdateInput = {
@@ -591,6 +597,7 @@ export type ProfessionalProfileUncheckedUpdateInput = {
   stores?: Prisma.StoreUncheckedUpdateManyWithoutProfessionalNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileCreateManyInput = {
@@ -880,6 +887,20 @@ export type ProfessionalProfileUpdateOneRequiredWithoutServicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessionalProfileUpdateToOneWithWhereWithoutServicesInput, Prisma.ProfessionalProfileUpdateWithoutServicesInput>, Prisma.ProfessionalProfileUncheckedUpdateWithoutServicesInput>
 }
 
+export type ProfessionalProfileCreateNestedOneWithoutQuoteResponsesInput = {
+  create?: Prisma.XOR<Prisma.ProfessionalProfileCreateWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUncheckedCreateWithoutQuoteResponsesInput>
+  connectOrCreate?: Prisma.ProfessionalProfileCreateOrConnectWithoutQuoteResponsesInput
+  connect?: Prisma.ProfessionalProfileWhereUniqueInput
+}
+
+export type ProfessionalProfileUpdateOneRequiredWithoutQuoteResponsesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfessionalProfileCreateWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUncheckedCreateWithoutQuoteResponsesInput>
+  connectOrCreate?: Prisma.ProfessionalProfileCreateOrConnectWithoutQuoteResponsesInput
+  upsert?: Prisma.ProfessionalProfileUpsertWithoutQuoteResponsesInput
+  connect?: Prisma.ProfessionalProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfessionalProfileUpdateToOneWithWhereWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUpdateWithoutQuoteResponsesInput>, Prisma.ProfessionalProfileUncheckedUpdateWithoutQuoteResponsesInput>
+}
+
 export type ProfessionalProfileCreateWithoutUserInput = {
   id?: string
   businessName?: string | null
@@ -904,6 +925,7 @@ export type ProfessionalProfileCreateWithoutUserInput = {
   stores?: Prisma.StoreCreateNestedManyWithoutProfessionalInput
   services?: Prisma.ServiceCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileUncheckedCreateWithoutUserInput = {
@@ -930,6 +952,7 @@ export type ProfessionalProfileUncheckedCreateWithoutUserInput = {
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutProfessionalInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileCreateOrConnectWithoutUserInput = {
@@ -972,6 +995,7 @@ export type ProfessionalProfileUpdateWithoutUserInput = {
   stores?: Prisma.StoreUpdateManyWithoutProfessionalNestedInput
   services?: Prisma.ServiceUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileUncheckedUpdateWithoutUserInput = {
@@ -998,6 +1022,7 @@ export type ProfessionalProfileUncheckedUpdateWithoutUserInput = {
   stores?: Prisma.StoreUncheckedUpdateManyWithoutProfessionalNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileCreateWithoutReviewsReceivedInput = {
@@ -1024,6 +1049,7 @@ export type ProfessionalProfileCreateWithoutReviewsReceivedInput = {
   user: Prisma.UserCreateNestedOneWithoutProfessionalProfileInput
   stores?: Prisma.StoreCreateNestedManyWithoutProfessionalInput
   services?: Prisma.ServiceCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileUncheckedCreateWithoutReviewsReceivedInput = {
@@ -1050,6 +1076,7 @@ export type ProfessionalProfileUncheckedCreateWithoutReviewsReceivedInput = {
   updatedAt?: Date | string
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutProfessionalInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileCreateOrConnectWithoutReviewsReceivedInput = {
@@ -1092,6 +1119,7 @@ export type ProfessionalProfileUpdateWithoutReviewsReceivedInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProfessionalProfileNestedInput
   stores?: Prisma.StoreUpdateManyWithoutProfessionalNestedInput
   services?: Prisma.ServiceUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -1118,6 +1146,7 @@ export type ProfessionalProfileUncheckedUpdateWithoutReviewsReceivedInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stores?: Prisma.StoreUncheckedUpdateManyWithoutProfessionalNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileCreateWithoutStoresInput = {
@@ -1144,6 +1173,7 @@ export type ProfessionalProfileCreateWithoutStoresInput = {
   user: Prisma.UserCreateNestedOneWithoutProfessionalProfileInput
   services?: Prisma.ServiceCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileUncheckedCreateWithoutStoresInput = {
@@ -1170,6 +1200,7 @@ export type ProfessionalProfileUncheckedCreateWithoutStoresInput = {
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileCreateOrConnectWithoutStoresInput = {
@@ -1212,6 +1243,7 @@ export type ProfessionalProfileUpdateWithoutStoresInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProfessionalProfileNestedInput
   services?: Prisma.ServiceUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileUncheckedUpdateWithoutStoresInput = {
@@ -1238,6 +1270,7 @@ export type ProfessionalProfileUncheckedUpdateWithoutStoresInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileCreateWithoutServicesInput = {
@@ -1264,6 +1297,7 @@ export type ProfessionalProfileCreateWithoutServicesInput = {
   user: Prisma.UserCreateNestedOneWithoutProfessionalProfileInput
   stores?: Prisma.StoreCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileUncheckedCreateWithoutServicesInput = {
@@ -1290,6 +1324,7 @@ export type ProfessionalProfileUncheckedCreateWithoutServicesInput = {
   updatedAt?: Date | string
   stores?: Prisma.StoreUncheckedCreateNestedManyWithoutProfessionalInput
   reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutProfessionalInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedCreateNestedManyWithoutProfessionalInput
 }
 
 export type ProfessionalProfileCreateOrConnectWithoutServicesInput = {
@@ -1332,6 +1367,7 @@ export type ProfessionalProfileUpdateWithoutServicesInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutProfessionalProfileNestedInput
   stores?: Prisma.StoreUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUpdateManyWithoutProfessionalNestedInput
 }
 
 export type ProfessionalProfileUncheckedUpdateWithoutServicesInput = {
@@ -1358,6 +1394,131 @@ export type ProfessionalProfileUncheckedUpdateWithoutServicesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   stores?: Prisma.StoreUncheckedUpdateManyWithoutProfessionalNestedInput
   reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutProfessionalNestedInput
+  quoteResponses?: Prisma.QuoteResponseUncheckedUpdateManyWithoutProfessionalNestedInput
+}
+
+export type ProfessionalProfileCreateWithoutQuoteResponsesInput = {
+  id?: string
+  businessName?: string | null
+  slug?: string | null
+  bio?: string | null
+  verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
+  avatarKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  serviceRadiusKm?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutProfessionalProfileInput
+  stores?: Prisma.StoreCreateNestedManyWithoutProfessionalInput
+  services?: Prisma.ServiceCreateNestedManyWithoutProfessionalInput
+  reviewsReceived?: Prisma.ReviewCreateNestedManyWithoutProfessionalInput
+}
+
+export type ProfessionalProfileUncheckedCreateWithoutQuoteResponsesInput = {
+  id?: string
+  userId: string
+  businessName?: string | null
+  slug?: string | null
+  bio?: string | null
+  verificationStatus?: $Enums.VerificationStatus
+  verificationLevel?: $Enums.VerificationLevel
+  successfulTransactions?: number
+  verifiedAt?: Date | string | null
+  certifiedAt?: Date | string | null
+  selfieKey?: string | null
+  kycDocumentKey?: string | null
+  certifiedByUserId?: string | null
+  avatarKey?: string | null
+  ratingAverage?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: number
+  latitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  serviceRadiusKm?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  stores?: Prisma.StoreUncheckedCreateNestedManyWithoutProfessionalInput
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutProfessionalInput
+  reviewsReceived?: Prisma.ReviewUncheckedCreateNestedManyWithoutProfessionalInput
+}
+
+export type ProfessionalProfileCreateOrConnectWithoutQuoteResponsesInput = {
+  where: Prisma.ProfessionalProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfessionalProfileCreateWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUncheckedCreateWithoutQuoteResponsesInput>
+}
+
+export type ProfessionalProfileUpsertWithoutQuoteResponsesInput = {
+  update: Prisma.XOR<Prisma.ProfessionalProfileUpdateWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUncheckedUpdateWithoutQuoteResponsesInput>
+  create: Prisma.XOR<Prisma.ProfessionalProfileCreateWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUncheckedCreateWithoutQuoteResponsesInput>
+  where?: Prisma.ProfessionalProfileWhereInput
+}
+
+export type ProfessionalProfileUpdateToOneWithWhereWithoutQuoteResponsesInput = {
+  where?: Prisma.ProfessionalProfileWhereInput
+  data: Prisma.XOR<Prisma.ProfessionalProfileUpdateWithoutQuoteResponsesInput, Prisma.ProfessionalProfileUncheckedUpdateWithoutQuoteResponsesInput>
+}
+
+export type ProfessionalProfileUpdateWithoutQuoteResponsesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  serviceRadiusKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutProfessionalProfileNestedInput
+  stores?: Prisma.StoreUpdateManyWithoutProfessionalNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutProfessionalNestedInput
+  reviewsReceived?: Prisma.ReviewUpdateManyWithoutProfessionalNestedInput
+}
+
+export type ProfessionalProfileUncheckedUpdateWithoutQuoteResponsesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationStatus?: Prisma.EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+  verificationLevel?: Prisma.EnumVerificationLevelFieldUpdateOperationsInput | $Enums.VerificationLevel
+  successfulTransactions?: Prisma.IntFieldUpdateOperationsInput | number
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  certifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  selfieKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kycDocumentKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  certifiedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ratingAverage?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  latitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  longitude?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  serviceRadiusKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stores?: Prisma.StoreUncheckedUpdateManyWithoutProfessionalNestedInput
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutProfessionalNestedInput
+  reviewsReceived?: Prisma.ReviewUncheckedUpdateManyWithoutProfessionalNestedInput
 }
 
 
@@ -1369,12 +1530,14 @@ export type ProfessionalProfileCountOutputType = {
   stores: number
   services: number
   reviewsReceived: number
+  quoteResponses: number
 }
 
 export type ProfessionalProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   stores?: boolean | ProfessionalProfileCountOutputTypeCountStoresArgs
   services?: boolean | ProfessionalProfileCountOutputTypeCountServicesArgs
   reviewsReceived?: boolean | ProfessionalProfileCountOutputTypeCountReviewsReceivedArgs
+  quoteResponses?: boolean | ProfessionalProfileCountOutputTypeCountQuoteResponsesArgs
 }
 
 /**
@@ -1408,6 +1571,13 @@ export type ProfessionalProfileCountOutputTypeCountReviewsReceivedArgs<ExtArgs e
   where?: Prisma.ReviewWhereInput
 }
 
+/**
+ * ProfessionalProfileCountOutputType without action
+ */
+export type ProfessionalProfileCountOutputTypeCountQuoteResponsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuoteResponseWhereInput
+}
+
 
 export type ProfessionalProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1435,6 +1605,7 @@ export type ProfessionalProfileSelect<ExtArgs extends runtime.Types.Extensions.I
   stores?: boolean | Prisma.ProfessionalProfile$storesArgs<ExtArgs>
   services?: boolean | Prisma.ProfessionalProfile$servicesArgs<ExtArgs>
   reviewsReceived?: boolean | Prisma.ProfessionalProfile$reviewsReceivedArgs<ExtArgs>
+  quoteResponses?: boolean | Prisma.ProfessionalProfile$quoteResponsesArgs<ExtArgs>
   _count?: boolean | Prisma.ProfessionalProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["professionalProfile"]>
 
@@ -1518,6 +1689,7 @@ export type ProfessionalProfileInclude<ExtArgs extends runtime.Types.Extensions.
   stores?: boolean | Prisma.ProfessionalProfile$storesArgs<ExtArgs>
   services?: boolean | Prisma.ProfessionalProfile$servicesArgs<ExtArgs>
   reviewsReceived?: boolean | Prisma.ProfessionalProfile$reviewsReceivedArgs<ExtArgs>
+  quoteResponses?: boolean | Prisma.ProfessionalProfile$quoteResponsesArgs<ExtArgs>
   _count?: boolean | Prisma.ProfessionalProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProfessionalProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1534,6 +1706,7 @@ export type $ProfessionalProfilePayload<ExtArgs extends runtime.Types.Extensions
     stores: Prisma.$StorePayload<ExtArgs>[]
     services: Prisma.$ServicePayload<ExtArgs>[]
     reviewsReceived: Prisma.$ReviewPayload<ExtArgs>[]
+    quoteResponses: Prisma.$QuoteResponsePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1979,6 +2152,7 @@ export interface Prisma__ProfessionalProfileClient<T, Null = never, ExtArgs exte
   stores<T extends Prisma.ProfessionalProfile$storesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfile$storesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   services<T extends Prisma.ProfessionalProfile$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfile$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewsReceived<T extends Prisma.ProfessionalProfile$reviewsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfile$reviewsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  quoteResponses<T extends Prisma.ProfessionalProfile$quoteResponsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfessionalProfile$quoteResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuoteResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2499,6 +2673,30 @@ export type ProfessionalProfile$reviewsReceivedArgs<ExtArgs extends runtime.Type
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * ProfessionalProfile.quoteResponses
+ */
+export type ProfessionalProfile$quoteResponsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the QuoteResponse
+   */
+  select?: Prisma.QuoteResponseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the QuoteResponse
+   */
+  omit?: Prisma.QuoteResponseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuoteResponseInclude<ExtArgs> | null
+  where?: Prisma.QuoteResponseWhereInput
+  orderBy?: Prisma.QuoteResponseOrderByWithRelationInput | Prisma.QuoteResponseOrderByWithRelationInput[]
+  cursor?: Prisma.QuoteResponseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuoteResponseScalarFieldEnum | Prisma.QuoteResponseScalarFieldEnum[]
 }
 
 /**

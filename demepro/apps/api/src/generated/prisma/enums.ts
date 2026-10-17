@@ -187,3 +187,26 @@ export const PricingModel = {
 } as const
 
 export type PricingModel = (typeof PricingModel)[keyof typeof PricingModel]
+
+
+export const QuoteStatus = {
+  PENDING: 'PENDING',
+  RESPONDED: 'RESPONDED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED',
+  CONVERTED: 'CONVERTED'
+} as const
+
+export type QuoteStatus = (typeof QuoteStatus)[keyof typeof QuoteStatus]
+
+
+export const BookingStatus = {
+  CONFIRMED: 'CONFIRMED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+  NO_SHOW: 'NO_SHOW'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]

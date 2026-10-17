@@ -3,26 +3,25 @@
 
 > **Section** : 12-roadmap
 > **Statut** : 🚧 Draft
-> **Dernière mise à jour** : 2026-10-11
+> **Dernière mise à jour** : 2026-10-17
 
 ## Vue d'ensemble
 
 ```
-Phase 1 — FOUNDATION        ████████████████████  100%  ✅
-Phase 2 — CATALOG           ████████████████████  100%  ✅
-Phase 3 — STORE + CATEGORY  ███░░░░░░░░░░░░░░░░░   15%  ⏭️
-Phase 4 — ORDER + PAYMENT   ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
-Phase 5 — SERVICE (TROUVER) ░░░░░░░░░░░░░░░░░░░░    0%  🆕
-Phase 6 — TRANSVERSE        ░░░░░░░░░░░░░░░░░░░░    0%  🆕
-Phase 7 — ANALYTICS         ░░░░░░░░░░░░░░░░░░░░    0%
-Phase 8 — FRONTENDS         ░░░░░░░░░░░░░░░░░░░░    0%
+Phase 1 — Foundation          ████████████████████  100%  ✅
+Phase 2 — Catalog             ████████████████████  100%  ✅
+Phase 3 — Store + Category    ████████████████████  100%  ✅
+Phase 4 — Order + Payment     ████████████████████  100%  ✅
+Phase 5 — Service (TROUVER)   ███████████░░░░░░░░░   55%  🚧
+Phase 6 — Transverse          ████████████████████  100%  ✅
+Phase 7 — Analytics           ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
+Phase 8 — Frontends           ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
 ```
 
 ## Phase 1 — Foundation ✅
 
-**Objectif** : Infrastructure technique et Auth.
+**Statut** : 100% ✅
 
-**Livrables** :
 - [x] Monorepo pnpm
 - [x] TypeScript strict + ESLint + Prettier
 - [x] Prisma 7 + PostgreSQL 16
@@ -30,226 +29,125 @@ Phase 8 — FRONTENDS         ░░░░░░░░░░░░░░░░�
 - [x] RBAC (permissions granulaires)
 - [x] Tests (Vitest + Testcontainers)
 - [x] Docker Compose (Postgres, Redis, SeaweedFS)
-- [x] CI (GitHub Actions)
-
-**Statut** : 100% ✅
 
 ## Phase 2 — Catalog ✅
 
-**Objectif** : Cœur transactionnel du flux ACHETER.
+**Statut** : 100% ✅
 
-**Livrables** :
 - [x] ProductService (CRUD, création atomique)
 - [x] ProductVariantService
 - [x] ProductImageService
 - [x] InventoryService (SQL atomique)
 - [x] IdempotencyService
 - [x] Contraintes DB (SKU, slug, XOR)
-- [x] Controllers + Routes
 - [x] **142 tests** (97 intégration + 45 E2E)
+
+## Phase 3 — Store + Category + Verification ✅
 
 **Statut** : 100% ✅
 
-## Phase 3 — Store + Category ⏭️
+- [x] StoreService (mono-boutique par pro)
+- [x] StoreController + routes
+- [x] CategoryService (hiérarchie 3 niveaux)
+- [x] CategoryController + routes
+- [x] VerificationService (BASIC → TRUSTED → CERTIFIED)
+- [x] **87 tests** (40 Store + 33 Category + 14 Verification)
 
-**Objectif** : Compléter les entités supports du flux ACHETER.
+## Phase 4 — Order + Payment ✅
 
-**Livrables** :
-- [ ] StoreService (CRUD + statuts)
-- [ ] StoreController + routes
-- [ ] StoreHourRepository
-- [ ] CategoryService (hiérarchie)
-- [ ] CategoryController + routes
-- [ ] Tests d'intégration
-- [ ] Tests E2E
+**Statut** : 100% ✅
 
-**Durée estimée** : 2 sessions
-**Bloquant pour** : Phase 4 (Order nécessite Store)
+### Order
+- [x] OrderService (createOrder, shipOrder, deliverOrder, cancelOrder, markAsPaid)
+- [x] Cycle de vie strict : PENDING → PAID → SHIPPED → DELIVERED
+- [x] Réservation stock atomique
+- [x] Snapshot prix/nom dans OrderItem
+- [x] OrderController + 7 routes REST
+- [x] **35 tests** (14 intégration + 21 E2E)
 
-## Phase 4 — Order + Payment ⏭️
+### Payment
+- [x] PaymentService (initiate, webhook, refund)
+- [x] PaymentProviderInterface (initiate, verifyWebhook, refund)
+- [x] MockProvider (HMAC-SHA256)
+- [x] OrangeMoneyProvider + WaveProvider (stubs)
+- [x] Webhooks idempotents (providerRef @unique)
+- [x] PaymentController + PaymentWebhookController
+- [x] **22 tests** (14 intégration + 8 E2E)
 
-**Objectif** : Flux transactionnel complet.
+### COD reporté à Phase 4.4
 
-**Livrables** :
-- [ ] OrderService (création + réservation stock)
-- [ ] OrderItem + snapshots prix
-- [ ] OrderStatusHistory
-- [ ] Cycle de vie : PENDING → PAID → SHIPPED → DELIVERED
-- [ ] Annulation + release stock
-- [ ] Remboursement
-- [ ] PaymentService
-- [ ] Intégration Orange Money
-- [ ] Intégration Wave
-- [ ] Webhooks signés + idempotents
-- [ ] DeliveryService
-- [ ] Tests de concurrence (2 commandes simultanées)
-- [ ] Tests E2E
+## Phase 5 — Service (TROUVER) 🚧
 
-**Durée estimée** : 3-4 sessions
-**Bloquant pour** : Phase 5
+**Statut** : 55% 🚧
 
-## Phase 5 — SERVICE (TROUVER) 🆕
+### 5.1 Service ✅
+- [x] Modèle Service enrichi (pricingModel, basePrice, ratingAverage, ratingCount)
+- [x] ServiceImage, ServiceZone, Availability
+- [x] ServiceService (CRUD + images + zones + availabilities)
+- [x] ServiceController + 15 routes
+- [x] **46 tests** (28 intégration + 18 E2E)
 
-**Objectif** : Ouvrir le flux services.
+### 5.2 Quote ⏭️
+- [ ] Modèle Quote + QuoteResponse
+- [ ] QuoteService
+- [ ] QuoteController + routes
+- [ ] Tests
 
-**Livrables** :
-- [ ] ServiceService (CRUD, portfolio)
-- [ ] ServiceImageService
-- [ ] ServiceZoneService
-- [ ] AvailabilityService
-- [ ] QuoteService (demande + réponse)
-- [ ] BookingService (réservation de créneau)
-- [ ] Intégration Payment (XOR order/booking)
-- [ ] Tests de concurrence (créneau unique)
-- [ ] Tests E2E
+### 5.3 Booking ⏭️
+- [ ] Modèle Booking
+- [ ] BookingService
+- [ ] BookingController + routes
+- [ ] Tests
 
-**Durée estimée** : 3-4 sessions
-**Dépend de** : Phase 4 (Payment)
+### 5.4 Intégration Payment + Review ⏭️
+- [ ] Payment XOR Order/Booking
+- [ ] Review étendu (serviceId + bookingId)
+- [ ] Tests
 
-## Phase 6 — Transverse 🆕
+## Phase 6 — Transverse ✅
 
-**Objectif** : Infrastructure partagée.
+**Statut** : 100% ✅
 
-**Livrables** :
-- [ ] AddressService
-- [ ] ReviewService (unifié produits + services)
-- [ ] ReviewReportService
-- [ ] NotificationService (email, SMS, push)
-- [ ] NotificationTemplateService
-- [ ] Templates email transactionnels
-- [ ] Scheduler (cron jobs)
+### 6.1 Address
+- [x] AddressService (CRUD + adresse par défaut)
+- [x] AddressController + routes
+- [x] Index partiel DB (une seule défaut par user)
+- [x] **21 tests** (13 intégration + 8 E2E)
 
-**Durée estimée** : 2-3 sessions
-**Parallélisable** avec Phase 5
+### 6.2 Review
+- [x] Modèle Review enrichi (productId, variantId, storeId, professionalId)
+- [x] ReviewReport
+- [x] ReviewService (create, update, delete, report, moderate, summary)
+- [x] Recalcul synchrone Store.ratingAverage
+- [x] **25 tests** (14 intégration + 11 E2E)
 
-## Phase 7 — Analytics
+### 6.3 Notification
+- [x] NotificationProviderInterface
+- [x] MockEmailProvider + MockSmsProvider
+- [x] NotificationTemplateService
+- [x] NotificationService (fire-and-forget)
+- [x] NotificationController + routes
+- [x] Intégration OrderService + ReviewService
+- [x] **12 tests** (7 intégration + 5 E2E)
 
-**Objectif** : Mesurer et optimiser.
+## Phase 7 — Analytics ⏭️
 
-**Livrables** :
-- [ ] AnalyticsEventService
-- [ ] Dashboard professionnel
+- [ ] AnalyticsService
+- [ ] Dashboard pro
 - [ ] Dashboard admin
-- [ ] Rapports exportables
-- [ ] Vues matérialisées
-- [ ] Cache Redis
+- [ ] Export CSV
 
-**Durée estimée** : 2 sessions
+## Phase 8 — Frontends ⏭️
 
-## Phase 8 — Frontends
-
-**Objectif** : Interfaces utilisateur.
-
-**Livrables** :
 - [ ] Next.js web client
-- [ ] Pages catalogue
-- [ ] Panier + checkout
-- [ ] Suivi de commande
-- [ ] Recherche de services (Phase 5)
-- [ ] Demande de devis
-- [ ] Backoffice admin (Next.js)
-- [ ] Dashboard modération
+- [ ] Backoffice admin
 - [ ] Mobile (Phase 3+)
 
-**Durée estimée** : plusieurs sessions
-
-## Chemin critique vers le MVP
-
-```
-Phase 3 (Store + Category)
-    │
-    ▼
-Phase 4 (Order + Payment)
-    │
-    ├──► MVP ACHETER ✅ (utilisable)
-    │
-    ▼
-Phase 5 (Service)
-    │
-    ▼
-Phase 6 (Transverse)
-    │
-    ├──► MVP TROUVER ✅ (utilisable)
-    │
-    ▼
-Phase 7 (Analytics)
-    │
-    ▼
-Phase 8 (Frontends)
-    │
-    ▼
-PRODUIT COMPLET
-```
-
-## Jalons clés
-
-| Jalon | Description | Phase |
-|---|---|---|
-| M1 | Catalog validé | Phase 2 ✅ |
-| M2 | MVP ACHETER | Phase 4 |
-| M3 | MVP TROUVER | Phase 6 |
-| M4 | Beta fermée | Phase 8 |
-| M5 | GA (General Availability) | Phase 8+ |
-
-## Risques de la roadmap
-
-| Risque | Impact | Mitigation |
-|---|---|---|
-| Retard Phase 4 | Retard global | Focus, priorisation |
-| Complexité Payment | Retard | Commencer par 1 provider |
-| Adoption lente | Retard revenus | Marketing actif |
-| Complexité frontend | Retard MVP | Composants partagés |
-| Surcharge équipe | Burnout | Recrutements ciblés |
-
-## Priorités si contraintes
-
-Si les ressources sont limitées, prioriser :
-
-1. **MVP ACHETER** (Phases 3-4) — Valeur immédiate
-2. **Transverse minimal** (Phase 6) — Review + Notification
-3. **Frontend web** (Phase 8) — Interface utilisateur
-4. **SERVICES** (Phase 5) — Différenciation
-5. **Analytics** (Phase 7) — Optimisation
-
-## Budget par phase
-
-| Phase | Coût estimé | Durée |
-|---|---|---|
-| Phase 3 | 500 K FCFA | 2 semaines |
-| Phase 4 | 1,5 M FCFA | 6 semaines |
-| Phase 5 | 1,5 M FCFA | 6 semaines |
-| Phase 6 | 1 M FCFA | 4 semaines |
-| Phase 7 | 800 K FCFA | 3 semaines |
-| Phase 8 | 2 M FCFA | 8 semaines |
-| **Total** | **7,3 M FCFA** | **~7 mois** |
-
-## Métriques de succès par phase
-
-| Phase | Métrique clé | Cible |
-|---|---|---|
-| Phase 3 | Couverture tests Store | > 80% |
-| Phase 4 | Commandes réussies en beta | > 50 |
-| Phase 5 | Devis envoyés en beta | > 20 |
-| Phase 6 | Notifications envoyées | > 100 |
-| Phase 7 | Dashboard utilisé | > 10 pros |
-| Phase 8 | Utilisateurs actifs | > 200 |
-
-
 ---
-
-## Statut du document
-
-| Champ | Valeur |
-|---|---|
-| Version | 0.2.0 |
-| Statut | 🚧 Draft |
-| Auteur | — |
-| Relecteurs | — |
-| Dernière mise à jour | 2026-10-11 |
 
 ## Historique
 
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-11 | 0.2.0 | Intégration vision place de marché hybride | — |
+| 2026-10-17 | 0.4.0 | Mise à jour 390 tests, Phases 4, 5.1, 6 complètes | — |

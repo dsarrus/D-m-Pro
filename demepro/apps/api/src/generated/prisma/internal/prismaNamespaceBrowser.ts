@@ -448,6 +448,7 @@ export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof Qu
 export const QuoteResponseScalarFieldEnum = {
   id: 'id',
   quoteId: 'quoteId',
+  professionalId: 'professionalId',
   proposedPrice: 'proposedPrice',
   currency: 'currency',
   message: 'message',

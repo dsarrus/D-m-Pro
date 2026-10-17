@@ -431,4 +431,119 @@ export class NotificationService {
     const result = await this.repository.markAllAsRead(ctx.userId);
     return { count: result.count };
   }
+
+  /* ================================================================
+   * NOTIFICATIONS DEVIS (QUOTE)
+   * ================================================================ */
+
+  /**
+   * Charge les infos nécessaires pour notifier un devis.
+   */
+  private async loadQuoteNotificationContext(quoteId: string) {
+  return this.prisma.quote.findUnique({
+    where: { id: quoteId },
+    include: {
+      user: {
+        select: { id: true, firstName: true, lastName: true, email: true, phone: true },
+      },
+      service: {
+        select: {
+          id: true,
+          name: true,
+          professional: {
+            select: {
+              userId: true,
+              user: {
+                select: { id: true, firstName: true, lastName: true, email: true, phone: true },
+              },
+            },
+          },
+        },
+      },
+      response: { select: { proposedPrice: true, currency: true } },
+    },
+  });
+}
+
+async notifyQuoteReceived(quoteId: string): Promise<void> {
+  const quote = await this.loadQuoteNotificationContext(quoteId);
+
+  // ⭐ GARDE-FOUS
+  if (!quote) return;
+  if (!quote.service) return;
+  if (!quote.service.professional) return;
+  if (!quote.service.professional.user) return;
+
+  const proUserId = quote.service.professional.user.id;
+  const clientName = `${quote.user.firstName} ${quote.user.lastName}`.trim() || "Un client";
+
+  try {
+    await this.createInApp(proUserId, "QUOTE_RECEIVED", {
+      title: "Nouvelle demande de devis",
+      body: `${clientName} vous a envoyé une demande de devis pour « ${quote.service.name} ».`,
+      data: { quoteId, serviceId: quote.service.id },
+    });
+  } catch (error) {
+    console.warn("[notifyQuoteReceived] In-app failed:", error);
+  }
+}
+
+  /**
+   * Le pro a répondu → notifier le client.
+   */
+  async notifyQuoteResponded(quoteId: string): Promise<void> {
+    const quote = await this.loadQuoteNotificationContext(quoteId);
+    if (!quote || !quote.response) return;
+
+    const clientId = quote.user.id;
+
+    /* ----- In-app client ----- */
+    try {
+      await this.createInApp(clientId, "QUOTE_RESPONDED", {
+        title: "Réponse à votre demande de devis",
+        body: `Le professionnel a répondu à votre demande pour « ${quote.service.name} » : ${quote.response.proposedPrice} ${quote.response.currency}.`,
+        data: { quoteId, serviceId: quote.service.id },
+      });
+    } catch (error) {
+      console.warn("[notifyQuoteResponded] In-app failed:", error);
+    }
+
+    /* ----- Email client (optionnel) ----- */
+    if (quote.user.email) {
+      try {
+        await this.sendEmail({
+          to: quote.user.email,
+          subject: `Réponse à votre devis — ${quote.service.name}`,
+          text: `Bonjour ${quote.user.firstName}, le professionnel a répondu à votre demande de devis pour « ${quote.service.name} » : ${quote.response.proposedPrice} ${quote.response.currency}. Consultez votre espace pour accepter ou refuser.`,
+          html: `<p>Bonjour ${quote.user.firstName},</p>
+                 <p>Le professionnel a répondu à votre demande de devis pour <strong>${quote.service.name}</strong> : <strong>${quote.response.proposedPrice} ${quote.response.currency}</strong>.</p>
+                 <p>Consultez votre espace pour accepter ou refuser.</p>`,
+          metadata: { quoteId, type: "QUOTE_RESPONDED" },
+        });
+      } catch (error) {
+        console.warn("[notifyQuoteResponded] Email failed:", error);
+      }
+    }
+  }
+
+  /**
+   * Le client a accepté → notifier le pro.
+   */
+  async notifyQuoteAccepted(quoteId: string): Promise<void> {
+    const quote = await this.loadQuoteNotificationContext(quoteId);
+    if (!quote) return;
+
+    const proUserId = quote.service.professional.user.id;
+
+    /* ----- In-app pro ----- */
+    try {
+      await this.createInApp(proUserId, "QUOTE_ACCEPTED", {
+        title: "Devis accepté",
+        body: `Le client a accepté votre devis pour « ${quote.service.name} ».`,
+        data: { quoteId, serviceId: quote.service.id },
+      });
+    } catch (error) {
+      console.warn("[notifyQuoteAccepted] In-app failed:", error);
+    }
+  }
 }

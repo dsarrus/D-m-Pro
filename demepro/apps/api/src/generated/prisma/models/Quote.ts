@@ -38,7 +38,7 @@ export type QuoteMinAggregateOutputType = {
   id: string | null
   serviceId: string | null
   userId: string | null
-  status: string | null
+  status: $Enums.QuoteStatus | null
   description: string | null
   budget: runtime.Decimal | null
   currency: string | null
@@ -51,7 +51,7 @@ export type QuoteMaxAggregateOutputType = {
   id: string | null
   serviceId: string | null
   userId: string | null
-  status: string | null
+  status: $Enums.QuoteStatus | null
   description: string | null
   budget: runtime.Decimal | null
   currency: string | null
@@ -213,7 +213,7 @@ export type QuoteGroupByOutputType = {
   id: string
   serviceId: string
   userId: string
-  status: string
+  status: $Enums.QuoteStatus
   description: string
   budget: runtime.Decimal | null
   currency: string
@@ -249,7 +249,7 @@ export type QuoteWhereInput = {
   id?: Prisma.UuidFilter<"Quote"> | string
   serviceId?: Prisma.UuidFilter<"Quote"> | string
   userId?: Prisma.UuidFilter<"Quote"> | string
-  status?: Prisma.StringFilter<"Quote"> | string
+  status?: Prisma.EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
   description?: Prisma.StringFilter<"Quote"> | string
   budget?: Prisma.DecimalNullableFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFilter<"Quote"> | string
@@ -286,7 +286,7 @@ export type QuoteWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.QuoteWhereInput | Prisma.QuoteWhereInput[]
   serviceId?: Prisma.UuidFilter<"Quote"> | string
   userId?: Prisma.UuidFilter<"Quote"> | string
-  status?: Prisma.StringFilter<"Quote"> | string
+  status?: Prisma.EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
   description?: Prisma.StringFilter<"Quote"> | string
   budget?: Prisma.DecimalNullableFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFilter<"Quote"> | string
@@ -324,7 +324,7 @@ export type QuoteScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Quote"> | string
   serviceId?: Prisma.UuidWithAggregatesFilter<"Quote"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"Quote"> | string
-  status?: Prisma.StringWithAggregatesFilter<"Quote"> | string
+  status?: Prisma.EnumQuoteStatusWithAggregatesFilter<"Quote"> | $Enums.QuoteStatus
   description?: Prisma.StringWithAggregatesFilter<"Quote"> | string
   budget?: Prisma.DecimalNullableWithAggregatesFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringWithAggregatesFilter<"Quote"> | string
@@ -335,7 +335,7 @@ export type QuoteScalarWhereWithAggregatesInput = {
 
 export type QuoteCreateInput = {
   id?: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -352,7 +352,7 @@ export type QuoteUncheckedCreateInput = {
   id?: string
   serviceId: string
   userId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -365,7 +365,7 @@ export type QuoteUncheckedCreateInput = {
 
 export type QuoteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -382,7 +382,7 @@ export type QuoteUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -397,7 +397,7 @@ export type QuoteCreateManyInput = {
   id?: string
   serviceId: string
   userId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -408,7 +408,7 @@ export type QuoteCreateManyInput = {
 
 export type QuoteUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -421,7 +421,7 @@ export type QuoteUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -581,6 +581,10 @@ export type QuoteUncheckedUpdateManyWithoutServiceNestedInput = {
   deleteMany?: Prisma.QuoteScalarWhereInput | Prisma.QuoteScalarWhereInput[]
 }
 
+export type EnumQuoteStatusFieldUpdateOperationsInput = {
+  set?: $Enums.QuoteStatus
+}
+
 export type QuoteCreateNestedOneWithoutResponseInput = {
   create?: Prisma.XOR<Prisma.QuoteCreateWithoutResponseInput, Prisma.QuoteUncheckedCreateWithoutResponseInput>
   connectOrCreate?: Prisma.QuoteCreateOrConnectWithoutResponseInput
@@ -613,7 +617,7 @@ export type QuoteUpdateOneWithoutBookingNestedInput = {
 
 export type QuoteCreateWithoutUserInput = {
   id?: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -628,7 +632,7 @@ export type QuoteCreateWithoutUserInput = {
 export type QuoteUncheckedCreateWithoutUserInput = {
   id?: string
   serviceId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -672,7 +676,7 @@ export type QuoteScalarWhereInput = {
   id?: Prisma.UuidFilter<"Quote"> | string
   serviceId?: Prisma.UuidFilter<"Quote"> | string
   userId?: Prisma.UuidFilter<"Quote"> | string
-  status?: Prisma.StringFilter<"Quote"> | string
+  status?: Prisma.EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
   description?: Prisma.StringFilter<"Quote"> | string
   budget?: Prisma.DecimalNullableFilter<"Quote"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFilter<"Quote"> | string
@@ -683,7 +687,7 @@ export type QuoteScalarWhereInput = {
 
 export type QuoteCreateWithoutServiceInput = {
   id?: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -698,7 +702,7 @@ export type QuoteCreateWithoutServiceInput = {
 export type QuoteUncheckedCreateWithoutServiceInput = {
   id?: string
   userId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -737,7 +741,7 @@ export type QuoteUpdateManyWithWhereWithoutServiceInput = {
 
 export type QuoteCreateWithoutResponseInput = {
   id?: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -753,7 +757,7 @@ export type QuoteUncheckedCreateWithoutResponseInput = {
   id?: string
   serviceId: string
   userId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -781,7 +785,7 @@ export type QuoteUpdateToOneWithWhereWithoutResponseInput = {
 
 export type QuoteUpdateWithoutResponseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -797,7 +801,7 @@ export type QuoteUncheckedUpdateWithoutResponseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -809,7 +813,7 @@ export type QuoteUncheckedUpdateWithoutResponseInput = {
 
 export type QuoteCreateWithoutBookingInput = {
   id?: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -825,7 +829,7 @@ export type QuoteUncheckedCreateWithoutBookingInput = {
   id?: string
   serviceId: string
   userId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -853,7 +857,7 @@ export type QuoteUpdateToOneWithWhereWithoutBookingInput = {
 
 export type QuoteUpdateWithoutBookingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -869,7 +873,7 @@ export type QuoteUncheckedUpdateWithoutBookingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -882,7 +886,7 @@ export type QuoteUncheckedUpdateWithoutBookingInput = {
 export type QuoteCreateManyUserInput = {
   id?: string
   serviceId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -893,7 +897,7 @@ export type QuoteCreateManyUserInput = {
 
 export type QuoteUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -908,7 +912,7 @@ export type QuoteUpdateWithoutUserInput = {
 export type QuoteUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -922,7 +926,7 @@ export type QuoteUncheckedUpdateWithoutUserInput = {
 export type QuoteUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -934,7 +938,7 @@ export type QuoteUncheckedUpdateManyWithoutUserInput = {
 export type QuoteCreateManyServiceInput = {
   id?: string
   userId: string
-  status?: string
+  status?: $Enums.QuoteStatus
   description: string
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: string
@@ -945,7 +949,7 @@ export type QuoteCreateManyServiceInput = {
 
 export type QuoteUpdateWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -960,7 +964,7 @@ export type QuoteUpdateWithoutServiceInput = {
 export type QuoteUncheckedUpdateWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -974,7 +978,7 @@ export type QuoteUncheckedUpdateWithoutServiceInput = {
 export type QuoteUncheckedUpdateManyWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
   description?: Prisma.StringFieldUpdateOperationsInput | string
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1073,7 +1077,7 @@ export type $QuotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: string
     serviceId: string
     userId: string
-    status: string
+    status: $Enums.QuoteStatus
     description: string
     budget: runtime.Decimal | null
     currency: string
@@ -1510,7 +1514,7 @@ export interface QuoteFieldRefs {
   readonly id: Prisma.FieldRef<"Quote", 'String'>
   readonly serviceId: Prisma.FieldRef<"Quote", 'String'>
   readonly userId: Prisma.FieldRef<"Quote", 'String'>
-  readonly status: Prisma.FieldRef<"Quote", 'String'>
+  readonly status: Prisma.FieldRef<"Quote", 'QuoteStatus'>
   readonly description: Prisma.FieldRef<"Quote", 'String'>
   readonly budget: Prisma.FieldRef<"Quote", 'Decimal'>
   readonly currency: Prisma.FieldRef<"Quote", 'String'>
