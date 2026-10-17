@@ -611,6 +611,7 @@ export type OrderStatusHistoryScalarFieldEnum = (typeof OrderStatusHistoryScalar
 export const PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
+  bookingId: 'bookingId',
   amount: 'amount',
   currency: 'currency',
   status: 'status',

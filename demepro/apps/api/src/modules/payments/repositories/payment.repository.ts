@@ -93,4 +93,51 @@ export class PaymentRepository {
       data,
     });
   }
+
+  /* ================================================================
+ * BOOKING PAYMENTS
+ * ================================================================ */
+
+async findByBookingId(
+  bookingId: string,
+  tx: Prisma.TransactionClient | PrismaClient = this.prisma,
+) {
+  return tx.payment.findUnique({
+    where: { bookingId },
+    include: {
+      booking: {
+        select: {
+          id: true,
+          userId: true,
+          serviceId: true,
+          status: true,
+          totalAmount: true,
+          currency: true,
+          quoteId: true,
+        },
+      },
+    },
+  });
+}
+
+async createForBooking(
+  data: {
+    bookingId: string;
+    amount: Prisma.Decimal;
+    currency: string;
+    provider: string;
+    status: string;
+  },
+  tx: Prisma.TransactionClient | PrismaClient = this.prisma,
+) {
+  return tx.payment.create({
+    data: {
+      booking: { connect: { id: data.bookingId } },
+      amount: data.amount,
+      currency: data.currency,
+      provider: data.provider as any,
+      status: data.status as any,
+    },
+  });
+}
 }

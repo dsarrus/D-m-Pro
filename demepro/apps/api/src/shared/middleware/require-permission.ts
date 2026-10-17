@@ -45,6 +45,20 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     
     /*notification*/
     "notification.read.own",
+
+    /* Quote */
+  "quote.create",
+  "quote.read.own",
+  "quote.accept",
+  "quote.reject",
+  
+  /* Booking */
+  "booking.create",
+  "booking.read.own",
+  "booking.start",     // non — c'est pro
+  "booking.cancel",
+  "booking.payment.initiate",   // ⭐ NOUVEAU
+  "booking.payment.refund",     // ⭐ NOUVEAU
   ],
 
   PROFESSIONAL: [
@@ -97,6 +111,17 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "service.availability.read.own",
     "service.availability.update.own",
     "service.availability.delete.own",
+
+    /* Quote */
+  "quote.read.received",
+  "quote.respond",
+  
+  /* Booking */
+  "booking.read.received",
+  "booking.start",
+  "booking.complete",
+  "booking.cancel",
+  "booking.no-show",
   ],
 
   ADMIN: [
@@ -122,6 +147,16 @@ const ROLE_PERMISSIONS: Record<string, Permission[]> = {
     "review.read",
     "review.moderate",
     "review.report",
+
+     /* Quote */
+  "quote.read.own",
+  "quote.read.received",
+  
+  /* Booking */
+  "booking.read.own",
+  "booking.read.received",
+  "booking.cancel",
+  "booking.payment.refund",   // ⭐ NOUVEAU
   ],
 
   SUPER_ADMIN: ["*"],

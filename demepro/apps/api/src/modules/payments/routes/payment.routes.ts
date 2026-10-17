@@ -19,11 +19,16 @@ import {
   refundPaymentSchema,
   orderIdParamSchema,
   providerNameParamSchema,
+  initiateBookingPaymentSchema,
+  refundBookingPaymentSchema,
+  bookingIdParamSchema,
 } from "../dtos/payment.dto";
+
 
 import { validate } from "../../../shared/middleware/validate";
 import { authenticate } from "../../../shared/middleware/authenticate";
 import { requirePermission } from "../../../shared/middleware/require-permission";
+
 
 /* ================================================================
  * WIRING
@@ -83,4 +88,35 @@ paymentWebhookRouter.post(
   express.raw({ type: "application/json" }),
   validate(providerNameParamSchema, "params"),
   webhookController.handle,
+);
+
+/* ================================================================
+ * ROUTER AUTHENTIFIÉ — /api/v1/bookings/:id/payment
+ * ================================================================ */
+
+export const paymentBookingRouter = Router({ mergeParams: true });
+
+paymentBookingRouter.post(
+  "/",
+  authenticate,
+  requirePermission("booking.payment.initiate"),
+  validate(bookingIdParamSchema, "params"),
+  validate(initiateBookingPaymentSchema, "body"),
+  controller.initiateBooking,
+);
+
+paymentBookingRouter.get(
+  "/",
+  authenticate,
+  validate(bookingIdParamSchema, "params"),
+  controller.getByBooking,
+);
+
+paymentBookingRouter.post(
+  "/refund",
+  authenticate,
+  requirePermission("booking.payment.refund"),
+  validate(bookingIdParamSchema, "params"),
+  validate(refundBookingPaymentSchema, "body"),
+  controller.refundBooking,
 );

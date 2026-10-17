@@ -44,3 +44,22 @@ export const providerNameParamSchema = z.object({
 
 export type InitiatePaymentDto = z.infer<typeof initiatePaymentSchema>;
 export type RefundPaymentDto = z.infer<typeof refundPaymentSchema>;
+
+/* ================================================================
+ * BOOKING PAYMENT
+ * ================================================================ */
+
+export const bookingIdParamSchema = z.object({
+  id: z.string().uuid(),
+});
+
+export const initiateBookingPaymentSchema = z.object({
+  provider: z.enum(["ORANGE_MONEY", "WAVE", "CASH_ON_DELIVERY", "MOCK"]),
+});
+
+export const refundBookingPaymentSchema = z.object({
+  reason: z.string().trim().max(500).optional().nullable(),
+});
+
+export type InitiateBookingPaymentDto = z.infer<typeof initiateBookingPaymentSchema>;
+export type RefundBookingPaymentDto = z.infer<typeof refundBookingPaymentSchema>;
