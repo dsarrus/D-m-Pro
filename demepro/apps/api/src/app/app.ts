@@ -11,6 +11,7 @@ import addressRoutes from "../modules/address/routes/address.routes";
 import notificationRoutes from "../modules/notifications/routes/notification.routes";
 import serviceRoutes from "../modules/services/routes/service.routes";
 import quoteRoutes  from "../modules/quotes/routes/quote.routes";
+import bookingRoutes from "../modules/bookings/routes/booking.routes";
 import {
   paymentOrderRouter,
   paymentWebhookRouter,
@@ -35,6 +36,7 @@ export function createApp(): Express {
   app.use("/api/v1/notifications", notificationRoutes);
   app.use("/api/v1/services", serviceRoutes);
   app.use("/api/v1/quotes", quoteRoutes);
+  app.use("/api/v1/bookings", bookingRoutes);
 
   /* Payment imbriqué sous orders */
   app.use("/api/v1/orders/:id/payment", paymentOrderRouter);

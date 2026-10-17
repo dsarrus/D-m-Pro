@@ -546,4 +546,102 @@ async notifyQuoteReceived(quoteId: string): Promise<void> {
       console.warn("[notifyQuoteAccepted] In-app failed:", error);
     }
   }
+
+  /* ================================================================
+   * NOTIFICATIONS RÉSERVATION (BOOKING)
+   * ================================================================ */
+
+  private async loadBookingNotificationContext(bookingId: string) {
+    return this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phone: true,
+          },
+        },
+        service: {
+          select: {
+            id: true,
+            name: true,
+            professional: {
+              select: {
+                userId: true,
+                user: {
+                  select: {
+                    id: true,
+                    firstName: true,
+                    email: true,
+                    phone: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async notifyBookingCreated(bookingId: string): Promise<void> {
+    const booking = await this.loadBookingNotificationContext(bookingId);
+    if (!booking) return;
+    if (!booking.service?.professional?.user) return;
+
+    const proUserId = booking.service.professional.user.id;
+    const clientName =
+      `${booking.user.firstName} ${booking.user.lastName}`.trim() || "Un client";
+
+    try {
+      await this.createInApp(proUserId, "BOOKING_CREATED", {
+        title: "Nouvelle réservation",
+        body: `${clientName} a réservé « ${booking.service.name} ».`,
+        data: { bookingId, serviceId: booking.service.id },
+      });
+    } catch (error) {
+      console.warn("[notifyBookingCreated] In-app failed:", error);
+    }
+  }
+
+  async notifyBookingCompleted(bookingId: string): Promise<void> {
+    const booking = await this.loadBookingNotificationContext(bookingId);
+    if (!booking?.user) return;
+
+    try {
+      await this.createInApp(booking.user.id, "BOOKING_COMPLETED", {
+        title: "Prestation terminée",
+        body: `Votre prestation « ${booking.service?.name ?? ""} » est terminée.`,
+        data: { bookingId, serviceId: booking.service?.id },
+      });
+    } catch (error) {
+      console.warn("[notifyBookingCompleted] In-app failed:", error);
+    }
+  }
+
+  async notifyBookingCancelled(bookingId: string): Promise<void> {
+    const booking = await this.loadBookingNotificationContext(bookingId);
+    if (!booking) return;
+
+    const targets: string[] = [];
+    if (booking.user?.id) targets.push(booking.user.id);
+    if (booking.service?.professional?.user?.id) {
+      targets.push(booking.service.professional.user.id);
+    }
+
+    for (const userId of targets) {
+      try {
+        await this.createInApp(userId, "BOOKING_CANCELLED", {
+          title: "Réservation annulée",
+          body: `La réservation « ${booking.service?.name ?? ""} » a été annulée.`,
+          data: { bookingId, serviceId: booking.service?.id },
+        });
+      } catch (error) {
+        console.warn("[notifyBookingCancelled] In-app failed:", error);
+      }
+    }
+  }
 }
