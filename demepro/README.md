@@ -5,11 +5,11 @@ Plateforme e-commerce B2B/B2C pour artisans et professionnels du Mali.
 
 ## État du projet
 
-```
-Tests verts     : 422 ✅
-Modules livrés  : 11
+\`\`\`
+Tests verts     : 456 ✅
+Modules livrés  : 12
 Migrations      : 16
-```
+\`\`\`
 
 | Module | Statut | Tests |
 |---|---|---|
@@ -23,9 +23,10 @@ Migrations      : 16
 | Review (avis vérifiés) | ✅ | 25 |
 | Notification (email + SMS mock) | ✅ | 12 |
 | Service (portfolio) | ✅ | 46 |
-| **Quote (devis)** | **✅** | **32** |
+| Quote (devis) | ✅ | 32 |
+| **Booking (réservation)** | **✅** | **33** |
 
-**Phase en cours** : 5.3 — Booking (réservation)
+**Phase en cours** : 5.4 — Intégration Payment + Review
 
 ## Stack technique
 
@@ -41,30 +42,30 @@ Migrations      : 16
 
 ## Démarrage rapide
 
-```bash
+\`\`\`bash
 pnpm install
 cp .env.example .env
 pnpm docker:up
 pnpm db:migrate
 pnpm db:generate
 pnpm dev
-```
+\`\`\`
 
 ## Commandes
 
 | Commande | Description |
 |---|---|
-| `pnpm dev` | Lance web + api + admin |
-| `pnpm test` | Tous les tests |
-| `pnpm test:integration` | Tests intégration |
-| `pnpm test:e2e` | Tests E2E |
-| `pnpm test:coverage` | Couverture |
-| `pnpm lint` | ESLint |
-| `pnpm typecheck` | TypeScript |
-| `pnpm db:migrate` | Migrations Prisma |
-| `pnpm db:generate` | Client Prisma |
-| `pnpm docker:up` | Démarre Postgres/Redis/SeaweedFS |
-| `pnpm docker:down` | Arrête les containers |
+| \`pnpm dev\` | Lance web + api + admin |
+| \`pnpm test\` | Tous les tests |
+| \`pnpm test:integration\` | Tests intégration |
+| \`pnpm test:e2e\` | Tests E2E |
+| \`pnpm test:coverage\` | Couverture |
+| \`pnpm lint\` | ESLint |
+| \`pnpm typecheck\` | TypeScript |
+| \`pnpm db:migrate\` | Migrations Prisma |
+| \`pnpm db:generate\` | Client Prisma |
+| \`pnpm docker:up\` | Démarre Postgres/Redis/SeaweedFS |
+| \`pnpm docker:down\` | Arrête les containers |
 
 ## Documentation
 
@@ -79,4 +80,4 @@ pnpm dev
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.5.0 | Quote livré, 422 tests, 11 modules | — |
+| 2026-10-17 | 0.6.0 | Booking livré, 456 tests, 12 modules | — |

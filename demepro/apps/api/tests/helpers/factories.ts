@@ -9,8 +9,15 @@ import { PrismaClient } from "../../src/generated/prisma/client";
 /**
  * Purge toutes les tables PostgreSQL du schéma public
  * SAUF _prisma_migrations.
+ *
+ * Retry exponentiel sur deadlock PostgreSQL (40P01) : un deadlock peut
+ * survenir quand une notification async (fire-and-forget) est encore
+ * en cours d'INSERT pendant qu'on TRUNCATE les mêmes tables.
  */
-export async function truncateAll(prisma: PrismaClient): Promise<void> {
+export async function truncateAll(
+  prisma: PrismaClient,
+  maxAttempts = 5,
+): Promise<void> {
   const result = await prisma.$queryRawUnsafe<Array<{ tablename: string }>>(
     `SELECT tablename
      FROM pg_tables
@@ -22,9 +29,25 @@ export async function truncateAll(prisma: PrismaClient): Promise<void> {
 
   const tables = result.map((r) => `"${r.tablename}"`).join(", ");
 
-  await prisma.$executeRawUnsafe(
-    `TRUNCATE TABLE ${tables} RESTART IDENTITY CASCADE;`,
-  );
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      await prisma.$executeRawUnsafe(
+        `TRUNCATE TABLE ${tables} RESTART IDENTITY CASCADE;`,
+      );
+      return;
+    } catch (err: unknown) {
+      const e = err as { code?: string; meta?: { code?: string } };
+      const isDeadlock = e?.code === "P2010" && e?.meta?.code === "40P01";
+
+      if (!isDeadlock || attempt >= maxAttempts) throw err;
+
+      const delay = 100 * 2 ** attempt + Math.random() * 100;
+      console.warn(
+        `[truncateAll] deadlock detected (attempt ${attempt}/${maxAttempts}), retrying in ${delay.toFixed(0)}ms...`,
+      );
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
 }
 
 /* ================================================================

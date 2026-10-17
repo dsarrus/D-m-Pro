@@ -7,16 +7,16 @@
 
 ## Vue d'ensemble
 
-```
+\`\`\`
 Phase 1 — Foundation          ████████████████████  100%  ✅
 Phase 2 — Catalog             ████████████████████  100%  ✅
 Phase 3 — Store + Category    ████████████████████  100%  ✅
 Phase 4 — Order + Payment     ████████████████████  100%  ✅
-Phase 5 — Service (TROUVER)   ████████████████░░░░   80%  🚧
+Phase 5 — Service (TROUVER)   ███████████████████░   95%  🚧
 Phase 6 — Transverse          ████████████████████  100%  ✅
 Phase 7 — Analytics           ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
 Phase 8 — Frontends           ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
-```
+\`\`\`
 
 ## Phase 1 — Foundation ✅
 
@@ -78,7 +78,7 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 
 ## Phase 5 — Service (TROUVER) 🚧
 
-**Statut** : 80% 🚧
+**Statut** : 95% 🚧
 
 ### 5.1 Service ✅
 - [x] Modèle Service enrichi (pricingModel, basePrice, ratingAverage, ratingCount)
@@ -97,16 +97,20 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 - [x] Notifications Quote (received / responded / accepted)
 - [x] **32 tests** (21 intégration + 11 E2E)
 
-### 5.3 Booking ⏭️
-- [ ] BookingService (create, confirm, complete, cancel, noShow)
-- [ ] BookingController + routes
-- [ ] Gestion des conflits de créneaux
-- [ ] Intégration Availability
-- [ ] Tests
+### 5.3 Booking ✅ (livré 2026-10-17)
+- [x] BookingService (create, start, complete, cancel, noShow)
+- [x] BookingController + 9 routes REST
+- [x] Gestion conflits créneaux (transaction Serializable)
+- [x] Cycle CONFIRMED → IN_PROGRESS → COMPLETED / CANCELLED / NO_SHOW
+- [x] Notifications Booking (created / completed / cancelled)
+- [x] **33 tests** (23 intégration + 10 E2E)
+- [x] Correctif \`truncateAll\` retry deadlock (P2025/40P01)
+- [x] Mock global notifications en test
 
 ### 5.4 Intégration Payment + Review ⏭️
 - [ ] Payment XOR Order/Booking
 - [ ] Review étendu (serviceId + bookingId)
+- [ ] Notifications Payment Booking
 - [ ] Tests
 
 ## Phase 6 — Transverse ✅
@@ -132,7 +136,7 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 - [x] NotificationTemplateService
 - [x] NotificationService (fire-and-forget)
 - [x] NotificationController + routes
-- [x] Intégration OrderService + ReviewService + QuoteService
+- [x] Intégration OrderService + ReviewService + QuoteService + BookingService
 - [x] **12 tests** (7 intégration + 5 E2E)
 
 ## Phase 7 — Analytics ⏭️
@@ -155,4 +159,4 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.5.0 | Phase 5.2 Quote livrée (32 tests), 422 tests verts | — |
+| 2026-10-17 | 0.6.0 | Phase 5.3 Booking livrée (33 tests), 456 tests verts | — |

@@ -17,27 +17,27 @@
 
 ### Succès
 
-```json
+\`\`\`json
 {
   "success": true,
   "data": { ... }
 }
-```
+\`\`\`
 
 ### Pagination (cursor-based)
 
-```json
+\`\`\`json
 {
   "success": true,
   "data": [ ... ],
   "hasMore": true,
   "nextCursor": "uuid"
 }
-```
+\`\`\`
 
 ### Erreur
 
-```json
+\`\`\`json
 {
   "success": false,
   "error": {
@@ -46,7 +46,7 @@
     "statusCode": 404
   }
 }
-```
+\`\`\`
 
 ## Endpoints par module
 
@@ -185,6 +185,22 @@
 
 **Cycle** : PENDING → RESPONDED → ACCEPTED (→ Booking CONVERTED) | REJECTED | EXPIRED
 
+### Booking (Phase 5.3 ✅)
+
+| Méthode | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | /bookings | Client | Crée un booking direct (service FIXED/HOURLY, pas QUOTE) |
+| GET | /bookings/mine | Client | Liste les bookings du client (pagination curseur) |
+| GET | /bookings/professional | Pro | Liste les bookings reçus |
+| GET | /bookings/service/:serviceId | Pro | Liste par service (ownership requis) |
+| GET | /bookings/:id | Client/Pro/Admin | Détail d'un booking |
+| POST | /bookings/:id/start | Pro | CONFIRMED → IN_PROGRESS |
+| POST | /bookings/:id/complete | Pro | IN_PROGRESS → COMPLETED (+ completedAt) |
+| POST | /bookings/:id/cancel | Client/Pro/Admin | → CANCELLED (+ canceledAt) |
+| POST | /bookings/:id/no-show | Pro | CONFIRMED → NO_SHOW (uniquement si scheduledAt passé) |
+
+**Cycle** : CONFIRMED → IN_PROGRESS → COMPLETED | CANCELLED | NO_SHOW
+
 ### Verification
 | Méthode | Endpoint | Auth |
 |---|---|---|
@@ -194,10 +210,6 @@
 | POST | /admin/verification/:id/approve | Admin |
 | POST | /admin/verification/:id/reject | Admin |
 
-### Booking (Phase 5.3 ⏭️)
-
-À venir.
-
 ---
 
 ## Historique
@@ -205,4 +217,4 @@
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.5.0 | Ajout module Quote (8 routes), pagination curseur | — |
+| 2026-10-17 | 0.6.0 | Ajout module Booking (9 routes), cycle CONFIRMED→COMPLETED | — |

@@ -7,17 +7,18 @@
 
 ## Vue d'ensemble
 
-```
+\`\`\`
 M1 ── Catalog validé              ✅ ATTEINT
 M2 ── Store + Category + KYC      ✅ ATTEINT
 M3 ── Order + Payment             ✅ ATTEINT
 M4 ── Transverse (6.1 + 6.2 + 6.3) ✅ ATTEINT
 M5 ── Service 5.1                 ✅ ATTEINT
-M6 ── Service 5.2 (Quote)         ✅ ATTEINT (2026-10-17)
-M7 ── Service 5.3 + 5.4           ⏭️ EN COURS
-M8 ── MVP ACHETER (beta)          ⏭️ PRÉVU
-M9 ── GA (production)             ⏭️ PRÉVU
-```
+M6 ── Service 5.2 (Quote)         ✅ ATTEINT
+M7 ── Service 5.3 (Booking)       ✅ ATTEINT (2026-10-17)
+M8 ── Service 5.4                 ⏭️ EN COURS
+M9 ── MVP ACHETER (beta)          ⏭️ PRÉVU
+M10 ── GA (production)            ⏭️ PRÉVU
+\`\`\`
 
 ## M1 — Catalog validé ✅
 
@@ -69,37 +70,47 @@ M9 ── GA (production)             ⏭️ PRÉVU
 
 **Date d'atteinte** : 2026-10-17
 
-- [x] Schéma Prisma (Quote + QuoteResponse + BookingStatus + professionalId)
+- [x] Schéma Prisma (Quote + QuoteResponse.professionalId + BookingStatus)
 - [x] QuoteRepository (cursor pagination, findExpired response-aware)
 - [x] QuoteService (create, respond, accept→Booking, reject, expire)
 - [x] Transactions Serializable + retry P2034
 - [x] QuoteController + 8 routes REST
 - [x] Notifications Quote (received / responded / accepted)
 - [x] **32 tests supplémentaires**
-- [x] **Total : 422 tests verts**
 
-## M7 — Service 5.3 + 5.4 ⏭️
+## M7 — Service 5.3 (Booking) ✅
 
-**Date cible** : À définir (estimé 2 semaines)
+**Date d'atteinte** : 2026-10-17
 
-- [ ] BookingService (create, confirm, complete, cancel, noShow)
-- [ ] BookingController + routes
-- [ ] Gestion des conflits de créneaux
-- [ ] Intégration Availability
+- [x] BookingService (create, start, complete, cancel, noShow)
+- [x] BookingController + 9 routes REST
+- [x] Gestion conflits créneaux (transaction Serializable)
+- [x] Cycle CONFIRMED → IN_PROGRESS → COMPLETED / CANCELLED / NO_SHOW
+- [x] Notifications Booking (created / completed / cancelled)
+- [x] **33 tests supplémentaires**
+- [x] Correctif \`truncateAll\` retry deadlock (P2025/40P01)
+- [x] Mock global notifications en test
+- [x] **Total : 456 tests verts**
+
+## M8 — Service 5.4 ⏭️
+
+**Date cible** : À définir (estimé 1-2 semaines)
+
 - [ ] Payment XOR Order/Booking
 - [ ] Review étendu (serviceId + bookingId)
+- [ ] Notifications Payment Booking
 
-## M8 — MVP ACHETER (beta) ⏭️
+## M9 — MVP ACHETER (beta) ⏭️
 
-**Date cible** : après M7
+**Date cible** : après M8
 
 - [ ] Frontend web client
 - [ ] Backoffice admin
 - [ ] Monitoring
 
-## M9 — GA (production) ⏭️
+## M10 — GA (production) ⏭️
 
-**Date cible** : après M8
+**Date cible** : après M9
 
 - [ ] Ouverture publique
 - [ ] Marketing
@@ -119,7 +130,7 @@ M9 ── GA (production)             ⏭️ PRÉVU
 | J6 | Service 5.1 validé | ✅ |
 | J7 | **390 tests verts** | ✅ |
 | J8 | **Service 5.2 (Quote) livré — 422 tests** | ✅ |
-| J9 | Service 5.3 (Booking) | ⏭️ |
+| J9 | **Service 5.3 (Booking) livré — 456 tests** | ✅ |
 | J10 | Service 5.4 (Payment + Review) | ⏭️ |
 | J11 | Frontend MVP | ⏭️ |
 | J12 | 1 000 utilisateurs | ⏭️ |
@@ -131,4 +142,4 @@ M9 ── GA (production)             ⏭️ PRÉVU
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.5.0 | M6 Quote atteint, 422 tests | — |
+| 2026-10-17 | 0.6.0 | M7 Booking atteint, 456 tests | — |

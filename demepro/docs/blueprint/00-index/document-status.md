@@ -9,26 +9,26 @@
 
 | Section | Complétion | Dernière mise à jour |
 |---|---|---|
-| 00-index | 90% | 2026-10-17 |
+| 00-index | 95% | 2026-10-17 |
 | 01-product | 85% | 2026-10-17 |
 | 02-requirements | 75% | 2026-10-17 |
-| 03-domain | 85% | 2026-10-17 |
+| 03-domain | 90% | 2026-10-17 |
 | 04-architecture | 60% | 2026-10-17 |
 | 05-data | 70% | 2026-10-17 |
-| 06-api | 70% | 2026-10-17 |
+| 06-api | 80% | 2026-10-17 |
 | 07-security | 20% | 2026-10-17 |
 | 08-engineering | 30% | 2026-10-17 |
 | 09-infrastructure | 20% | 2026-10-17 |
 | 10-decisions | 60% | 2026-10-17 |
 | 11-ai-engineering | 30% | 2026-10-17 |
-| 12-roadmap | 90% | 2026-10-17 |
+| 12-roadmap | 95% | 2026-10-17 |
 
 ## État du projet (code)
 
 | Indicateur | Valeur |
 |---|---|
-| Tests verts | **422** |
-| Modules validés | Catalog, Store, Category, Verification, Order, Payment, Address, Review, Notification, Service, Quote |
+| Tests verts | **456** |
+| Modules validés | Catalog, Store, Category, Verification, Order, Payment, Address, Review, Notification, Service, Quote, Booking |
 | Migrations Prisma | 16 |
 | Couverture de tests | > 85% |
 
@@ -46,8 +46,9 @@
 | Review | 25 | ✅ |
 | Notification | 12 | ✅ |
 | Service (5.1) | 46 | ✅ |
-| **Quote (5.2)** | **32** | ✅ |
-| **Total** | **422** | ✅ |
+| Quote (5.2) | 32 | ✅ |
+| **Booking (5.3)** | **33** | ✅ |
+| **Total** | **456** | ✅ |
 
 ## Légende
 
@@ -58,7 +59,7 @@
 
 ## Prochaines priorités documentaires
 
-1. **Phase 5.3 — Booking** : service, controller, routes, tests
+1. **Phase 5.4** — Payment XOR + Review étendu
 2. **Compléter 04-architecture** (architecture-overview, principles, system-context)
 3. **Compléter 07-security** (threat-model, api-security)
 4. **Compléter 08-engineering** (coding-standards, git-workflow, testing-strategy)
@@ -71,4 +72,4 @@
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.5.0 | Quote livré (32 tests), 422 tests verts, 11 modules | — |
+| 2026-10-17 | 0.6.0 | Booking livré (33 tests), 456 tests verts, 12 modules | — |

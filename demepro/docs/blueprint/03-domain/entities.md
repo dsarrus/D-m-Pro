@@ -91,7 +91,7 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
 ### Availability
 - **Invariants** : récurrente → dayOfWeek + startTime < endTime, ponctuelle → specificDate
 
-## Contexte TROUVER — Quote (Phase 5.2 ✅)
+## Contexte TROUVER — Quote ✅ (Phase 5.2)
 
 ### Quote
 - **Identité** : id (UUID)
@@ -101,16 +101,18 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
   - budget ≥ 0 si renseigné
   - expiresAt > createdAt (défaut : +7j à la création)
 - **Cycle de vie** :
-  ```
-  PENDING ──respond──► RESPONDED ──accept──► ACCEPTED ──convert──► CONVERTED
-     │                    │
-     │                    └──reject──► REJECTED
-     │
-     └──reject──► REJECTED
-  (tout état non-terminal peut basculer vers EXPIRED)
-  ```
-- **Prolongation** : lors de `respondToQuote`, `Quote.expiresAt` est aligné sur `QuoteResponse.expiresAt` (validityDays, défaut 7j)
-- **Unicité** : `QuoteResponse.quoteId @unique`, `Booking.quoteId @unique`
+
+\`\`\`
+PENDING ──respond──► RESPONDED ──accept──► ACCEPTED ──convert──► CONVERTED
+   │                    │
+   │                    └──reject──► REJECTED
+   │
+   └──reject──► REJECTED
+(tout état non-terminal peut basculer vers EXPIRED)
+\`\`\`
+
+- **Prolongation** : lors de respondToQuote, Quote.expiresAt est aligné sur QuoteResponse.expiresAt (validityDays, défaut 7j)
+- **Unicité** : QuoteResponse.quoteId unique, Booking.quoteId unique
 
 ### QuoteResponse
 - **Identité** : id (UUID)
@@ -121,17 +123,32 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
   - expiresAt > createdAt
   - professionalId tracé (audit + notifications)
 
-## Contexte TROUVER — Booking (Phase 5.3 ⏭️)
+## Contexte TROUVER — Booking ✅ (Phase 5.3)
 
 ### Booking
 - **Identité** : id (UUID)
-- **Relations** : service, user (client), quote (0-1, unique si renseigné), reviews[]
+- **Relations** : service (obligatoire), user (client, obligatoire), quote (0-1, unique si renseigné), reviews[]
 - **Invariants** :
   - status ∈ {CONFIRMED, IN_PROGRESS, COMPLETED, CANCELLED, NO_SHOW}
   - scheduledAt dans le futur lors de la création
   - (serviceId, scheduledAt) unique (pas de double réservation)
-  - un Booking ne peut être lié qu'à un seul Quote via quoteId @unique
-- **Statut actuel** : modèle Prisma prêt, service à implémenter en Phase 5.3
+  - un Booking ne peut être lié qu'à un seul Quote via quoteId unique
+- **Cycle de vie** :
+
+\`\`\`
+CONFIRMED ──start──► IN_PROGRESS ──complete──► COMPLETED
+    │                     │
+    │                     └──cancel──► CANCELLED
+    │
+    ├──cancel──► CANCELLED
+    └──noShow──► NO_SHOW (uniquement si scheduledAt passé)
+\`\`\`
+
+- **Règles** :
+  - Un Booking direct (POST /bookings) est créé uniquement si Service.pricingModel ∈ {FIXED, HOURLY}. Les services QUOTE doivent passer par le cycle Quote → Booking.
+  - Un conflit de créneau est détecté via (serviceId, scheduledAt, status IN [CONFIRMED, IN_PROGRESS]).
+  - Le pro ne peut pas réserver son propre service.
+  - Le pro peut marquer NO_SHOW uniquement après scheduledAt.
 
 ## Contexte Transverse
 
@@ -139,7 +156,8 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
 - **Invariants** : au plus 1 isDefault=true par user
 
 ### Payment
-- **Invariants** : XOR(orderId, bookingId), status ∈ {PENDING, PROCESSING, PAID, FAILED, REFUNDED, PARTIALLY_REFUNDED}, providerRef unique si non null
+- **Invariants** (actuels) : orderId unique, status ∈ {PENDING, PROCESSING, PAID, FAILED, REFUNDED, PARTIALLY_REFUNDED}, providerRef unique si non null
+- **À venir Phase 5.4** : XOR(orderId, bookingId), bookingId unique
 
 ### Review
 - **Invariants** : rating ∈ [1, 5], au moins 1 cible (productId, variantId, storeId, professionalId, serviceId), XOR(orderId, bookingId), au plus 1 avis par order/booking
@@ -160,4 +178,4 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.5.0 | Quote finalisé (cycle + QuoteResponse.professionalId), Booking prêt | — |
+| 2026-10-17 | 0.6.0 | Booking finalisé (cycle + règles métier), Payment prêt pour 5.4 | — |
