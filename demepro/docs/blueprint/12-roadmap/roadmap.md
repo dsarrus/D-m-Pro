@@ -12,7 +12,7 @@ Phase 1 — Foundation          ████████████████
 Phase 2 — Catalog             ████████████████████  100%  ✅
 Phase 3 — Store + Category    ████████████████████  100%  ✅
 Phase 4 — Order + Payment     ████████████████████  100%  ✅
-Phase 5 — Service (TROUVER)   ███████████░░░░░░░░░   55%  🚧
+Phase 5 — Service (TROUVER)   ████████████████░░░░   80%  🚧
 Phase 6 — Transverse          ████████████████████  100%  ✅
 Phase 7 — Analytics           ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
 Phase 8 — Frontends           ░░░░░░░░░░░░░░░░░░░░    0%  ⏭️
@@ -78,7 +78,7 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 
 ## Phase 5 — Service (TROUVER) 🚧
 
-**Statut** : 55% 🚧
+**Statut** : 80% 🚧
 
 ### 5.1 Service ✅
 - [x] Modèle Service enrichi (pricingModel, basePrice, ratingAverage, ratingCount)
@@ -87,16 +87,21 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 - [x] ServiceController + 15 routes
 - [x] **46 tests** (28 intégration + 18 E2E)
 
-### 5.2 Quote ⏭️
-- [ ] Modèle Quote + QuoteResponse
-- [ ] QuoteService
-- [ ] QuoteController + routes
-- [ ] Tests
+### 5.2 Quote ✅ (livré 2026-10-17)
+- [x] Modèle Quote enrichi (QuoteStatus 6 états, budget, expiresAt)
+- [x] Modèle QuoteResponse (proposedPrice, currency, proposedDate, expiresAt, professionalId)
+- [x] QuoteRepository (cursor pagination, findExpired)
+- [x] QuoteService (create, respond, accept→Booking, reject, expire)
+- [x] Transactions Serializable + retry P2034
+- [x] QuoteController + 8 routes REST
+- [x] Notifications Quote (received / responded / accepted)
+- [x] **32 tests** (21 intégration + 11 E2E)
 
 ### 5.3 Booking ⏭️
-- [ ] Modèle Booking
-- [ ] BookingService
+- [ ] BookingService (create, confirm, complete, cancel, noShow)
 - [ ] BookingController + routes
+- [ ] Gestion des conflits de créneaux
+- [ ] Intégration Availability
 - [ ] Tests
 
 ### 5.4 Intégration Payment + Review ⏭️
@@ -127,7 +132,7 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 - [x] NotificationTemplateService
 - [x] NotificationService (fire-and-forget)
 - [x] NotificationController + routes
-- [x] Intégration OrderService + ReviewService
+- [x] Intégration OrderService + ReviewService + QuoteService
 - [x] **12 tests** (7 intégration + 5 E2E)
 
 ## Phase 7 — Analytics ⏭️
@@ -150,4 +155,4 @@ Phase 8 — Frontends           ░░░░░░░░░░░░░░░░
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.4.0 | Mise à jour 390 tests, Phases 4, 5.1, 6 complètes | — |
+| 2026-10-17 | 0.5.0 | Phase 5.2 Quote livrée (32 tests), 422 tests verts | — |

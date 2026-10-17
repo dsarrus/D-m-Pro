@@ -24,6 +24,17 @@
 }
 ```
 
+### Pagination (cursor-based)
+
+```json
+{
+  "success": true,
+  "data": [ ... ],
+  "hasMore": true,
+  "nextCursor": "uuid"
+}
+```
+
 ### Erreur
 
 ```json
@@ -159,6 +170,21 @@
 | POST | /services/:id/availabilities | Pro |
 | DELETE | /services/availabilities/:availabilityId | Pro |
 
+### Quote (Phase 5.2 ✅)
+
+| Méthode | Endpoint | Auth | Description |
+|---|---|---|---|
+| POST | /quotes | Client | Crée un devis (PENDING) |
+| GET | /quotes/mine | Client | Liste les devis du client (pagination curseur) |
+| GET | /quotes/professional | Pro | Liste les devis reçus (pagination curseur) |
+| GET | /quotes/service/:serviceId | Pro | Liste les devis d'un service (ownership requis) |
+| GET | /quotes/:id | Client/Pro/Admin | Détail d'un devis |
+| POST | /quotes/:id/respond | Pro | Le pro répond (proposedPrice, validityDays) |
+| POST | /quotes/:id/accept | Client | Accepte + crée un Booking (scheduledAt requis) |
+| POST | /quotes/:id/reject | Client | Rejette (reason optionnel) |
+
+**Cycle** : PENDING → RESPONDED → ACCEPTED (→ Booking CONVERTED) | REJECTED | EXPIRED
+
 ### Verification
 | Méthode | Endpoint | Auth |
 |---|---|---|
@@ -168,6 +194,10 @@
 | POST | /admin/verification/:id/approve | Admin |
 | POST | /admin/verification/:id/reject | Admin |
 
+### Booking (Phase 5.3 ⏭️)
+
+À venir.
+
 ---
 
 ## Historique
@@ -175,4 +205,4 @@
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.4.0 | Mise à jour tous endpoints (390 tests) | — |
+| 2026-10-17 | 0.5.0 | Ajout module Quote (8 routes), pagination curseur | — |

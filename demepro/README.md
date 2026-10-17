@@ -6,9 +6,9 @@ Plateforme e-commerce B2B/B2C pour artisans et professionnels du Mali.
 ## État du projet
 
 ```
-Tests verts     : 390 ✅
-Modules livrés  : 10
-Migrations      : 14
+Tests verts     : 422 ✅
+Modules livrés  : 11
+Migrations      : 16
 ```
 
 | Module | Statut | Tests |
@@ -23,8 +23,9 @@ Migrations      : 14
 | Review (avis vérifiés) | ✅ | 25 |
 | Notification (email + SMS mock) | ✅ | 12 |
 | Service (portfolio) | ✅ | 46 |
+| **Quote (devis)** | **✅** | **32** |
 
-**Phase en cours** : 5.2 — Quote (devis)
+**Phase en cours** : 5.3 — Booking (réservation)
 
 ## Stack technique
 
@@ -78,4 +79,4 @@ pnpm dev
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.4.0 | Mise à jour 390 tests, 10 modules validés | — |
+| 2026-10-17 | 0.5.0 | Quote livré, 422 tests, 11 modules | — |

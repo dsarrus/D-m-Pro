@@ -91,14 +91,47 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
 ### Availability
 - **Invariants** : récurrente → dayOfWeek + startTime < endTime, ponctuelle → specificDate
 
-### Quote (stub)
-- **Invariants** : status ∈ {PENDING, RESPONDED, ACCEPTED, REJECTED, EXPIRED, CONVERTED}
+## Contexte TROUVER — Quote (Phase 5.2 ✅)
 
-### QuoteResponse (stub)
-- **Invariants** : quoteId unique
+### Quote
+- **Identité** : id (UUID)
+- **Relations** : user (client), service (obligatoire), response (1-1), booking (0-1 inverse)
+- **Invariants** :
+  - status ∈ {PENDING, RESPONDED, ACCEPTED, REJECTED, EXPIRED, CONVERTED}
+  - budget ≥ 0 si renseigné
+  - expiresAt > createdAt (défaut : +7j à la création)
+- **Cycle de vie** :
+  ```
+  PENDING ──respond──► RESPONDED ──accept──► ACCEPTED ──convert──► CONVERTED
+     │                    │
+     │                    └──reject──► REJECTED
+     │
+     └──reject──► REJECTED
+  (tout état non-terminal peut basculer vers EXPIRED)
+  ```
+- **Prolongation** : lors de `respondToQuote`, `Quote.expiresAt` est aligné sur `QuoteResponse.expiresAt` (validityDays, défaut 7j)
+- **Unicité** : `QuoteResponse.quoteId @unique`, `Booking.quoteId @unique`
 
-### Booking (stub)
-- **Invariants** : status ∈ {CONFIRMED, IN_PROGRESS, COMPLETED, CANCELLED, NO_SHOW}, un créneau ne peut être réservé qu'une fois
+### QuoteResponse
+- **Identité** : id (UUID)
+- **Relations** : quote (1-1), professional (propriétaire du service au moment de la réponse)
+- **Invariants** :
+  - quoteId unique (1 réponse max par devis)
+  - proposedPrice > 0
+  - expiresAt > createdAt
+  - professionalId tracé (audit + notifications)
+
+## Contexte TROUVER — Booking (Phase 5.3 ⏭️)
+
+### Booking
+- **Identité** : id (UUID)
+- **Relations** : service, user (client), quote (0-1, unique si renseigné), reviews[]
+- **Invariants** :
+  - status ∈ {CONFIRMED, IN_PROGRESS, COMPLETED, CANCELLED, NO_SHOW}
+  - scheduledAt dans le futur lors de la création
+  - (serviceId, scheduledAt) unique (pas de double réservation)
+  - un Booking ne peut être lié qu'à un seul Quote via quoteId @unique
+- **Statut actuel** : modèle Prisma prêt, service à implémenter en Phase 5.3
 
 ## Contexte Transverse
 
@@ -127,4 +160,4 @@ Le domaine DɛmɛPro est composé de **29+ entités** organisées en 9 contextes
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.4.0 | Ajout Service, ServiceImage, ServiceZone, Availability, Quote, Booking, Notification, ReviewReport | — |
+| 2026-10-17 | 0.5.0 | Quote finalisé (cycle + QuoteResponse.professionalId), Booking prêt | — |

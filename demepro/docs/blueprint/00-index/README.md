@@ -7,11 +7,11 @@
 ## État du projet
 
 ```
-Tests verts      : 390 ✅
-Modules validés  : 10
-Migrations Prisma: 14
-Phases complètes : 1, 2, 3, 4, 6
-Phase en cours   : 5 (Service)
+Tests verts      : 422 ✅
+Modules validés  : 11
+Migrations Prisma: 16
+Phases complètes : 1, 2, 3, 4, 5.1, 5.2, 6
+Phase en cours   : 5.3 (Booking)
 ```
 
 ## Navigation rapide
@@ -33,8 +33,9 @@ Phase en cours   : 5 (Service)
 | Address | 21 | ✅ |
 | Review | 25 | ✅ |
 | Notification | 12 | ✅ |
-| Service | 46 | ✅ |
-| **Total** | **390** | ✅ |
+| Service (5.1) | 46 | ✅ |
+| **Quote (5.2)** | **32** | ✅ |
+| **Total** | **422** | ✅ |
 
 ## Comment contribuer
 
@@ -53,4 +54,4 @@ Voir [11-ai-engineering/rules.md](../11-ai-engineering/rules.md).
 | Date | Version | Changement | Auteur |
 |---|---|---|---|
 | 2026-10-10 | 0.1.0 | Création initiale | — |
-| 2026-10-17 | 0.4.0 | Mise à jour 390 tests, 10 modules validés | — |
+| 2026-10-17 | 0.5.0 | Quote livré, 422 tests, 11 modules validés | — |
